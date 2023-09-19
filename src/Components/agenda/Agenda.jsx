@@ -59,7 +59,7 @@ const dias = [
   "Sabado",
 ];
 
-const endpoint = "http://localhost:8000/api";
+const endpoint = "https://api.shantispawellnesslife.com/api";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -125,6 +125,8 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
   const [auxPaciente, setAuxPaciente] = useState({});
   const [auxFacturas, setAuxFacturas] = useState([]);
   const [auxEstado, setAuxEstado] = useState({});
+  const [auxTratamiento, setAuxTratamiento] = useState("");
+  const [auxTelefono, setAuxTelefono] = useState("");
   const [cobroTratamientos, setCobroTratamientos] = useState([]);
   const [servicios, setServicios] = useState([]);
   const [cobro, setCobro] = useState(0);
@@ -159,7 +161,6 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
   };
 
   const crearBono = async () => {
-    console.log("botohn clickeado Bonos");
     await axios.post(`${endpoint}/bono`, {
       nombre: nombreBono,
       sesiones: sesionesBono,
@@ -242,13 +243,17 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
     pacienteEvento,
     eventoId,
     estado,
-    facturas
+    facturas,
+    tratamiento,
+    telefono
   ) => {
     setSelectEventId(eventoId);
     getPacienteCita(pacienteEvento);
     setOpenDetallePaciente(true);
     setAuxEstado(estado);
     setAuxFacturas(facturas);
+    setAuxTratamiento(tratamiento);
+    setAuxTelefono(telefono);
   };
 
   const cambiarEstadoCita = async (estadoId) => {
@@ -269,6 +274,8 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
     setSelectEventId(0);
     setPagoTarjeta(true);
     setNumerosTarjeta(null);
+    setAuxTratamiento("");
+    setAuxTelefono("");
   };
 
   const getPacienteCita = (paciente) => {
@@ -366,6 +373,8 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
           evId: ev.id,
           facturas: ev.facturas,
           estado: ev.estado_cita,
+          tratamiento: ev.title,
+          telefono: ev.paciente.telefono,
         },
       ]);
     });
@@ -409,12 +418,13 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
       calEvent.paciente,
       calEvent.evId,
       calEvent.estado,
-      calEvent.facturas
+      calEvent.facturas,
+      calEvent.tratamiento,
+      calEvent.telefono
     );
   }, []);
 
   const realizarCobro = async () => {
-    console.log("botohn clickeado");
     await axios.post(`${endpoint}/factura`, {
       total: cobro,
       estado_pago: estadoPago,
@@ -449,7 +459,6 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
       getEventosBD();
     } catch (error) {
       if (error.response.status === 422) {
-        console.log(error.response.data.errors);
         if (error.response.data.errors.paciente_id) {
           setPacienteError(error.response.data.errors.paciente_id[0]);
         } else {
@@ -479,9 +488,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
     }
   };
 
-  const resizeEvent = useCallback(({ event, start, end }) => {
-    console.log("asdasd");
-  }, []);
+  const resizeEvent = useCallback(({ event, start, end }) => {}, []);
   const modificarEvento = async ({ event, start, end, resourceId }) => {
     await axios.put(`${endpoint}/consulta/${event.evId}`, {
       start: "" + new Date(start).toISOString(),
@@ -767,6 +774,10 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
               <Row>
                 <Col xs={9}>
                   {auxPaciente.nombres} {auxPaciente.apellidos}
+                  <p style={{ fontSize: 15 }}>
+                    Detalle de cita: {auxTratamiento} <br />
+                    Telefono: {auxTelefono}
+                  </p>
                 </Col>
                 <Col xs={3}>
                   <ButtonB
