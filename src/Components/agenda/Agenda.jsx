@@ -1,4 +1,9 @@
-import { Calendar, Views, momentLocalizer } from "react-big-calendar";
+import {
+  Calendar,
+  Views,
+  momentLocalizer,
+  DateLocalizer,
+} from "react-big-calendar";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -59,7 +64,7 @@ const dias = [
   "Sabado",
 ];
 
-const endpoint = "https://api.shantispawellnesslife.com/api";
+const endpoint = "http://cbapi.shantispawellnesslife.com/api";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -390,10 +395,11 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
     return aux;
   };
 
-  const localizer = momentLocalizer(moment);
+  const localizer = useMemo(() => momentLocalizer(moment), []);
   const handleSelectSlot = useCallback(
     ({ start, end, title, resourceId, facturas }) => {
       handleClickOpen({ start, end, resourceId, facturas });
+      console.log(start);
     }
   );
 
@@ -407,6 +413,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
   );
 
   const onSelectEvent = useCallback((calEvent) => {
+    console.log(calEvent.start);
     /**
      * Here we are waiting 250 milliseconds (use what you want) prior to firing
      * our method. Why? Because both 'click' and 'doubleClick'
@@ -551,7 +558,6 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
         culture={culture}
         resourceTitleAccessor={"nombre"}
         resources={gabinetes}
-        onEventResize={resizeEvent}
         events={myEvents}
         defaultDate={defaultDate}
         defaultView={Views.DAY}

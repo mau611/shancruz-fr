@@ -5,7 +5,7 @@ import { Button, Card, CardContent, TextField } from "@mui/material";
 import { useState } from "react";
 import axios from "axios";
 
-const endpoint = "https://api.shantispawellnesslife.com/api";
+const endpoint = "http://cbapi.shantispawellnesslife.com/api";
 
 const AgregarDetalleProducto = () => {
   const { id } = useParams();
