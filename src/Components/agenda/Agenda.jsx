@@ -5,7 +5,7 @@ import {
   DateLocalizer,
 } from "react-big-calendar";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
-import moment from "moment";
+
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Accordion from "react-bootstrap/Accordion";
 import ButtonB from "react-bootstrap/Button";
@@ -13,6 +13,9 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Table from "react-bootstrap/Table";
+
+import moment from "moment";
+import "moment-timezone";
 
 import React, {
   Fragment,
