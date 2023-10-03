@@ -69039,7 +69039,7 @@
         PM = EM,
         ZM = n.p + "static/media/navbar.d58f4bd61cd6413efaa4.png",
         RM = Qm.create({
-          baseURL: "http://cbapi.shantispawellnesslife.com/api",
+          baseURL: "http://localhost:8000/api",
           withCredentials: !0,
           headers: {
             "Content-Type": "application/json",
@@ -69068,9 +69068,7 @@
                         case 0:
                           return (
                             (e.next = 2),
-                            RM.get(
-                              "http://cbapi.shantispawellnesslife.com/sanctum/csrf-cookie"
-                            )
+                            RM.get("http://localhost:8000/sanctum/csrf-cookie")
                           );
                         case 2:
                           return e.abrupt("return", !0);
@@ -69267,25 +69265,22 @@
                             t.preventDefault(),
                             (e.prev = 1),
                             (e.next = 4),
-                            Qm.post(
-                              "http://cbapi.shantispawellnesslife.com/api/paciente",
-                              {
-                                nombres: Q.nombres,
-                                apellidos: Q.apellidos,
-                                telefono: Q.telefono,
-                                fecha_nacimiento: Q.fecha_nacimiento,
-                                ci: Q.ci,
-                                sexo: Q.sexo,
-                                direccion: Q.direccion,
-                                referencia: Q.referencia,
-                                fecha_registro:
-                                  new Date().getFullYear() +
-                                  "/" +
-                                  (new Date().getMonth() + 1) +
-                                  "/" +
-                                  new Date().getDate(),
-                              }
-                            )
+                            Qm.post("http://localhost:8000/api/paciente", {
+                              nombres: Q.nombres,
+                              apellidos: Q.apellidos,
+                              telefono: Q.telefono,
+                              fecha_nacimiento: Q.fecha_nacimiento,
+                              ci: Q.ci,
+                              sexo: Q.sexo,
+                              direccion: Q.direccion,
+                              referencia: Q.referencia,
+                              fecha_registro:
+                                new Date().getFullYear() +
+                                "/" +
+                                (new Date().getMonth() + 1) +
+                                "/" +
+                                new Date().getDate(),
+                            })
                           );
                         case 4:
                           e.sent, te(0), (e.next = 11);
@@ -69805,7 +69800,7 @@
           "Viernes",
           "Sabado",
         ],
-        UM = "http://cbapi.shantispawellnesslife.com/api",
+        UM = "http://localhost:8000/api",
         KM = e.forwardRef(function (e, t) {
           return (0, a.jsx)(dv, sn({ direction: "up", ref: t }, e));
         }),
@@ -90249,10 +90244,7 @@
                         return (
                           (e.next = 2),
                           Qm.get(
-                            "".concat(
-                              "http://cbapi.shantispawellnesslife.com/api",
-                              "/pacientes"
-                            )
+                            "".concat("http://localhost:8000/api", "/pacientes")
                           )
                         );
                       case 2:
@@ -95725,7 +95717,7 @@
           var a = null == (n = e.treeData) ? void 0 : n.groupingField;
           return a && (r[a] = !1), { columns: { columnVisibilityModel: r } };
         },
-        sz = "http://cbapi.shantispawellnesslife.com/api",
+        sz = "http://localhost:8000/api",
         cz = function () {
           var t = kt(),
             n = (0, e.useRef)(!1),
@@ -96182,7 +96174,7 @@
           { field: "nombre", headerName: "Consultorio", width: 130 },
           { field: "color", headerName: "Color", width: 130 },
         ],
-        fz = "http://cbapi.shantispawellnesslife.com/api",
+        fz = "http://localhost:8000/api",
         pz = function () {
           var t = (0, e.useState)({ nombre: "", color: "" }),
             n = (0, o.Z)(t, 2),
@@ -96332,7 +96324,7 @@
           { field: "nombre", headerName: "Tipo de consulta", width: 130 },
           { field: "color", headerName: "Color", width: 130 },
         ],
-        mz = "http://cbapi.shantispawellnesslife.com/api",
+        mz = "http://localhost:8000/api",
         vz = function () {
           var t = (0, e.useState)({ nombre: "", color: "" }),
             n = (0, o.Z)(t, 2),
@@ -96482,7 +96474,7 @@
           { field: "id", headerName: "ID", width: 70 },
           { field: "estado", headerName: "Estado consulta", width: 130 },
         ],
-        bz = "http://cbapi.shantispawellnesslife.com/api",
+        bz = "http://localhost:8000/api",
         yz = function () {
           var t = (0, e.useState)({ estado: "" }),
             n = (0, o.Z)(t, 2),
@@ -96620,7 +96612,7 @@
           { field: "id", headerName: "ID", width: 70 },
           { field: "nombre", headerName: "Consultorio", width: 130 },
         ],
-        wz = "http://cbapi.shantispawellnesslife.com/api",
+        wz = "http://localhost:8000/api",
         Cz = function () {
           var t = (0, e.useState)({ nombre: "" }),
             n = (0, o.Z)(t, 2),
@@ -96979,7 +96971,7 @@
         }),
         $z = n(1286),
         Jz = n(7097),
-        Xz = "http://cbapi.shantispawellnesslife.com/api",
+        Xz = "http://localhost:8000/api",
         Qz = function () {
           var t = (0, e.useState)({ servicio: "", costo: 0 }),
             n = (0, o.Z)(t, 2),
@@ -97610,7 +97602,7 @@
                             (e.next = 5),
                             Qm.post(
                               "".concat(
-                                "http://cbapi.shantispawellnesslife.com/api",
+                                "http://localhost:8000/api",
                                 "/importar"
                               ),
                               t
@@ -97840,7 +97832,7 @@
           });
         },
         XB = n(9861),
-        QB = "http://cbapi.shantispawellnesslife.com/api",
+        QB = "http://localhost:8000/api",
         eH = function () {
           var t = (0, e.useState)({
               nombre: "",
@@ -98328,7 +98320,7 @@
           });
         },
         tH = n(1098),
-        nH = "http://cbapi.shantispawellnesslife.com/api",
+        nH = "http://localhost:8000/api",
         rH = function () {
           var t = (0, e.useState)([]),
             n = (0, o.Z)(t, 2),
@@ -98573,7 +98565,7 @@
           });
         },
         aH = n(7247),
-        oH = "http://cbapi.shantispawellnesslife.com/api",
+        oH = "http://localhost:8000/api",
         iH = function () {
           var t = (0, e.useState)({ nombre: "", contacto: "" }),
             n = (0, o.Z)(t, 2),
@@ -98878,7 +98870,7 @@
             }),
           });
         },
-        fH = "http://cbapi.shantispawellnesslife.com/api",
+        fH = "http://localhost:8000/api",
         pH = function () {
           var t = kt(),
             n = (0, e.useState)([]),
@@ -99391,10 +99383,7 @@
                         return (
                           (e.next = 2),
                           Qm.get(
-                            "".concat(
-                              "http://cbapi.shantispawellnesslife.com/api",
-                              "/facturas"
-                            )
+                            "".concat("http://localhost:8000/api", "/facturas")
                           )
                         );
                       case 2:
@@ -99487,10 +99476,7 @@
                         return (
                           (e.next = 2),
                           Qm.get(
-                            "".concat(
-                              "http://cbapi.shantispawellnesslife.com/api",
-                              "/ventas"
-                            )
+                            "".concat("http://localhost:8000/api", "/ventas")
                           )
                         );
                       case 2:
@@ -101798,7 +101784,7 @@
             option: 2,
           },
         ],
-        GV = "http://cbapi.shantispawellnesslife.com/api",
+        GV = "http://localhost:8000/api",
         UV = function (t) {
           var n = t.diagnosticos,
             r = t.paciente_id,
@@ -102498,7 +102484,7 @@
             ],
           });
         },
-        hG = "http://cbapi.shantispawellnesslife.com/api",
+        hG = "http://localhost:8000/api",
         mG = function () {
           var t = Et().id,
             n = (0, e.useState)({}),
@@ -103693,7 +103679,7 @@
             A = T[0],
             D = T[1],
             I = Et().id,
-            j = "http://cbapi.shantispawellnesslife.com/api",
+            j = "http://localhost:8000/api",
             O = kt();
           (0, e.useEffect)(function () {
             var e = (function () {
@@ -103902,7 +103888,7 @@
                               (e.next = 3),
                               Qm.post(
                                 "".concat(
-                                  "http://cbapi.shantispawellnesslife.com/api",
+                                  "http://localhost:8000/api",
                                   "/detalleProductosVentas"
                                 ),
                                 {
@@ -104062,7 +104048,7 @@
                               (e.next = 3),
                               Qm.post(
                                 "".concat(
-                                  "http://cbapi.shantispawellnesslife.com/api",
+                                  "http://localhost:8000/api",
                                   "/ingreso_producto_uso"
                                 ),
                                 {
@@ -107950,10 +107936,7 @@
                           return (
                             (e.next = 2),
                             Qm.get(
-                              "".concat(
-                                "http://cbapi.shantispawellnesslife.com/api",
-                                "/areas"
-                              )
+                              "".concat("http://localhost:8000/api", "/areas")
                             )
                           );
                         case 2:

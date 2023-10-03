@@ -13,7 +13,7 @@ import { DateCalendar, LocalizationProvider, esES } from "@mui/x-date-pickers";
 import { useParams } from "react-router-dom";
 import Agenda from "./Agenda";
 
-const endpoint = "http://cbapi.shantispawellnesslife.com/api";
+const endpoint = "http://localhost:8000/api";
 
 const AgendaControlada = () => {
   const { fecha, area, id } = useParams();
@@ -44,9 +44,8 @@ const AgendaControlada = () => {
         container
         spacing={{ xs: 2, md: 3 }}
         columns={{ xs: 4, sm: 8, md: 12 }}
-        sx={[{ zoom: "85%" }]}
       >
-        <Grid item xs="auto" sm="auto" md="auto">
+        <Grid item xs="auto" sm="auto" md="auto" sx={[{ zoom: "80%" }]}>
           <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
             <DateCalendar
               value={valueCalendar}
@@ -68,7 +67,7 @@ const AgendaControlada = () => {
             </div>
           ))}
         </Grid>
-        <Grid item xs="auto" sm="9" md="9" sx={[{ zoom: "90%" }]}>
+        <Grid item xs="auto" sm="9" md="9">
           <Agenda
             fecha={fecha}
             valueCalendar={valueCalendar}

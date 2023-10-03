@@ -16,7 +16,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 
-const endpoint = "http://cbapi.shantispawellnesslife.com/api";
+const endpoint = "http://localhost:8000/api";
 
 const Asistencias = () => {
   const [tipoCita, setTipoCita] = useState("Todos");
