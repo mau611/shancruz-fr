@@ -1,9 +1,4 @@
-import {
-  Calendar,
-  Views,
-  momentLocalizer,
-  DateLocalizer,
-} from "react-big-calendar";
+import { Calendar, Views, momentLocalizer } from "react-big-calendar";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -15,7 +10,6 @@ import Col from "react-bootstrap/Col";
 import Table from "react-bootstrap/Table";
 
 import moment from "moment";
-import "moment-timezone";
 
 import React, {
   Fragment,
@@ -47,10 +41,8 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import NavBar from "../estructura/NavBar";
 import { useNavigate } from "react-router-dom";
 import PriceCheckIcon from "@mui/icons-material/PriceCheck";
-import { CloseButton } from "react-bootstrap";
 import TodayIcon from "@mui/icons-material/Today";
 import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
@@ -67,7 +59,7 @@ const dias = [
   "Sabado",
 ];
 
-const endpoint = "http://cbapi.shantispawellnesslife.com/api";
+const endpoint = "http://localhost:8000/api";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -398,7 +390,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
     return aux;
   };
 
-  const localizer = useMemo(() => momentLocalizer(moment), []);
+  const localizer = momentLocalizer(moment);
   const handleSelectSlot = useCallback(
     ({ start, end, title, resourceId, facturas }) => {
       handleClickOpen({ start, end, resourceId, facturas });
@@ -410,7 +402,6 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
     () => ({
       defaultDate: new Date(valueCalendar),
       scrollToTime: new Date(1970, 1, 1, 6),
-      messages: lang[culture],
     }),
     []
   );
@@ -554,7 +545,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
         }}
         toolbar={false}
         dayLayoutAlgorithm={"no-overlap"}
-        min={new Date(1972, 0, 1, 6, 0, 0, 0)}
+        min={new Date(2010, 0, 1, 6, 0, 0, 0)}
         max={new Date(0, 0, 1, 21, 0, 0, 0)}
         step={60}
         messages={messages}
