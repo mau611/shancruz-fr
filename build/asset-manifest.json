@@ -1,18 +1,18 @@
 {
   "files": {
     "main.css": "/static/css/main.cecff475.css",
-    "main.js": "/static/js/main.cc59109c.js",
+    "main.js": "/static/js/main.23602b7d.js",
     "static/js/787.629c43d4.chunk.js": "/static/js/787.629c43d4.chunk.js",
     "static/media/shanti_transparencia.png": "/static/media/shanti_transparencia.689475ba80edf67458bf.png",
     "static/media/navbar.png": "/static/media/navbar.d58f4bd61cd6413efaa4.png",
     "static/media/shanti card.png": "/static/media/shanti card.d5ab6252d5d62847c8e7.png",
     "index.html": "/index.html",
     "main.cecff475.css.map": "/static/css/main.cecff475.css.map",
-    "main.cc59109c.js.map": "/static/js/main.cc59109c.js.map",
+    "main.23602b7d.js.map": "/static/js/main.23602b7d.js.map",
     "787.629c43d4.chunk.js.map": "/static/js/787.629c43d4.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.cecff475.css",
-    "static/js/main.cc59109c.js"
+    "static/js/main.23602b7d.js"
   ]
 }

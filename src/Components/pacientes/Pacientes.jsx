@@ -14,7 +14,7 @@ const columnas = [
   { field: "direccion", headerName: "Direccion", width: 400 },
   { field: "referencia", headerName: "Como nos conocio?", width: 400 },
 ];
-const endpoint = "https://api.shantispawellnesslife.com//api";
+const endpoint = "https://api.shantispawellnesslife.com/api";
 
 export const Pacientes = () => {
   const [pacientes, setPacientes] = useState([]);

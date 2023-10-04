@@ -21,7 +21,7 @@ import { Link, useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import AddToPhotosIcon from "@mui/icons-material/AddToPhotos";
 
-const endpoint = "https://api.shantispawellnesslife.com//api";
+const endpoint = "https://api.shantispawellnesslife.com/api";
 
 const ProductosVenta = () => {
   const [state, setState] = useState({
