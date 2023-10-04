@@ -69039,7 +69039,7 @@
         PM = EM,
         ZM = n.p + "static/media/navbar.d58f4bd61cd6413efaa4.png",
         RM = Qm.create({
-          baseURL: "https://api.shantispawellnesslife.com/api",
+          baseURL: "https://cbapi.shantispawellnesslife.com/api",
           withCredentials: !0,
           headers: {
             "Content-Type": "application/json",
@@ -69069,7 +69069,7 @@
                           return (
                             (e.next = 2),
                             RM.get(
-                              "https://api.shantispawellnesslife.com/sanctum/csrf-cookie"
+                              "https://cbapi.shantispawellnesslife.com/sanctum/csrf-cookie"
                             )
                           );
                         case 2:
@@ -69268,7 +69268,7 @@
                             (e.prev = 1),
                             (e.next = 4),
                             Qm.post(
-                              "https://api.shantispawellnesslife.com/api/paciente",
+                              "https://cbapi.shantispawellnesslife.com/api/paciente",
                               {
                                 nombres: Q.nombres,
                                 apellidos: Q.apellidos,
@@ -69805,7 +69805,7 @@
           "Viernes",
           "Sabado",
         ],
-        UM = "https://api.shantispawellnesslife.com/api",
+        UM = "https://cbapi.shantispawellnesslife.com/api",
         KM = e.forwardRef(function (e, t) {
           return (0, a.jsx)(dv, sn({ direction: "up", ref: t }, e));
         }),
@@ -90250,7 +90250,7 @@
                           (e.next = 2),
                           Qm.get(
                             "".concat(
-                              "https://api.shantispawellnesslife.com/api",
+                              "https://cbapi.shantispawellnesslife.com/api",
                               "/pacientes"
                             )
                           )
@@ -95725,7 +95725,7 @@
           var a = null == (n = e.treeData) ? void 0 : n.groupingField;
           return a && (r[a] = !1), { columns: { columnVisibilityModel: r } };
         },
-        sz = "https://api.shantispawellnesslife.com/api",
+        sz = "https://cbapi.shantispawellnesslife.com/api",
         cz = function () {
           var t = kt(),
             n = (0, e.useRef)(!1),
@@ -96182,7 +96182,7 @@
           { field: "nombre", headerName: "Consultorio", width: 130 },
           { field: "color", headerName: "Color", width: 130 },
         ],
-        fz = "https://api.shantispawellnesslife.com/api",
+        fz = "https://cbapi.shantispawellnesslife.com/api",
         pz = function () {
           var t = (0, e.useState)({ nombre: "", color: "" }),
             n = (0, o.Z)(t, 2),
@@ -96332,7 +96332,7 @@
           { field: "nombre", headerName: "Tipo de consulta", width: 130 },
           { field: "color", headerName: "Color", width: 130 },
         ],
-        mz = "https://api.shantispawellnesslife.com/api",
+        mz = "https://cbapi.shantispawellnesslife.com/api",
         vz = function () {
           var t = (0, e.useState)({ nombre: "", color: "" }),
             n = (0, o.Z)(t, 2),
@@ -96482,7 +96482,7 @@
           { field: "id", headerName: "ID", width: 70 },
           { field: "estado", headerName: "Estado consulta", width: 130 },
         ],
-        bz = "https://api.shantispawellnesslife.com/api",
+        bz = "https://cbapi.shantispawellnesslife.com/api",
         yz = function () {
           var t = (0, e.useState)({ estado: "" }),
             n = (0, o.Z)(t, 2),
@@ -96620,7 +96620,7 @@
           { field: "id", headerName: "ID", width: 70 },
           { field: "nombre", headerName: "Consultorio", width: 130 },
         ],
-        wz = "https://api.shantispawellnesslife.com/api",
+        wz = "https://cbapi.shantispawellnesslife.com/api",
         Cz = function () {
           var t = (0, e.useState)({ nombre: "" }),
             n = (0, o.Z)(t, 2),
@@ -96979,7 +96979,7 @@
         }),
         $z = n(1286),
         Jz = n(7097),
-        Xz = "https://api.shantispawellnesslife.com/api",
+        Xz = "https://cbapi.shantispawellnesslife.com/api",
         Qz = function () {
           var t = (0, e.useState)({ servicio: "", costo: 0 }),
             n = (0, o.Z)(t, 2),
@@ -97610,7 +97610,7 @@
                             (e.next = 5),
                             Qm.post(
                               "".concat(
-                                "https://api.shantispawellnesslife.com/api",
+                                "https://cbapi.shantispawellnesslife.com/api",
                                 "/importar"
                               ),
                               t
@@ -97840,7 +97840,7 @@
           });
         },
         XB = n(9861),
-        QB = "https://api.shantispawellnesslife.com/api",
+        QB = "https://cbapi.shantispawellnesslife.com/api",
         eH = function () {
           var t = (0, e.useState)({
               nombre: "",
@@ -98328,7 +98328,7 @@
           });
         },
         tH = n(1098),
-        nH = "https://api.shantispawellnesslife.com/api",
+        nH = "https://cbapi.shantispawellnesslife.com/api",
         rH = function () {
           var t = (0, e.useState)([]),
             n = (0, o.Z)(t, 2),
@@ -98573,7 +98573,7 @@
           });
         },
         aH = n(7247),
-        oH = "https://api.shantispawellnesslife.com/api",
+        oH = "https://cbapi.shantispawellnesslife.com/api",
         iH = function () {
           var t = (0, e.useState)({ nombre: "", contacto: "" }),
             n = (0, o.Z)(t, 2),
@@ -98878,7 +98878,7 @@
             }),
           });
         },
-        fH = "https://api.shantispawellnesslife.com/api",
+        fH = "https://cbapi.shantispawellnesslife.com/api",
         pH = function () {
           var t = kt(),
             n = (0, e.useState)([]),
@@ -99392,7 +99392,7 @@
                           (e.next = 2),
                           Qm.get(
                             "".concat(
-                              "https://api.shantispawellnesslife.com/api",
+                              "https://cbapi.shantispawellnesslife.com/api",
                               "/facturas"
                             )
                           )
@@ -99488,7 +99488,7 @@
                           (e.next = 2),
                           Qm.get(
                             "".concat(
-                              "https://api.shantispawellnesslife.com/api",
+                              "https://cbapi.shantispawellnesslife.com/api",
                               "/ventas"
                             )
                           )
@@ -101798,7 +101798,7 @@
             option: 2,
           },
         ],
-        GV = "https://api.shantispawellnesslife.com/api",
+        GV = "https://cbapi.shantispawellnesslife.com/api",
         UV = function (t) {
           var n = t.diagnosticos,
             r = t.paciente_id,
@@ -102498,7 +102498,7 @@
             ],
           });
         },
-        hG = "https://api.shantispawellnesslife.com/api",
+        hG = "https://cbapi.shantispawellnesslife.com/api",
         mG = function () {
           var t = Et().id,
             n = (0, e.useState)({}),
@@ -103693,7 +103693,7 @@
             A = T[0],
             D = T[1],
             I = Et().id,
-            j = "https://api.shantispawellnesslife.com/api",
+            j = "https://cbapi.shantispawellnesslife.com/api",
             O = kt();
           (0, e.useEffect)(function () {
             var e = (function () {
@@ -103902,7 +103902,7 @@
                               (e.next = 3),
                               Qm.post(
                                 "".concat(
-                                  "https://api.shantispawellnesslife.com/api",
+                                  "https://cbapi.shantispawellnesslife.com/api",
                                   "/detalleProductosVentas"
                                 ),
                                 {
@@ -104062,7 +104062,7 @@
                               (e.next = 3),
                               Qm.post(
                                 "".concat(
-                                  "https://api.shantispawellnesslife.com/api",
+                                  "https://cbapi.shantispawellnesslife.com/api",
                                   "/ingreso_producto_uso"
                                 ),
                                 {
@@ -107951,7 +107951,7 @@
                             (e.next = 2),
                             Qm.get(
                               "".concat(
-                                "https://api.shantispawellnesslife.com/api",
+                                "https://cbapi.shantispawellnesslife.com/api",
                                 "/areas"
                               )
                             )

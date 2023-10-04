@@ -15,7 +15,7 @@ const Columnas = [
   { field: "estado", headerName: "Estado consulta", width: 130 },
 ];
 
-const endpoint = "https://api.shantispawellnesslife.com/api";
+const endpoint = "https://cbapi.shantispawellnesslife.com/api";
 
 const CrearEstadoCita = () => {
   const [state, setState] = useState({

@@ -59,7 +59,7 @@ const dias = [
   "Sabado",
 ];
 
-const endpoint = "https://api.shantispawellnesslife.com/api";
+const endpoint = "https://cbapi.shantispawellnesslife.com/api";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
