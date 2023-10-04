@@ -46,7 +46,7 @@ import axios from "../../axios";
 import { useAuth } from "../../AuthContext";
 
 const drawerWidth = 240;
-const endpoint = "https://cbapi.shantispawellnesslife.com//api/paciente";
+const endpoint = "https://api.shantispawellnesslife.com/api/paciente";
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
