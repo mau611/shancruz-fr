@@ -815,7 +815,10 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
                 <Accordion.Header>Cobrar Servicio</Accordion.Header>
                 <Accordion.Body>
                   <br />
-                  <FormControl sx={{ m: 1, minWidth: 120, maxWidth: 400 }}>
+                  <FormControl
+                    fullWidth={true}
+                    sx={{ m: 1, minWidth: 120, maxWidth: 400 }}
+                  >
                     <InputLabel shrink htmlFor="select-multiple-native">
                       Servicios
                     </InputLabel>
@@ -859,16 +862,8 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
                           <MenuItem value={"no pagado"}>No pagado</MenuItem>
                         </Select>
                       </FormControl>
-                      <TextField
-                        value={detallesPago}
-                        id="outlined-multiline-static"
-                        label="Detalles del pago"
-                        multiline
-                        rows={3}
-                        onChange={(e) => setDetallesPago(e.target.value)}
-                        fullWidth
-                      />
-                      <FormControl fullWidth>
+                      <br />
+                      <FormControl fullWidth style={{ paddingTop: 10 }}>
                         <InputLabel id="forma-pago">Tipo de Pago</InputLabel>
                         <Select
                           labelId="forma-pago"
@@ -900,6 +895,14 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
                           fullWidth
                         />
                       </FormControl>
+                      <TextField
+                        value={detallesPago}
+                        id="detalles-pago"
+                        label="Detalles del pago"
+                        onChange={(e) => setDetallesPago(e.target.value)}
+                        fullWidth
+                      />
+
                       <IconButton
                         aria-label="add to favorites"
                         onClick={realizarCobro}
