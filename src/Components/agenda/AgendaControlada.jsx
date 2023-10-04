@@ -19,10 +19,11 @@ const AgendaControlada = () => {
   const { fecha, area, id } = useParams();
   const [valueCalendar, setValueCalendar] = useState(dayjs("" + fecha));
   const setFecha = (newValue) => {
-    let yyyy = newValue.$y;
-    let mm = newValue.$M + 1;
-    let dd = newValue.$D;
-    let fe = "" + yyyy + "-" + mm + "-" + dd;
+    var yyyy = newValue.$y;
+    var mm = newValue.$M + 1;
+    var dd = newValue.$D;
+    var fe = "" + yyyy + "-" + mm + "-" + dd;
+    console.log(fecha, dayjs(fe));
     setValueCalendar(dayjs("" + fe));
     window.location = `/agenda/${fe}/${area}/${id}`;
   };

@@ -5,7 +5,15 @@ import {
   Grid,
   InputLabel,
   MenuItem,
+  Paper,
   Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableFooter,
+  TableHead,
+  TableRow,
 } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider, esES } from "@mui/x-date-pickers";
@@ -21,8 +29,12 @@ const endpoint = "http://localhost:8000/api";
 const Asistencias = () => {
   const [tipoCita, setTipoCita] = useState("Todos");
   const [consultorios, setConsultorios] = useState("Todos");
+  const [desde, setDesde] = useState("");
+  const [hasta, setHasta] = useState("");
   const [tipoConsultas, setTipoConsultas] = useState([]);
   const [consultoriosBD, setConsultoriosBD] = useState([]);
+  const [facturas, setFacturas] = useState([]);
+  const [detalles, setDetalles] = useState([]);
 
   useEffect(() => {
     getTipoConsultas();
@@ -36,6 +48,27 @@ const Asistencias = () => {
   const getConsultorios = async () => {
     const response = await axios.get(`${endpoint}/consultorios`);
     setConsultoriosBD(response.data);
+  };
+
+  const buscar = async () => {
+    var auxDesde = formatFecha(new Date(desde.$y, desde.$M, desde.$D));
+    var auxHasta = formatFecha(new Date(hasta.$y, hasta.$M, hasta.$D));
+    const response = await axios.get(
+      `${endpoint}/asistencias/${tipoCita}/${consultorios}/${auxDesde}/${auxHasta}`
+    );
+    setFacturas(response.data[0]);
+    setDetalles(response.data[1]);
+  };
+  const fechaDosDigitos = (num) => {
+    return num.toString().padStart(2, "0");
+  };
+
+  const formatFecha = (date) => {
+    return [
+      date.getFullYear(),
+      fechaDosDigitos(date.getMonth() + 1),
+      fechaDosDigitos(date.getDate()),
+    ].join("-");
   };
 
   return (
@@ -88,7 +121,11 @@ const Asistencias = () => {
                 dateAdapter={AdapterDayjs}
                 adapterLocale="es"
               >
-                <DatePicker label="Desde" format="YYYY-MM-DD" />
+                <DatePicker
+                  label="Desde"
+                  format="YYYY-MM-DD"
+                  onChange={(fechaDesde) => setDesde(fechaDesde)}
+                />
               </LocalizationProvider>
             </FormControl>
           </Grid>
@@ -98,7 +135,11 @@ const Asistencias = () => {
                 dateAdapter={AdapterDayjs}
                 adapterLocale="es"
               >
-                <DatePicker label="Hasta" format="YYYY-MM-DD" />
+                <DatePicker
+                  label="Hasta"
+                  format="YYYY-MM-DD"
+                  onChange={(fechaHasta) => setHasta(fechaHasta)}
+                />
               </LocalizationProvider>
             </FormControl>
           </Grid>
@@ -108,13 +149,96 @@ const Asistencias = () => {
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Button variant="outlined" startIcon={<SearchIcon />}>
+            <Button
+              variant="outlined"
+              startIcon={<SearchIcon />}
+              onClick={() => buscar()}
+            >
               Buscar
             </Button>
           </Grid>
         </Grid>
       </Box>
       <br />
+      <div>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead style={{ backgroundColor: "#155E30" }}>
+              <TableRow>
+                <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                  Nombre
+                </TableCell>
+                <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                  Tipo de cita
+                </TableCell>
+                <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                  Importe
+                </TableCell>
+                <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                  Pagado
+                </TableCell>
+                <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                  Forma de pago
+                </TableCell>
+                <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                  Notas
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {facturas.map((factura) => (
+                <TableRow
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  align="right"
+                >
+                  <TableCell component="th" scope="row">
+                    {factura.consulta.paciente.nombres +
+                      " " +
+                      factura.consulta.paciente.apellidos}
+                  </TableCell>
+                  <TableCell component="th" scope="row">
+                    {factura.consulta.tipo_consulta.nombre}
+                  </TableCell>
+                  <TableCell component="th" scope="row">
+                    {factura.total}
+                  </TableCell>
+                  <TableCell component="th" scope="row">
+                    {factura.estado_pago}
+                  </TableCell>
+                  <TableCell component="th" scope="row">
+                    {factura.forma_pago}
+                  </TableCell>
+                  <TableCell component="th" scope="row">
+                    {factura.forma_pago == "Tarjeta"
+                      ? factura.digitos_tarjeta
+                      : factura.detalles_pago}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <TableFooter>
+            <br />
+            <div>
+              {"Total Citas: " +
+                detalles[0] +
+                " Bs" +
+                "  - Efectivo: " +
+                detalles[1] +
+                " Bs" +
+                "  - Transferencias: " +
+                detalles[2] +
+                " Bs" +
+                "  - Pagos Qr: " +
+                detalles[3] +
+                " Bs" +
+                "  - Tarjetas: " +
+                detalles[4] +
+                " Bs"}
+            </div>
+          </TableFooter>
+        </TableContainer>
+      </div>
     </>
   );
 };
