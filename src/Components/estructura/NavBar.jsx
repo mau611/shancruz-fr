@@ -44,9 +44,9 @@ import {
 import logoNav from "./../../navbar.png";
 import axios from "../../axios";
 import { useAuth } from "../../AuthContext";
+import { enlace } from "../../scripts/Enlace.js";
 
 const drawerWidth = 240;
-const endpoint = "http://localhost:8000/api/paciente";
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -175,7 +175,7 @@ export default function NavBar({ children, titulo }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const resp = await axioss.post(endpoint, {
+      const resp = await axioss.post(enlace, {
         nombres: state.nombres,
         apellidos: state.apellidos,
         telefono: state.telefono,

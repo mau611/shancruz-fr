@@ -9,14 +9,13 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { useNavigate } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
+import { enlace } from "../../../scripts/Enlace.js";
 
 const Columnas = [
   { field: "id", headerName: "ID", width: 70 },
   { field: "nombre", headerName: "Consultorio", width: 130 },
   { field: "color", headerName: "Color", width: 130 },
 ];
-
-const endpoint = "http://localhost:8000/api";
 
 const CrearGabinetes = () => {
   const [state, setState] = useState({
@@ -52,13 +51,13 @@ const CrearGabinetes = () => {
   }, []);
 
   const getGabinetes = async () => {
-    const response = await axios.get(`${endpoint}/consultorios`);
+    const response = await axios.get(`${enlace}/consultorios`);
     setGabinetes(response.data);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post(`${endpoint}/consultorio`, {
+    await axios.post(`${enlace}/consultorio`, {
       nombre: state.nombre,
       color: state.color,
     });

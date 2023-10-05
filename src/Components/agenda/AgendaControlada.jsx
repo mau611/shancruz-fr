@@ -12,8 +12,7 @@ import dayjs from "dayjs";
 import { DateCalendar, LocalizationProvider, esES } from "@mui/x-date-pickers";
 import { useParams } from "react-router-dom";
 import Agenda from "./Agenda";
-
-const endpoint = "http://localhost:8000/api";
+import { enlace } from "../../scripts/Enlace.js";
 
 const AgendaControlada = () => {
   const { fecha, area, id } = useParams();
@@ -31,7 +30,7 @@ const AgendaControlada = () => {
   const [areas, setAreas] = useState([]);
 
   const getAreas = async () => {
-    const response = await axios.get(`${endpoint}/areas`);
+    const response = await axios.get(`${enlace}/areas`);
     setAreas(response.data);
   };
 

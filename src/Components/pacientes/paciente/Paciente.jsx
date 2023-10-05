@@ -11,7 +11,7 @@ import Contabilidad from "./detalles/Contabilidad";
 import Bonos from "./detalles/Bonos";
 import Documentos from "./detalles/Documentos";
 import Historial from "./detalles/Historial";
-const endpoint = "http://localhost:8000/api";
+import { enlace } from "../../../scripts/Enlace.js";
 
 const Paciente = () => {
   const { id } = useParams();
@@ -26,13 +26,13 @@ const Paciente = () => {
 
   const getProfesionalACargo = async () => {
     const response = await axios.get(
-      `${endpoint}/paciente/profesionales/${paciente.id}`
+      `${enlace}/paciente/profesionales/${paciente.id}`
     );
     setProfesionales(response.data);
   };
 
   const getPaciente = async () => {
-    const response = await axios.get(`${endpoint}/paciente/${id}`);
+    const response = await axios.get(`${enlace}/paciente/${id}`);
     setPaciente(response.data);
   };
 

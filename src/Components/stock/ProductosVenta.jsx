@@ -20,8 +20,7 @@ import React, { Fragment, useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import AddToPhotosIcon from "@mui/icons-material/AddToPhotos";
-
-const endpoint = "http://localhost:8000/api";
+import { enlace } from "../../scripts/Enlace.js";
 
 const ProductosVenta = () => {
   const [state, setState] = useState({
@@ -47,7 +46,7 @@ const ProductosVenta = () => {
   }, []);
 
   const getProductos = async () => {
-    const response = await axios.get(`${endpoint}/productos`);
+    const response = await axios.get(`${enlace}/productos`);
     setProductos(response.data);
     console.log(response.data);
     response.data.map((p) => {
@@ -83,7 +82,7 @@ const ProductosVenta = () => {
   };
 
   const getProveedores = async () => {
-    const response = await axios.get(`${endpoint}/proveedores`);
+    const response = await axios.get(`${enlace}/proveedores`);
     setProveedores(response.data);
   };
 
@@ -131,7 +130,7 @@ const ProductosVenta = () => {
 
   const handleAgregarProducto = async (e) => {
     e.preventDefault();
-    await axios.post(`${endpoint}/producto`, {
+    await axios.post(`${enlace}/producto`, {
       nombre: state.nombre,
       descripcion: state.descripcion,
       proveedor: state.proveedor.split(" ")[0],

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { DataGrid, esES } from "@mui/x-data-grid";
 import NavBar from "../estructura/NavBar";
 import axios from "axios";
+import { enlace } from "../../scripts/Enlace.js";
 
 const columnas = [
   { field: "id", headerName: "Historia", width: 70 },
@@ -14,7 +15,6 @@ const columnas = [
   { field: "direccion", headerName: "Direccion", width: 400 },
   { field: "referencia", headerName: "Como nos conocio?", width: 400 },
 ];
-const endpoint = "http://localhost:8000/api";
 
 export const Pacientes = () => {
   const [pacientes, setPacientes] = useState([]);
@@ -23,7 +23,7 @@ export const Pacientes = () => {
   }, []);
 
   const getPacientes = async () => {
-    const response = await axios.get(`${endpoint}/pacientes`);
+    const response = await axios.get(`${enlace}/pacientes`);
     setPacientes(response.data);
   };
 

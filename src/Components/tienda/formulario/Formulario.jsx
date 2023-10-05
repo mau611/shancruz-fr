@@ -11,7 +11,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TablaProductos from "./TablaProductos";
-const endpoint = "http://localhost:8000/api";
+import { enlace } from "../../../scripts/Enlace.js";
 
 const Formulario = () => {
   const navigate = useNavigate();
@@ -32,17 +32,17 @@ const Formulario = () => {
   const [pagoTarjeta, setPagoTarjeta] = useState(true);
 
   const getLicenciados = async () => {
-    const response = await axios.get(`${endpoint}/profesionales`);
+    const response = await axios.get(`${enlace}/profesionales`);
     setLicenciados(response.data);
   };
 
   const getPacientes = async () => {
-    const response = await axios.get(`${endpoint}/pacientes`);
+    const response = await axios.get(`${enlace}/pacientes`);
     setPacientes(response.data);
   };
 
   const getIngresoProductos = async () => {
-    const response = await axios.get(`${endpoint}/ingreso_productos`);
+    const response = await axios.get(`${enlace}/ingreso_productos`);
     setIngresoProductos(response.data);
     console.log(response.data.find((element) => element.id == 1));
   };
@@ -83,7 +83,7 @@ const Formulario = () => {
       observaciones,
       repeticiones
     );
-    await axios.post(`${endpoint}/venta`, {
+    await axios.post(`${enlace}/venta`, {
       total: total,
       estado: estadoPago,
       tipo_pago: formaPago,

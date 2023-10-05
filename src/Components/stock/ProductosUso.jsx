@@ -20,8 +20,7 @@ import { useState } from "react";
 import AddToPhotosIcon from "@mui/icons-material/AddToPhotos";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import { Link } from "react-router-dom";
-
-const endpoint = "http://localhost:8000/api";
+import { enlace } from "../../scripts/Enlace.js";
 
 const ProductosUso = () => {
   const [productos, setProductos] = useState([]);
@@ -42,12 +41,12 @@ const ProductosUso = () => {
     getProductos();
   }, []);
   const getProductos = async () => {
-    const response = await axios.get(`${endpoint}/materiales`);
+    const response = await axios.get(`${enlace}/materiales`);
     setProductos(response.data);
   };
   const guardarProducto = async () => {
     try {
-      await axios.post(`${endpoint}/material_uso`, {
+      await axios.post(`${enlace}/material_uso`, {
         productos_uso: productos_uso,
         fecha_ingreso: new Date().toISOString().slice(0, 10),
         existencias: existencias,

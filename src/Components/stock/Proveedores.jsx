@@ -20,6 +20,7 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { enlace } from "../../scripts/Enlace.js";
 
 const Columnas = [
   { field: "id", headerName: "ID" },
@@ -27,8 +28,6 @@ const Columnas = [
   { field: "contacto", headerName: "Contacto", width: 200 },
   { field: "accion", headerName: "accion", width: 200 },
 ];
-
-const endpoint = "http://localhost:8000/api";
 
 const Proveedores = () => {
   const [state, setState] = useState({
@@ -63,14 +62,14 @@ const Proveedores = () => {
   }, []);
 
   const getProveedores = async () => {
-    const response = await axios.get(`${endpoint}/proveedores`);
+    const response = await axios.get(`${enlace}/proveedores`);
     setProveedores(response.data);
     console.log(response.data);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post(`${endpoint}/proveedor`, {
+    await axios.post(`${enlace}/proveedor`, {
       nombre: state.nombre,
       contacto: state.contacto,
     });

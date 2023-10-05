@@ -27,13 +27,12 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import { Navigate, useNavigate } from "react-router-dom";
 import { FormControl } from "react-bootstrap";
+import { enlace } from "../../../../scripts/Enlace.js";
 
 const actions = [
   { icon: <AssignmentIcon />, name: "Agregar Diagnostico", option: 1 },
   { icon: <FormatListNumberedIcon />, name: "Agregar Tratamiento", option: 2 },
 ];
-
-const endpoint = "http://localhost:8000/api";
 
 const DetallesPaciente = ({ diagnosticos, paciente_id, profesionales }) => {
   const [openDx, setOpenDx] = React.useState(false);
@@ -60,7 +59,7 @@ const DetallesPaciente = ({ diagnosticos, paciente_id, profesionales }) => {
   };
   const guardarDiagnostico = async () => {
     await axios
-      .post(`${endpoint}/diagnostico`, {
+      .post(`${enlace}/diagnostico`, {
         diagnostico: diagnostico,
         paciente_id: paciente_id,
       })
@@ -78,7 +77,7 @@ const DetallesPaciente = ({ diagnosticos, paciente_id, profesionales }) => {
   };
   const guardarTratamiento = async () => {
     await axios
-      .post(`${endpoint}/tratamiento`, {
+      .post(`${enlace}/tratamiento`, {
         tratamiento: tratamiento,
         diagnostico_id: dxId,
       })

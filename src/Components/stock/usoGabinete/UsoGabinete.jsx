@@ -3,8 +3,7 @@ import NavBar from "../../estructura/NavBar";
 import { Button, Card, CardContent, TextField } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-
-const endpoint = "http://localhost:8000/api";
+import { enlace } from "../../../scripts/Enlace.js";
 
 const UsoGabinete = () => {
   const navigate = useNavigate();
@@ -14,7 +13,7 @@ const UsoGabinete = () => {
 
   const guardarIngresoUso = async () => {
     try {
-      await axios.post(`${endpoint}/ingreso_producto_uso`, {
+      await axios.post(`${enlace}/ingreso_producto_uso`, {
         fecha_ingreso: new Date().toISOString().slice(0, 10),
         existencias: existencias,
         precio_compra: precio_compra,

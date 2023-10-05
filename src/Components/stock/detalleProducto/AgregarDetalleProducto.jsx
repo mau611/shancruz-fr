@@ -4,8 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Button, Card, CardContent, TextField } from "@mui/material";
 import { useState } from "react";
 import axios from "axios";
-
-const endpoint = "http://localhost:8000/api";
+import { enlace } from "../../../scripts/Enlace.js";
 
 const AgregarDetalleProducto = () => {
   const { id } = useParams();
@@ -18,7 +17,7 @@ const AgregarDetalleProducto = () => {
 
   const registrarDetalle = async () => {
     try {
-      await axios.post(`${endpoint}/detalleProductosVentas`, {
+      await axios.post(`${enlace}/detalleProductosVentas`, {
         fecha: new Date().toISOString().slice(0, 10),
         PrecioCompra: precioCompra,
         PrecioVenta: precioVenta,
