@@ -3,8 +3,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
-const endpoint = "https://cbapi.shantispawellnesslife.com/api";
+import { enlace } from "../../../../scripts/Enlace.js";
 
 const Filiacion = ({
   id,
@@ -20,7 +19,7 @@ const Filiacion = ({
 
   const guardarDatosPaciente = async () => {
     await axios
-      .post(`${endpoint}/paciente/${id}`, {
+      .post(`${enlace}/paciente/${id}`, {
         nombres: nombres,
         apellidos: apellidos,
         telefono: ci,

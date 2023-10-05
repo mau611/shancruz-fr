@@ -10,8 +10,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-
-const endpoint = "https://cbapi.shantispawellnesslife.com/api";
+import { enlace } from "../../../scripts/Enlace.js";
 
 const TablaPacientes = () => {
   const [facturas, setFacturas] = useState([]);
@@ -22,7 +21,7 @@ const TablaPacientes = () => {
   }, []);
 
   const getFacturas = async () => {
-    const response = await axios.get(`${endpoint}/facturas`);
+    const response = await axios.get(`${enlace}/facturas`);
     console.log(response.data);
     setFacturas(response.data[0]);
     setDetalles(response.data[1]);

@@ -12,8 +12,7 @@ import dayjs from "dayjs";
 import { DateCalendar, LocalizationProvider, esES } from "@mui/x-date-pickers";
 import { useParams } from "react-router-dom";
 import Agenda from "./Agenda";
-
-const endpoint = "https://cbapi.shantispawellnesslife.com/api";
+import { enlace } from "../../scripts/Enlace.js";
 
 const AgendaControlada = () => {
   const { fecha, area, id } = useParams();
@@ -31,7 +30,7 @@ const AgendaControlada = () => {
   const [areas, setAreas] = useState([]);
 
   const getAreas = async () => {
-    const response = await axios.get(`${endpoint}/areas`);
+    const response = await axios.get(`${enlace}/areas`);
     setAreas(response.data);
   };
 
@@ -57,7 +56,14 @@ const AgendaControlada = () => {
             <div>
               {" "}
               <Button
-                sx={{ color: "#155E30", borderColor: "#155E30" }}
+                sx={{
+                  color: "#155E30",
+                  borderColor: "#155E30",
+                  ...(area.id == id && {
+                    color: "white",
+                    backgroundColor: "#155E30",
+                  }),
+                }}
                 onClick={() =>
                   (window.location = `/agenda/${fecha}/${area.nombre}/${area.id}`)
                 }

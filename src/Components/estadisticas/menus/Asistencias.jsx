@@ -23,8 +23,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
 import SearchIcon from "@mui/icons-material/Search";
-
-const endpoint = "https://cbapi.shantispawellnesslife.com/api";
+import { enlace } from "../../../scripts/Enlace.js";
 
 const Asistencias = () => {
   const [tipoCita, setTipoCita] = useState("Todos");
@@ -42,11 +41,11 @@ const Asistencias = () => {
   }, []);
 
   const getTipoConsultas = async () => {
-    const response = await axios.get(`${endpoint}/tipoConsultas`);
+    const response = await axios.get(`${enlace}/tipoConsultas`);
     setTipoConsultas(response.data);
   };
   const getConsultorios = async () => {
-    const response = await axios.get(`${endpoint}/consultorios`);
+    const response = await axios.get(`${enlace}/consultorios`);
     setConsultoriosBD(response.data);
   };
 
@@ -54,7 +53,7 @@ const Asistencias = () => {
     var auxDesde = formatFecha(new Date(desde.$y, desde.$M, desde.$D));
     var auxHasta = formatFecha(new Date(hasta.$y, hasta.$M, hasta.$D));
     const response = await axios.get(
-      `${endpoint}/asistencias/${tipoCita}/${consultorios}/${auxDesde}/${auxHasta}`
+      `${enlace}/asistencias/${tipoCita}/${consultorios}/${auxDesde}/${auxHasta}`
     );
     setFacturas(response.data[0]);
     setDetalles(response.data[1]);

@@ -9,14 +9,13 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { useNavigate } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
+import { enlace } from "../../../scripts/Enlace.js";
 
 const Columnas = [
   { field: "id", headerName: "ID", width: 70 },
   { field: "nombre", headerName: "Tipo de consulta", width: 130 },
   { field: "color", headerName: "Color", width: 130 },
 ];
-
-const endpoint = "https://cbapi.shantispawellnesslife.com/api";
 
 const CrearTratamientos = () => {
   const [state, setState] = useState({
@@ -52,13 +51,13 @@ const CrearTratamientos = () => {
   }, []);
 
   const getTipoConsultas = async () => {
-    const response = await axios.get(`${endpoint}/tipoConsultas`);
+    const response = await axios.get(`${enlace}/tipoConsultas`);
     setTipoConsultas(response.data);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post(`${endpoint}/tipoConsulta`, {
+    await axios.post(`${enlace}/tipoConsulta`, {
       nombre: state.nombre,
       color: state.color,
     });
