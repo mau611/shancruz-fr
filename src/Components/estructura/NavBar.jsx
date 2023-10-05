@@ -38,6 +38,8 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Fab,
+  Grid,
   MenuItem,
   TextField,
 } from "@mui/material";
@@ -241,8 +243,6 @@ export default function NavBar({ children, titulo }) {
   const handleOnClick = (e, text) => {
     if (text === "Agregar Paciente") {
       handleOpenModal();
-    } else if (text === "Cerrar sesion") {
-      handleLogout();
     }
   };
 
@@ -310,7 +310,30 @@ export default function NavBar({ children, titulo }) {
           <Link to="/" rel="noreferrer">
             <img src={logoNav} className="rounded" width={100} alt="logo" />
           </Link>
+          <div
+            style={{
+              padding: "10px 0",
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
+          >
+            <Tooltip title="Cerrar sesion">
+              <Fab
+                size="small"
+                color="success"
+                aria-label="add"
+                sx={{ position: "absolute", bottom: 16, right: 16 }}
+                onClick={() => handleLogout()}
+              >
+                <LogoutIcon />
+              </Fab>
+            </Tooltip>
+          </div>
         </Toolbar>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={10}></Grid>
+          <Grid item xs={12} sm={2}></Grid>
+        </Grid>
       </AppBar>
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
@@ -323,6 +346,7 @@ export default function NavBar({ children, titulo }) {
           </IconButton>
         </DrawerHeader>
         <Divider />
+        <br />
         <List>
           {[
             <Link
@@ -343,7 +367,6 @@ export default function NavBar({ children, titulo }) {
             <Link to="/clinica">Clinica</Link>,
             <Link to="/tienda">Tienda</Link>,
             <Link to="/stock">Stock</Link>,
-            "Cerrar sesion",
           ].map((text, index) => (
             <ListItem
               key={text}
@@ -614,6 +637,7 @@ export default function NavBar({ children, titulo }) {
             </DialogActions>
           </form>
         </Dialog>
+        <br />
         {children}
       </Box>
     </Box>

@@ -56,7 +56,14 @@ const AgendaControlada = () => {
             <div>
               {" "}
               <Button
-                sx={{ color: "#155E30", borderColor: "#155E30" }}
+                sx={{
+                  color: "#155E30",
+                  borderColor: "#155E30",
+                  ...(area.id == id && {
+                    color: "white",
+                    backgroundColor: "#155E30",
+                  }),
+                }}
                 onClick={() =>
                   (window.location = `/agenda/${fecha}/${area.nombre}/${area.id}`)
                 }

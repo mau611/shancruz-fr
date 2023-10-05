@@ -773,7 +773,13 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
             <Container>
               <Row>
                 <Col xs={9}>
-                  {auxPaciente.nombres} {auxPaciente.apellidos}
+                  <a
+                    href={`/paciente/${auxPaciente.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {auxPaciente.nombres} {auxPaciente.apellidos}
+                  </a>
                   <p style={{ fontSize: 15 }}>
                     Detalle de cita: {auxTratamiento} <br />
                     Telefono: {auxTelefono}

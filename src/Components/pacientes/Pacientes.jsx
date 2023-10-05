@@ -31,7 +31,7 @@ export const Pacientes = () => {
     <NavBar>
       <h1>Lista de Pacientes</h1>
       <br />
-      <div style={{ height: 500, width: "100%" }}>
+      <div style={{ height: 1000, width: "100%" }}>
         <DataGrid
           onRowClick={(e) => window.open(`/paciente/${e.row.id}`, "_blank")}
           rows={pacientes}
