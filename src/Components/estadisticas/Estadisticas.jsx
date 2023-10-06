@@ -5,6 +5,7 @@ import Nav from "react-bootstrap/Nav";
 import Row from "react-bootstrap/Row";
 import Tab from "react-bootstrap/Tab";
 import Asistencias from "./menus/Asistencias";
+import Consultas from "./menus/Consultas";
 
 const Estadisticas = () => {
   return (
@@ -39,7 +40,9 @@ const Estadisticas = () => {
               <Tab.Pane eventKey="first">
                 <Asistencias />
               </Tab.Pane>
-              <Tab.Pane eventKey="second">Consultas</Tab.Pane>
+              <Tab.Pane eventKey="second">
+                <Consultas />
+              </Tab.Pane>
               <Tab.Pane eventKey="third">Tratamiento</Tab.Pane>
               <Tab.Pane eventKey="fourth">Referidos</Tab.Pane>
               <Tab.Pane eventKey="fifth">Consumo de fifth</Tab.Pane>
