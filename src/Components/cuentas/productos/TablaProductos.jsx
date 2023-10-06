@@ -12,8 +12,7 @@ import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-
-const endpoint = "https://api.shantispawellnesslife.com/api";
+import { enlace } from "../../../scripts/Enlace.js";
 
 const TablaProductos = () => {
   const [ventas, setVentas] = useState([]);
@@ -22,7 +21,7 @@ const TablaProductos = () => {
     getVentas();
   }, []);
   const getVentas = async () => {
-    const response = await axios.get(`${endpoint}/ventas`);
+    const response = await axios.get(`${enlace}/ventas`);
     console.log(response.data);
     setVentas(response.data[0]);
     setDetalles(response.data[1]);

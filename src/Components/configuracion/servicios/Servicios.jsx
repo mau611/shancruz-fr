@@ -21,13 +21,12 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import LocalAtmIcon from "@mui/icons-material/LocalAtm";
+import { enlace } from "../../../scripts/Enlace.js";
 
 const Columnas = [
   { field: "id", headerName: "ID", width: 70 },
   { field: "nombre", headerName: "Consultorio", width: 130 },
 ];
-
-const endpoint = "https://api.shantispawellnesslife.com/api";
 
 const Servicios = () => {
   const [state, setState] = useState({
@@ -62,13 +61,13 @@ const Servicios = () => {
   }, []);
 
   const getServicios = async () => {
-    const response = await axios.get(`${endpoint}/servicios`);
+    const response = await axios.get(`${enlace}/servicios`);
     setServicios(response.data);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post(`${endpoint}/servicio`, {
+    await axios.post(`${enlace}/servicio`, {
       servicio: state.servicio,
       costo: state.costo,
     });

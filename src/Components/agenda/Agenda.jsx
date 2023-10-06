@@ -46,6 +46,7 @@ import PriceCheckIcon from "@mui/icons-material/PriceCheck";
 import TodayIcon from "@mui/icons-material/Today";
 import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
+import { enlace } from "../../scripts/Enlace.js";
 require("globalize/lib/cultures/globalize.culture.es");
 const DragAndDropCalendar = withDragAndDrop(Calendar);
 
@@ -59,7 +60,6 @@ const dias = [
   "Sabado",
 ];
 
-const endpoint = "https://api.shantispawellnesslife.com/api";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -161,7 +161,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
   };
 
   const crearBono = async () => {
-    await axios.post(`${endpoint}/bono`, {
+    await axios.post(`${enlace}/bono`, {
       nombre: nombreBono,
       sesiones: sesionesBono,
       precio: costoBono,
@@ -173,7 +173,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
   };
 
   const consumirBono = async (bonoId) => {
-    await axios.put(`${endpoint}/descontarBono/${bonoId}`, {
+    await axios.put(`${enlace}/descontarBono/${bonoId}`, {
       bono_id: bonoId,
       consulta_id: selectEventId,
     });
@@ -230,7 +230,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
   const clickRef = useRef(null);
 
   const borrarCita = async () => {
-    await axios.delete(`${endpoint}/consulta/${selectEventId}`);
+    await axios.delete(`${enlace}/consulta/${selectEventId}`);
     handleCloseDetallePaciente();
     getEventosBD();
   };
@@ -257,7 +257,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
   };
 
   const cambiarEstadoCita = async (estadoId) => {
-    await axios.put(`${endpoint}/consulta/${selectEventId}/${estadoId}`, {
+    await axios.put(`${enlace}/consulta/${selectEventId}/${estadoId}`, {
       eId: estadoId,
     });
     getEventosBD();
@@ -319,19 +319,19 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
   };
 
   const getGabinetes = async () => {
-    const response = await axios.get(`${endpoint}/consultoriosArea/${areaId}`);
+    const response = await axios.get(`${enlace}/consultoriosArea/${areaId}`);
     setGabinetes(response.data);
   };
   const getTipoConsultas = async () => {
-    const response = await axios.get(`${endpoint}/tipoConsultas`);
+    const response = await axios.get(`${enlace}/tipoConsultas`);
     setTipoConsultas(response.data);
   };
   const getPacientes = async () => {
-    const response = await axios.get(`${endpoint}/pacientes`);
+    const response = await axios.get(`${enlace}/pacientes`);
     setPacientes(response.data);
   };
   const getEstadoCitas = async () => {
-    const response = await axios.get(`${endpoint}/estadoCitas`);
+    const response = await axios.get(`${enlace}/estadoCitas`);
     setEstadoCitas(response.data);
   };
 
@@ -349,17 +349,17 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
   }, []);
 
   const getProfesionales = async () => {
-    const response = await axios.get(`${endpoint}/profesionales`);
+    const response = await axios.get(`${enlace}/profesionales`);
     setProfesionales(response.data);
   };
 
   const getServicios = async () => {
-    const response = await axios.get(`${endpoint}/servicios`);
+    const response = await axios.get(`${enlace}/servicios`);
     setServicios(response.data);
   };
   const getEventosBD = async () => {
     setEvents([]);
-    const response = await axios.get(`${endpoint}/consultas_por_dia/${fecha}`);
+    const response = await axios.get(`${enlace}/consultas_por_dia/${fecha}`);
     response.data.map((ev) => {
       let nombre = setearNombreEvento(ev);
       setEvents((prev) => [
@@ -426,7 +426,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
   }, []);
 
   const realizarCobro = async () => {
-    await axios.post(`${endpoint}/factura`, {
+    await axios.post(`${enlace}/factura`, {
       total: cobro,
       estado_pago: estadoPago,
       forma_pago: tipoDePago,
@@ -445,7 +445,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
     const ec = "" + estadoCita;
     const pi = "" + profesionalId;
     try {
-      await axios.post(`${endpoint}/consulta`, {
+      await axios.post(`${enlace}/consulta`, {
         title: "" + detalleTratamiento,
         start: "" + new Date(detalleEvento.start).toISOString(),
         end: "" + new Date(detalleEvento.end).toISOString(),
@@ -491,7 +491,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
 
   const resizeEvent = useCallback(({ event, start, end }) => {}, []);
   const modificarEvento = async ({ event, start, end, resourceId }) => {
-    await axios.put(`${endpoint}/consulta/${event.evId}`, {
+    await axios.put(`${enlace}/consulta/${event.evId}`, {
       start: "" + new Date(start).toISOString(),
       end: "" + new Date(end).toISOString(),
       resourceId: resourceId,
@@ -773,7 +773,13 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
             <Container>
               <Row>
                 <Col xs={9}>
-                  {auxPaciente.nombres} {auxPaciente.apellidos}
+                  <a
+                    href={`/paciente/${auxPaciente.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {auxPaciente.nombres} {auxPaciente.apellidos}
+                  </a>
                   <p style={{ fontSize: 15 }}>
                     Detalle de cita: {auxTratamiento} <br />
                     Telefono: {auxTelefono}

@@ -3,8 +3,7 @@ import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
-
-const endpoint = "https://api.shantispawellnesslife.com/api";
+import { enlace } from "../../../scripts/Enlace.js";
 
 const ImportarDatos = () => {
   const [archivo, setArchivo] = useState(null);
@@ -15,7 +14,7 @@ const ImportarDatos = () => {
     formData.append("name", "archivo");
     formData.append("file", archivo);
     await axios
-      .post(`${endpoint}/importar`, formData)
+      .post(`${enlace}/importar`, formData)
       .catch((err) => alert("File Upload Error"));
     navigate(0);
   };

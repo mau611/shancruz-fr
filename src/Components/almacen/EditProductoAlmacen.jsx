@@ -1,8 +1,9 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { enlace } from "../../scripts/Enlace.js";
 
-const referenciaAPI = "https://api.shantispawellnesslife.com/api/inventario/";
+const referenciaAPI = "" + enlace + "/api/inventario/";
 
 const EditProductoAlmacen = () => {
   const [nombre, setNombre] = useState("");

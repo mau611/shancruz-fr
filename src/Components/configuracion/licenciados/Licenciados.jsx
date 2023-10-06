@@ -9,13 +9,12 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { useNavigate } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
+import { enlace } from "../../../scripts/Enlace.js";
 
 const Columnas = [
   { field: "id", headerName: "ID", width: 70 },
   { field: "nombre", headerName: "Consultorio", width: 130 },
 ];
-
-const endpoint = "https://api.shantispawellnesslife.com/api";
 
 const Licenciados = () => {
   const [state, setState] = useState({
@@ -49,13 +48,13 @@ const Licenciados = () => {
   }, []);
 
   const getLicenciados = async () => {
-    const response = await axios.get(`${endpoint}/profesionales`);
+    const response = await axios.get(`${enlace}/profesionales`);
     setLicenciados(response.data);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post(`${endpoint}/profesional`, {
+    await axios.post(`${enlace}/profesional`, {
       nombre: state.nombre,
     });
     navigate(0);

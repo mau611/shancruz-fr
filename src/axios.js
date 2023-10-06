@@ -1,7 +1,8 @@
 import Axios from "axios";
+import { enlace } from "./scripts/Enlace.js";
 
 const axios = Axios.create({
-  baseURL: "https://api.shantispawellnesslife.com/api",
+  baseURL: enlace,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",

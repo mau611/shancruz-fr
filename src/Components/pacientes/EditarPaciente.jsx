@@ -5,6 +5,7 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 import { Box, TextField, Button } from "@mui/material";
+import { enlace } from "../../scripts/Enlace.js";
 
 export const EditarPaciente = () => {
   const [nombres, setNombres] = useState("");
@@ -15,12 +16,11 @@ export const EditarPaciente = () => {
   const [sexo, setSexo] = useState("");
   const [direccion, setDireccion] = useState("");
   const { id } = useParams();
-  const endpoint = "https://api.shantispawellnesslife.com/api";
   const navigate = useNavigate();
 
   useEffect(() => {
     const getPacienteById = async () => {
-      const response = await axios.get(`${endpoint}/paciente/${id}`);
+      const response = await axios.get(`${enlace}/paciente/${id}`);
       setNombres(response.data.nombres);
       setApellidos(response.data.apellidos);
       setTelefono(response.data.telefono);
@@ -34,7 +34,7 @@ export const EditarPaciente = () => {
 
   const guardarDatosPaciente = async () => {
     await axios
-      .put(`${endpoint}/paciente/${id}`, {
+      .put(`${enlace}/paciente/${id}`, {
         nombres: nombres,
         apellidos: apellidos,
         telefono: telefono,

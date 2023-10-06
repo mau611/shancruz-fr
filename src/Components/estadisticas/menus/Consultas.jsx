@@ -1,4 +1,5 @@
 import {
+  Autocomplete,
   Box,
   Button,
   FormControl,
@@ -14,32 +15,36 @@ import {
   TableFooter,
   TableHead,
   TableRow,
+  TextField,
 } from "@mui/material";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider, esES } from "@mui/x-date-pickers";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import React from "react";
-import { useState } from "react";
 import axios from "axios";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import { enlace } from "../../../scripts/Enlace.js";
 
-const Asistencias = () => {
+const Consultas = () => {
   const [tipoCita, setTipoCita] = useState("Todos");
-  const [consultorios, setConsultorios] = useState("Todos");
+  const [paciente, setPaciente] = useState("Todos");
   const [desde, setDesde] = useState("");
   const [hasta, setHasta] = useState("");
   const [tipoConsultas, setTipoConsultas] = useState([]);
   const [consultoriosBD, setConsultoriosBD] = useState([]);
+  const [pacientes, setPacientes] = useState([]);
   const [facturas, setFacturas] = useState([]);
   const [detalles, setDetalles] = useState([]);
 
   useEffect(() => {
     getTipoConsultas();
     getConsultorios();
+    getPacientes();
   }, []);
 
+  const getPacientes = async () => {
+    const response = await axios.get(`${enlace}/pacientes`);
+    setPacientes(response.data);
+  };
   const getTipoConsultas = async () => {
     const response = await axios.get(`${enlace}/tipoConsultas`);
     setTipoConsultas(response.data);
@@ -48,12 +53,12 @@ const Asistencias = () => {
     const response = await axios.get(`${enlace}/consultorios`);
     setConsultoriosBD(response.data);
   };
-
   const buscar = async () => {
+    var pacienteId = paciente.split(" ")[0];
     var auxDesde = formatFecha(new Date(desde.$y, desde.$M, desde.$D));
     var auxHasta = formatFecha(new Date(hasta.$y, hasta.$M, hasta.$D));
     const response = await axios.get(
-      `${enlace}/asistencias/${tipoCita}/${consultorios}/${auxDesde}/${auxHasta}`
+      `${enlace}/consultas/${pacienteId}/${tipoCita}/${auxDesde}/${auxHasta}`
     );
     setFacturas(response.data[0]);
     setDetalles(response.data[1]);
@@ -69,15 +74,40 @@ const Asistencias = () => {
       fechaDosDigitos(date.getDate()),
     ].join("-");
   };
-
   return (
-    <>
+    <div>
       <Box sx={{ flexGrow: 1 }}>
         <Grid
           container
           spacing={{ xs: 2, md: 3 }}
           columns={{ xs: 4, sm: 8, md: 12 }}
         >
+          <Grid item xs={3}>
+            <FormControl fullWidth>
+              <Autocomplete
+                required
+                freeSolo
+                id="pacientes"
+                value={paciente}
+                onChange={(e, value) => setPaciente(value)}
+                disableClearable
+                options={pacientes.map(
+                  (option) =>
+                    option.id + " -  " + option.nombres + " " + option.apellidos
+                )}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Paciente"
+                    InputProps={{
+                      ...params.InputProps,
+                      type: "search",
+                    }}
+                  />
+                )}
+              />
+            </FormControl>
+          </Grid>
           <Grid item xs={3}>
             <FormControl fullWidth>
               <InputLabel id="tipoCita-label">Tipos de cita</InputLabel>
@@ -95,25 +125,7 @@ const Asistencias = () => {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={3}>
-            <FormControl fullWidth>
-              <InputLabel id="consultorios-label">Consultorios</InputLabel>
-              <Select
-                labelId="consultorios-label"
-                id="tipoCita"
-                label="Consultorios"
-                value={consultorios}
-                onChange={(e) => setConsultorios(e.target.value)}
-              >
-                <MenuItem value={"Todos"}>Todos</MenuItem>
-                {consultoriosBD.map((consultorioBD) => (
-                  <MenuItem value={consultorioBD.id}>
-                    {consultorioBD.nombre}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
+
           <Grid item xs={3}>
             <FormControl fullWidth>
               <LocalizationProvider
@@ -238,8 +250,8 @@ const Asistencias = () => {
           </TableFooter>
         </TableContainer>
       </div>
-    </>
+    </div>
   );
 };
 
-export default Asistencias;
+export default Consultas;

@@ -12,8 +12,7 @@ import {
 import axios from "axios";
 import { useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
-
-const endpoint = "https://api.shantispawellnesslife.com/api";
+import { enlace } from "../../../scripts/Enlace.js";
 
 const FormularioHistoria = () => {
   const navigate = useNavigate();
@@ -38,7 +37,7 @@ const FormularioHistoria = () => {
   }, []);
 
   const getPacientes = async () => {
-    const response = await axios.get(`${endpoint}/pacientes`);
+    const response = await axios.get(`${enlace}/pacientes`);
     setPacientes(response.data);
   };
 
@@ -55,13 +54,13 @@ const FormularioHistoria = () => {
     setCita();
     setPaciente(value);
     const id = value.split(" ")[0];
-    const response = await axios.get(`${endpoint}/paciente/${id}`);
+    const response = await axios.get(`${enlace}/paciente/${id}`);
     setCitas(response.data.citas);
   };
 
   const llenarFicha = async () => {
     await axios
-      .post(`${endpoint}/historia`, {
+      .post(`${enlace}/historia`, {
         paciente_id: paciente.split(" ")[0],
         consulta_id: cita.split(" ")[0],
         diagnostico: diagnostico,
