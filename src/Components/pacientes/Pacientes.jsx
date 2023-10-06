@@ -3,6 +3,9 @@ import { DataGrid, esES } from "@mui/x-data-grid";
 import NavBar from "../estructura/NavBar";
 import axios from "axios";
 import { enlace } from "../../scripts/Enlace.js";
+import { Button } from "@mui/material";
+import * as FileServer from "file-saver";
+import XLSX from "sheetjs-style";
 
 const columnas = [
   { field: "id", headerName: "Historia", width: 70 },
@@ -22,15 +25,44 @@ export const Pacientes = () => {
     getPacientes();
   }, []);
 
+  const fileType =
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+  const fileExtension = ".xlsx";
+
   const getPacientes = async () => {
     const response = await axios.get(`${enlace}/pacientes`);
     setPacientes(response.data);
+  };
+
+  function s2ab(s) {
+    var buf = new ArrayBuffer(s.length);
+    var view = new Uint8Array(buf);
+    for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xff;
+    return buf;
+  }
+
+  const exportarExcel = async () => {
+    const ws = XLSX.utils.json_to_sheet(pacientes);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Pacientes");
+    var wbout = XLSX.write(wb, { bookType: "xlsx", type: "binary" });
+    FileServer.saveAs(
+      new Blob([s2ab(wbout)], { type: "application/octet-stream" }),
+      "pacientes.xlsx"
+    );
   };
 
   return (
     <NavBar>
       <h1>Lista de Pacientes</h1>
       <br />
+      <Button
+        color="success"
+        variant="contained"
+        onClick={(e) => exportarExcel()}
+      >
+        Exportar pacientes
+      </Button>
       <div style={{ height: 1000, width: "100%" }}>
         <DataGrid
           onRowClick={(e) => window.open(`/paciente/${e.row.id}`, "_blank")}
