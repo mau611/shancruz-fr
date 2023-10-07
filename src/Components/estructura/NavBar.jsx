@@ -2,7 +2,7 @@ import * as React from "react";
 import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { styled, useTheme } from "@mui/material/styles";
-import axioss from "axios";
+import axios from "axios";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
@@ -44,9 +44,9 @@ import {
   TextField,
 } from "@mui/material";
 import logoNav from "./../../navbar.png";
-import axios from "../../axios";
 import { useAuth } from "../../AuthContext";
 import { enlace } from "../../scripts/Enlace.js";
+import axioss from "../../axios.js";
 
 const drawerWidth = 240;
 
@@ -177,7 +177,7 @@ export default function NavBar({ children, titulo }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const resp = await axios.post(enlace, {
+      await axios.post(`${enlace}/paciente`, {
         nombres: state.nombres,
         apellidos: state.apellidos,
         telefono: state.telefono,
@@ -252,9 +252,9 @@ export default function NavBar({ children, titulo }) {
   useEffect(() => {
     (async () => {
       try {
-        const resp = await axios.get("/user");
+        const resp = await axioss.get(`/user`);
         if (resp.status === 200) {
-          setUser(resp.data.data);
+          setUser(resp.data);
         }
       } catch (error) {
         if (error.response.status === 401) {
@@ -273,7 +273,7 @@ export default function NavBar({ children, titulo }) {
   // logout user
   const handleLogout = async () => {
     try {
-      const resp = await axios.post("/logout");
+      const resp = await axioss.post("/logout");
       if (resp.status === 200) {
         localStorage.removeItem("user");
         window.location.href = "/";
