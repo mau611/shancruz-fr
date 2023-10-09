@@ -1,1 +1,1 @@
-export var enlace = "http://localhost:8000/api";
+export var enlace = "http://api.stilettofisio.com/api";
