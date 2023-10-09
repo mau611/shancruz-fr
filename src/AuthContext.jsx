@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
 
   // csrf token generation for guest methods
   const csrfToken = async () => {
-    await axios.get("http://api.stilettofisio.com/sanctum/csrf-cookie");
+    await axios.get("https://api.stilettofisio.com/sanctum/csrf-cookie");
     return true;
   };
 
