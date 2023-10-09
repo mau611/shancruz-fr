@@ -2,7 +2,7 @@ import React from "react";
 import { Link, Navigate } from "react-router-dom";
 import axios from "../axios";
 import { useAuth } from "../AuthContext";
-import logo from "../shanti_transparencia.png";
+import logo from "../stiletto_transparencia.png";
 import "../Components/estructura/css/inicio.css";
 import {
   Alert,

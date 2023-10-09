@@ -515,7 +515,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
           <Button
             variant="outlined"
             startIcon={<TodayIcon />}
-            sx={{ color: "#155E30", borderColor: "#155E30" }}
+            sx={{ color: "#162B4E", borderColor: "#162B4E" }}
             onClick={() =>
               (window.location = `/agenda/${
                 new Date().getFullYear() +
@@ -578,7 +578,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
         fullWidth={true}
         maxWidth={"sm"}
       >
-        <DialogTitle style={{ backgroundColor: "#155E30", color: "white" }}>
+        <DialogTitle style={{ backgroundColor: "#162B4E", color: "white" }}>
           {"Agendar cita"}
         </DialogTitle>
         <DialogContent>

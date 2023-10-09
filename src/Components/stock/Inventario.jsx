@@ -57,9 +57,9 @@ const Inventario = () => {
 
   return (
     <NavBar>
-        <h1>Control de Inventario</h1>
-        <hr />
-      <Box sx={{ flexGrow: 1, bgcolor: "background.paper"}}>
+      <h1>Control de Inventario</h1>
+      <hr />
+      <Box sx={{ flexGrow: 1, bgcolor: "background.paper" }}>
         <AppBar position="static">
           <Tabs
             value={value}
@@ -68,7 +68,7 @@ const Inventario = () => {
             textColor="inherit"
             variant="fullWidth"
             aria-label="full width tabs example"
-            style={{backgroundColor:"#155E30"}}
+            style={{ backgroundColor: "#162B4E" }}
           >
             <Tab label="Productos a la venta" {...a11yProps(0)} />
             <Tab label="Uso Gabinete" {...a11yProps(1)} />
@@ -77,13 +77,13 @@ const Inventario = () => {
         </AppBar>
         <div>
           <TabPanel value={value} index={0} dir={theme.direction}>
-            <ProductosVenta/>
+            <ProductosVenta />
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
-            <ProductosUso/>
+            <ProductosUso />
           </TabPanel>
           <TabPanel value={value} index={2} dir={theme.direction}>
-            <Proveedores/>
+            <Proveedores />
           </TabPanel>
         </div>
       </Box>

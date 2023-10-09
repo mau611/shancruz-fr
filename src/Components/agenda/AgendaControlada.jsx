@@ -57,11 +57,11 @@ const AgendaControlada = () => {
               {" "}
               <Button
                 sx={{
-                  color: "#155E30",
-                  borderColor: "#155E30",
+                  color: "#162B4E",
+                  borderColor: "#162B4E",
                   ...(area.id == id && {
                     color: "white",
-                    backgroundColor: "#155E30",
+                    backgroundColor: "#162B4E",
                   }),
                 }}
                 onClick={() =>

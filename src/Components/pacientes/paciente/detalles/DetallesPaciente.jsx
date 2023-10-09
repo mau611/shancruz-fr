@@ -122,7 +122,7 @@ const DetallesPaciente = ({ diagnosticos, paciente_id, profesionales }) => {
                   expandIcon={<ExpandMoreIcon style={{ color: "white" }} />}
                   aria-controls="panel1a-content"
                   id="panel1a-header"
-                  style={{ backgroundColor: "#155E30", color: "white" }}
+                  style={{ backgroundColor: "#162B4E", color: "white" }}
                 >
                   <Typography>{diagnostico.diagnostico}</Typography>
                 </AccordionSummary>

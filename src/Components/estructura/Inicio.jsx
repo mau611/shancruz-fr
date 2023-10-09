@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./css/inicio.css";
 import { Link } from "react-router-dom";
-import logo from "./../../shanti_transparencia.png";
+import logo from "./../../stiletto_transparencia.png";
 
 const Inicio = () => {
   const valorFecha = new Date();

@@ -1,6 +1,6 @@
 {
-  "short_name": "Shanti",
-  "name": "Shanti Spa - Wellness Life",
+  "short_name": "Stiletto",
+  "name": "Centro de fisitoerapia - Stiletto",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,12 +8,12 @@
       "type": "image/x-icon"
     },
     {
-      "src": "shanti_transparencia.png",
+      "src": "stiletto_transparencia.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "shanti_transparencia.png",
+      "src": "stiletto_transparencia.png",
       "type": "image/png",
       "sizes": "512x512"
     }

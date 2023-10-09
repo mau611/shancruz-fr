@@ -7,7 +7,7 @@ const Contabilidad = ({ citas }) => {
       <h4>Facturas pagadas</h4>
       <br />
       <Table striped bordered hover>
-        <thead style={{ backgroundColor: "#155E30", color: "white" }}>
+        <thead style={{ backgroundColor: "#162B4E", color: "white" }}>
           <tr>
             <th>Fecha</th>
             <th>Numero de factura</th>
@@ -36,7 +36,7 @@ const Contabilidad = ({ citas }) => {
       <h4>Pendientes de pago</h4>
       <br />
       <Table striped bordered hover>
-        <thead style={{ backgroundColor: "#155E30", color: "white" }}>
+        <thead style={{ backgroundColor: "#162B4E", color: "white" }}>
           <tr>
             <th>Fecha</th>
             <th>Numero de factura</th>

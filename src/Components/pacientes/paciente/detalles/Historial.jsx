@@ -44,7 +44,7 @@ const Historial = ({ citas, diagnosticos }) => {
               expandIcon={<ExpandMoreIcon style={{ color: "white" }} />}
               aria-controls="panel1a-content"
               id="panel1a-header"
-              style={{ backgroundColor: "#155E30", color: "white" }}
+              style={{ backgroundColor: "#162B4E", color: "white" }}
             >
               <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={2}>

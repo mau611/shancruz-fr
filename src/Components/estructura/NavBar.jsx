@@ -289,7 +289,7 @@ export default function NavBar({ children, titulo }) {
       <AppBar
         position="fixed"
         open={open}
-        style={{ backgroundColor: "#155E30" }}
+        style={{ backgroundColor: "#162B4E" }}
       >
         <Toolbar>
           <IconButton
@@ -506,7 +506,7 @@ export default function NavBar({ children, titulo }) {
         <DrawerHeader />
         <Dialog open={openModal} onClose={handleCloseModal}>
           <form onSubmit={handleSubmit} method="post">
-            <DialogTitle style={{ backgroundColor: "#155E30", color: "white" }}>
+            <DialogTitle style={{ backgroundColor: "#162B4E", color: "white" }}>
               Registro de paciente
             </DialogTitle>
             <DialogContent>

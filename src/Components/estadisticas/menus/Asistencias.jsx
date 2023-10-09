@@ -162,7 +162,7 @@ const Asistencias = () => {
       <div>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead style={{ backgroundColor: "#155E30" }}>
+            <TableHead style={{ backgroundColor: "#162B4E" }}>
               <TableRow>
                 <TableCell style={{ fontWeight: "bold", color: "white" }}>
                   Nombre

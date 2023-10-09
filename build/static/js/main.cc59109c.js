@@ -69410,7 +69410,7 @@
             (0, a.jsx)(NM, {
               position: "fixed",
               open: c,
-              style: { backgroundColor: "#155E30" },
+              style: { backgroundColor: "#162B4E" },
               children: (0, a.jsxs)(wk, {
                 children: [
                   (0, a.jsx)(kx, {
@@ -69613,7 +69613,7 @@
                     method: "post",
                     children: [
                       (0, a.jsx)(ay, {
-                        style: { backgroundColor: "#155E30", color: "white" },
+                        style: { backgroundColor: "#162B4E", color: "white" },
                         children: "Registro de paciente",
                       }),
                       (0, a.jsxs)(cy, {
@@ -70608,7 +70608,7 @@
                     children: (0, a.jsx)(Fg, {
                       variant: "outlined",
                       startIcon: (0, a.jsx)(BM.Z, {}),
-                      sx: { color: "#155E30", borderColor: "#155E30" },
+                      sx: { color: "#162B4E", borderColor: "#162B4E" },
                       onClick: function () {
                         return (window.location = "/agenda/"
                           .concat(
@@ -70684,7 +70684,7 @@
                 maxWidth: "sm",
                 children: [
                   (0, a.jsx)(ay, {
-                    style: { backgroundColor: "#155E30", color: "white" },
+                    style: { backgroundColor: "#162B4E", color: "white" },
                     children: "Agendar cita",
                   }),
                   (0, a.jsxs)(cy, {
@@ -97718,7 +97718,7 @@
                       textColor: "inherit",
                       variant: "fullWidth",
                       "aria-label": "full width tabs example",
-                      style: { backgroundColor: "#155E30" },
+                      style: { backgroundColor: "#162B4E" },
                       children: [
                         (0, a.jsx)(
                           Hy,
@@ -98796,7 +98796,7 @@
                       textColor: "inherit",
                       variant: "fullWidth",
                       "aria-label": "full width tabs example",
-                      style: { backgroundColor: "#155E30" },
+                      style: { backgroundColor: "#162B4E" },
                       children: [
                         (0, a.jsx)(
                           Hy,
@@ -101920,7 +101920,7 @@
                                   "aria-controls": "panel1a-content",
                                   id: "panel1a-header",
                                   style: {
-                                    backgroundColor: "#155E30",
+                                    backgroundColor: "#162B4E",
                                     color: "white",
                                   },
                                   children: (0, a.jsx)(Qb, {
@@ -102159,7 +102159,7 @@
                 hover: !0,
                 children: [
                   (0, a.jsx)("thead", {
-                    style: { backgroundColor: "#155E30", color: "white" },
+                    style: { backgroundColor: "#162B4E", color: "white" },
                     children: (0, a.jsxs)("tr", {
                       children: [
                         (0, a.jsx)("th", { children: "Fecha" }),
@@ -102210,7 +102210,7 @@
                 hover: !0,
                 children: [
                   (0, a.jsx)("thead", {
-                    style: { backgroundColor: "#155E30", color: "white" },
+                    style: { backgroundColor: "#162B4E", color: "white" },
                     children: (0, a.jsxs)("tr", {
                       children: [
                         (0, a.jsx)("th", { children: "Fecha" }),
@@ -102423,7 +102423,7 @@
                               "aria-controls": "panel1a-content",
                               id: "panel1a-header",
                               style: {
-                                backgroundColor: "#155E30",
+                                backgroundColor: "#162B4E",
                                 color: "white",
                               },
                               children: (0, a.jsx)(rk, {
@@ -107991,7 +107991,7 @@
                           children: [
                             " ",
                             (0, a.jsx)(Fg, {
-                              sx: { color: "#155E30", borderColor: "#155E30" },
+                              sx: { color: "#162B4E", borderColor: "#162B4E" },
                               onClick: function () {
                                 return (window.location = "/agenda/"
                                   .concat(n, "/")
