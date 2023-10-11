@@ -8,6 +8,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Table from "react-bootstrap/Table";
+import PropTypes from "prop-types";
 
 import moment from "moment";
 
@@ -22,6 +23,7 @@ import React, {
 import axios from "axios";
 import {
   Autocomplete,
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -38,6 +40,7 @@ import {
   Tab,
   Tabs,
   TextField,
+  Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
@@ -138,6 +141,25 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
   const [profesionalId, setProfesionalId] = useState("");
   const [numerosTarjeta, setNumerosTarjeta] = useState(null);
   const [pagoTarjeta, setPagoTarjeta] = useState(true);
+  //variables creacion pacientes
+  const [state, setState] = React.useState({
+    nombres: "",
+    apellidos: "",
+    telefono: "",
+    fecha_nacimiento: "",
+    ci: "",
+    sexo: "",
+    direccion: "",
+    referencia: "",
+  });
+  const [nombresError, setNombresError] = React.useState(null);
+  const [apellidosError, setApellidosError] = React.useState(null);
+  const [telefonoError, setTelefonoError] = React.useState(null);
+  const [nacimientoError, setNacimientoError] = React.useState(null);
+  const [ciError, setCiError] = React.useState(null);
+  const [sexoError, setSexoError] = React.useState(null);
+  const [direccionError, setDireccionError] = React.useState(null);
+  const [referenciaError, setReferenciaError] = React.useState(null);
 
   //variables de bonos
   const [nombreBono, setNombreBono] = useState("");
@@ -229,6 +251,15 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
   const navigate = useNavigate();
   const clickRef = useRef(null);
 
+  const handleChange = (value, name) => {
+    setState((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+  };
+
   const borrarCita = async () => {
     await axios.delete(`${enlace}/consulta/${selectEventId}`);
     handleCloseDetallePaciente();
@@ -298,6 +329,25 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
     setDetallesError("");
     setEstadoCitaError("");
     setAgendadoPorError("");
+    setTabAgendar(0);
+    setNombresError("");
+    setApellidosError("");
+    setTelefonoError("");
+    setNacimientoError("");
+    setCiError("");
+    setSexoError("");
+    setDireccionError("");
+    setReferenciaError("");
+    setState({
+      nombres: "",
+      apellidos: "",
+      telefono: "",
+      fecha_nacimiento: "",
+      ci: "",
+      sexo: "",
+      direccion: "",
+      referencia: "",
+    });
   };
 
   const handleChangeMultiple = (event) => {
@@ -440,50 +490,149 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
   };
 
   const handleGuardar = async () => {
-    const p = "" + paciente;
-    const tc = "" + tipoConsulta;
-    const ec = "" + estadoCita;
-    const pi = "" + profesionalId;
-    try {
-      await axios.post(`${enlace}/consulta`, {
-        title: "" + detalleTratamiento,
-        start: "" + new Date(detalleEvento.start).toISOString(),
-        end: "" + new Date(detalleEvento.end).toISOString(),
-        estado: estadoCita,
-        id: detalleEvento.resourceId,
-        paciente_id: p.split(" ")[0],
-        tipoConsulta_id: tc.split(" ")[0],
-        estadoConsulta_id: ec.split(" ")[0],
-        profesional_id: pi.split(" ")[0],
-      });
-      handleClose();
-      getEventosBD();
-    } catch (error) {
-      if (error.response.status === 422) {
-        if (error.response.data.errors.paciente_id) {
-          setPacienteError(error.response.data.errors.paciente_id[0]);
-        } else {
-          setPacienteError("");
+    if (tabAgendar == 1) {
+      try {
+        const p = "" + paciente;
+        const tc = "" + tipoConsulta;
+        const ec = "" + estadoCita;
+        const pi = "" + profesionalId;
+        const resp = await axios.post(`${enlace}/consulta_paciente`, {
+          nombres: state.nombres,
+          apellidos: state.apellidos,
+          telefono: state.telefono,
+          fecha_nacimiento: state.fecha_nacimiento,
+          ci: state.ci,
+          sexo: state.sexo,
+          direccion: state.direccion,
+          referencia: state.referencia,
+          fecha_registro:
+            new Date().getFullYear() +
+            "/" +
+            (new Date().getMonth() + 1) +
+            "/" +
+            new Date().getDate(),
+          title: "" + detalleTratamiento,
+          start: "" + new Date(detalleEvento.start).toISOString(),
+          end: "" + new Date(detalleEvento.end).toISOString(),
+          estado: estadoCita,
+          id: detalleEvento.resourceId,
+          tipoConsulta_id: tc.split(" ")[0],
+          estadoConsulta_id: ec.split(" ")[0],
+          profesional_id: pi.split(" ")[0],
+        });
+        handleClose();
+        getPacientes();
+        getEventosBD();
+      } catch (error) {
+        if (error.response.status === 422) {
+          if (error.response.data.errors.nombres) {
+            setNombresError(error.response.data.errors.nombres[0]);
+          } else {
+            setNombresError("");
+          }
+          if (error.response.data.errors.apellidos) {
+            setApellidosError(error.response.data.errors.apellidos[0]);
+          } else {
+            setApellidosError("");
+          }
+          if (error.response.data.errors.telefono) {
+            setTelefonoError(error.response.data.errors.telefono[0]);
+          } else {
+            setTelefonoError("");
+          }
+          if (error.response.data.errors.fecha_nacimiento) {
+            setNacimientoError(error.response.data.errors.fecha_nacimiento[0]);
+          } else {
+            setNacimientoError("");
+          }
+          if (error.response.data.errors.ci) {
+            setCiError(error.response.data.errors.ci[0]);
+          } else {
+            setCiError("");
+          }
+          if (error.response.data.errors.sexo) {
+            setSexoError(error.response.data.errors.sexo[0]);
+          } else {
+            setSexoError("");
+          }
+          if (error.response.data.errors.direccion) {
+            setDireccionError(error.response.data.errors.direccion[0]);
+          } else {
+            setDireccionError("");
+          }
+          if (error.response.data.errors.referencia) {
+            setReferenciaError(error.response.data.errors.referencia[0]);
+          } else {
+            setReferenciaError("");
+          }
+          if (error.response.data.errors.tipoConsulta_id) {
+            setTipoConsultaError(error.response.data.errors.tipoConsulta_id[0]);
+          } else {
+            setTipoConsultaError("");
+          }
+          if (error.response.data.errors.title) {
+            setDetallesError(error.response.data.errors.title[0]);
+          } else {
+            setDetallesError("");
+          }
+          if (error.response.data.errors.estadoConsulta_id) {
+            setEstadoCitaError(error.response.data.errors.estadoConsulta_id[0]);
+          } else {
+            setEstadoCitaError("");
+          }
+          if (error.response.data.errors.profesional_id) {
+            setAgendadoPorError(error.response.data.errors.profesional_id[0]);
+          } else {
+            setAgendadoPorError("");
+          }
         }
-        if (error.response.data.errors.tipoConsulta_id) {
-          setTipoConsultaError(error.response.data.errors.tipoConsulta_id[0]);
-        } else {
-          setTipoConsultaError("");
-        }
-        if (error.response.data.errors.title) {
-          setDetallesError(error.response.data.errors.title[0]);
-        } else {
-          setDetallesError("");
-        }
-        if (error.response.data.errors.estadoConsulta_id) {
-          setEstadoCitaError(error.response.data.errors.estadoConsulta_id[0]);
-        } else {
-          setEstadoCitaError("");
-        }
-        if (error.response.data.errors.profesional_id) {
-          setAgendadoPorError(error.response.data.errors.profesional_id[0]);
-        } else {
-          setAgendadoPorError("");
+      }
+    } else {
+      const p = "" + paciente;
+      const tc = "" + tipoConsulta;
+      const ec = "" + estadoCita;
+      const pi = "" + profesionalId;
+      try {
+        await axios.post(`${enlace}/consulta`, {
+          title: "" + detalleTratamiento,
+          start: "" + new Date(detalleEvento.start).toISOString(),
+          end: "" + new Date(detalleEvento.end).toISOString(),
+          estado: estadoCita,
+          id: detalleEvento.resourceId,
+          paciente_id: p.split(" ")[0],
+          tipoConsulta_id: tc.split(" ")[0],
+          estadoConsulta_id: ec.split(" ")[0],
+          profesional_id: pi.split(" ")[0],
+        });
+        handleClose();
+        getEventosBD();
+      } catch (error) {
+        if (error.response.status === 422) {
+          if (error.response.data.errors.paciente_id) {
+            setPacienteError(error.response.data.errors.paciente_id[0]);
+          } else {
+            setPacienteError("");
+          }
+          if (error.response.data.errors.tipoConsulta_id) {
+            setTipoConsultaError(error.response.data.errors.tipoConsulta_id[0]);
+          } else {
+            setTipoConsultaError("");
+          }
+          if (error.response.data.errors.title) {
+            setDetallesError(error.response.data.errors.title[0]);
+          } else {
+            setDetallesError("");
+          }
+          if (error.response.data.errors.estadoConsulta_id) {
+            setEstadoCitaError(error.response.data.errors.estadoConsulta_id[0]);
+          } else {
+            setEstadoCitaError("");
+          }
+          if (error.response.data.errors.profesional_id) {
+            setAgendadoPorError(error.response.data.errors.profesional_id[0]);
+          } else {
+            setAgendadoPorError("");
+          }
         }
       }
     }
@@ -505,6 +654,19 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
   const [tabAgendar, setTabAgendar] = React.useState(0);
 
   const handleChangeTabAgendar = (event, newValue) => {
+    setPacienteError("");
+    setTipoConsultaError("");
+    setDetallesError("");
+    setEstadoCitaError("");
+    setAgendadoPorError("");
+    setNombresError("");
+    setApellidosError("");
+    setTelefonoError("");
+    setNacimientoError("");
+    setCiError("");
+    setSexoError("");
+    setDireccionError("");
+    setReferenciaError("");
     setTabAgendar(newValue);
   };
 
@@ -591,172 +753,432 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
               icon={<PermContactCalendarIcon />}
               iconPosition="start"
               label="Paciente existente"
+              {...a11yProps(0)}
             />
             <Tab
               icon={<PersonAddAlt1Icon />}
               iconPosition="start"
               label="Nuevo paciente"
+              {...a11yProps(1)}
             />
           </Tabs>
-          <DialogContentText id="alert-dialog-slide-description">
-            En esta ventana podr&aacute;s agendar una cita.
-          </DialogContentText>
-          <br />
-          <Autocomplete
-            required
-            freeSolo
-            id="pacientes"
-            value={paciente}
-            onChange={(e, value) => setPaciente(value)}
-            disableClearable
-            options={pacientes.map(
-              (option) =>
-                option.id + " -  " + option.nombres + " " + option.apellidos
-            )}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Paciente"
-                InputProps={{
-                  ...params.InputProps,
-                  type: "search",
+          <CustomTabPanel value={tabAgendar} index={0}>
+            <Autocomplete
+              required
+              freeSolo
+              id="pacientes"
+              value={paciente}
+              onChange={(e, value) => setPaciente(value)}
+              disableClearable
+              options={pacientes.map(
+                (option) =>
+                  option.id + " -  " + option.nombres + " " + option.apellidos
+              )}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Paciente"
+                  InputProps={{
+                    ...params.InputProps,
+                    type: "search",
+                  }}
+                />
+              )}
+            />
+            {pacienteError && (
+              <p
+                style={{
+                  fontSize: "0.875rem",
+                  lineHeight: "1.25rem",
+                  color: "#DC2626",
                 }}
-              />
+              >
+                {pacienteError}
+              </p>
             )}
-          />
-          {pacienteError && (
-            <p
-              style={{
-                fontSize: "0.875rem",
-                lineHeight: "1.25rem",
-                color: "#DC2626",
-              }}
-            >
-              {pacienteError}
-            </p>
-          )}
-          <br />
-          <Autocomplete
-            required
-            freeSolo
-            id="TipoConsulta"
-            value={tipoConsulta}
-            onChange={(e, value) => setTipoConsulta(value)}
-            disableClearable
-            options={tipoConsultas.map(
-              (option) => option.id + " -  " + option.nombre
-            )}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Tipo consulta"
-                InputProps={{
-                  ...params.InputProps,
-                  type: "search",
+            <br />
+            <Autocomplete
+              required
+              freeSolo
+              id="TipoConsulta"
+              value={tipoConsulta}
+              onChange={(e, value) => setTipoConsulta(value)}
+              disableClearable
+              options={tipoConsultas.map(
+                (option) => option.id + " -  " + option.nombre
+              )}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Tipo consulta"
+                  InputProps={{
+                    ...params.InputProps,
+                    type: "search",
+                  }}
+                />
+              )}
+            />
+            {tipoConsultaError && (
+              <p
+                style={{
+                  fontSize: "0.875rem",
+                  lineHeight: "1.25rem",
+                  color: "#DC2626",
                 }}
-              />
+              >
+                {tipoConsultaError}
+              </p>
             )}
-          />
-          {tipoConsultaError && (
-            <p
-              style={{
-                fontSize: "0.875rem",
-                lineHeight: "1.25rem",
-                color: "#DC2626",
-              }}
-            >
-              {tipoConsultaError}
-            </p>
-          )}
-          <br />
-          <TextField
-            required
-            onChange={(e) => setDetalleTratamiento(e.target.value)}
-            value={detalleTratamiento}
-            id="detallesTratamiento"
-            name="detalles"
-            label="Procedimiento a realizar"
-            multiline
-            fullWidth
-          />
-          {detallesError && (
-            <p
-              style={{
-                fontSize: "0.875rem",
-                lineHeight: "1.25rem",
-                color: "#DC2626",
-              }}
-            >
-              {detallesError}
-            </p>
-          )}
-          <br />
-          <br />
-          <Autocomplete
-            required
-            freeSolo
-            id="estadoCita"
-            value={estadoCita}
-            onChange={(e, value) => setEstadoCita(value)}
-            disableClearable
-            options={estadoCitas.map(
-              (option) => option.id + " -  " + option.estado
-            )}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Estado de la cita"
-                InputProps={{
-                  ...params.InputProps,
-                  type: "search",
+            <br />
+            <TextField
+              required
+              onChange={(e) => setDetalleTratamiento(e.target.value)}
+              value={detalleTratamiento}
+              id="detallesTratamiento"
+              name="detalles"
+              label="Procedimiento a realizar"
+              multiline
+              fullWidth
+            />
+            {detallesError && (
+              <p
+                style={{
+                  fontSize: "0.875rem",
+                  lineHeight: "1.25rem",
+                  color: "#DC2626",
                 }}
-              />
+              >
+                {detallesError}
+              </p>
             )}
-          />
-          {estadoCitaError && (
-            <p
-              style={{
-                fontSize: "0.875rem",
-                lineHeight: "1.25rem",
-                color: "#DC2626",
-              }}
-            >
-              {estadoCitaError}
-            </p>
-          )}
-          <br />
-          <Autocomplete
-            required
-            freeSolo
-            id="agendadoPor"
-            value={profesionalId}
-            onChange={(e, value) => setProfesionalId(value)}
-            disableClearable
-            options={profesionales.map(
-              (option) => option.id + " -  " + option.nombre
-            )}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Agendado por:"
-                InputProps={{
-                  ...params.InputProps,
-                  type: "search",
+            <br />
+            <br />
+            <Autocomplete
+              required
+              freeSolo
+              id="estadoCita"
+              value={estadoCita}
+              onChange={(e, value) => setEstadoCita(value)}
+              disableClearable
+              options={estadoCitas.map(
+                (option) => option.id + " -  " + option.estado
+              )}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Estado de la cita"
+                  InputProps={{
+                    ...params.InputProps,
+                    type: "search",
+                  }}
+                />
+              )}
+            />
+            {estadoCitaError && (
+              <p
+                style={{
+                  fontSize: "0.875rem",
+                  lineHeight: "1.25rem",
+                  color: "#DC2626",
                 }}
-              />
+              >
+                {estadoCitaError}
+              </p>
             )}
-          />
-          {agendadoPorError && (
-            <p
-              style={{
-                fontSize: "0.875rem",
-                lineHeight: "1.25rem",
-                color: "#DC2626",
-              }}
-            >
-              {agendadoPorError}
-            </p>
-          )}
+            <br />
+            <Autocomplete
+              required
+              freeSolo
+              id="agendadoPor"
+              value={profesionalId}
+              onChange={(e, value) => setProfesionalId(value)}
+              disableClearable
+              options={profesionales.map(
+                (option) => option.id + " -  " + option.nombre
+              )}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Agendado por:"
+                  InputProps={{
+                    ...params.InputProps,
+                    type: "search",
+                  }}
+                />
+              )}
+            />
+            {agendadoPorError && (
+              <p
+                style={{
+                  fontSize: "0.875rem",
+                  lineHeight: "1.25rem",
+                  color: "#DC2626",
+                }}
+              >
+                {agendadoPorError}
+              </p>
+            )}
+          </CustomTabPanel>
+          <CustomTabPanel value={tabAgendar} index={1}>
+            <Box sx={{ flexGrow: 0, marginTop: -5 }}>
+              <Grid container spacing={2}>
+                <Grid item sm={6} xs={12}>
+                  <TextField
+                    helperText={nombresError}
+                    error={nombresError ? true : false}
+                    autoFocus
+                    margin="dense"
+                    id="nombres"
+                    name="nombres"
+                    label="Nombres"
+                    type="text"
+                    fullWidth
+                    required
+                    variant="standard"
+                    onChange={(e) => handleChange(e.target.value, "nombres")}
+                  />
+                </Grid>
+                <Grid item sm={6} xs={12}>
+                  <TextField
+                    helperText={apellidosError}
+                    error={apellidosError ? true : false}
+                    autoFocus
+                    margin="dense"
+                    id="apellidos"
+                    name="apellidos"
+                    label="Apellidos"
+                    type="text"
+                    fullWidth
+                    required
+                    variant="standard"
+                    onChange={(e) => handleChange(e.target.value, "apellidos")}
+                  />
+                </Grid>
+                <Grid item sm={6} xs={12}>
+                  <TextField
+                    helperText={telefonoError}
+                    error={telefonoError ? true : false}
+                    autoFocus
+                    margin="dense"
+                    id="telefono"
+                    name="telefono"
+                    label="telefono"
+                    type="text"
+                    fullWidth
+                    required
+                    variant="standard"
+                    onChange={(e) => handleChange(e.target.value, "telefono")}
+                  />
+                </Grid>
+                <Grid item sm={6} xs={12}>
+                  <TextField
+                    helperText={nacimientoError}
+                    error={nacimientoError ? true : false}
+                    label="fecha de nacimiento"
+                    autoFocus
+                    margin="dense"
+                    id="fecha_nacimiento"
+                    name="fecha_nacimiento"
+                    type="date"
+                    className="date"
+                    fullWidth
+                    required
+                    variant="standard"
+                    InputLabelProps={{ shrink: true }}
+                    onChange={(e) =>
+                      handleChange(e.target.value, "fecha_nacimiento")
+                    }
+                  />
+                </Grid>
+                <Grid item sm={6} xs={12}>
+                  <TextField
+                    helperText={ciError}
+                    error={ciError ? true : false}
+                    autoFocus
+                    margin="dense"
+                    id="ci"
+                    name="ci"
+                    label="Carnet de Identidad"
+                    type="text"
+                    fullWidth
+                    required
+                    variant="standard"
+                    onChange={(e) => handleChange(e.target.value, "ci")}
+                  />
+                </Grid>
+                <Grid item sm={6} xs={12}>
+                  <TextField
+                    helperText={sexoError}
+                    error={sexoError ? true : false}
+                    id="sexo"
+                    type={"select"}
+                    fullWidth
+                    select
+                    label="Sexo"
+                    value={state.sexo}
+                    onChange={(e) => handleChange(e.target.value, "sexo")}
+                  >
+                    <MenuItem value={"masculino"}>Masculino</MenuItem>
+                    <MenuItem value={"femenino"}>Femenino</MenuItem>
+                  </TextField>
+                </Grid>
+                <Grid item sm={6} xs={12}>
+                  <TextField
+                    helperText={direccionError}
+                    error={direccionError ? true : false}
+                    autoFocus
+                    margin="dense"
+                    id="direccion"
+                    name="direccion"
+                    label="Direccion"
+                    type="text"
+                    fullWidth
+                    required
+                    variant="standard"
+                    onChange={(e) => handleChange(e.target.value, "direccion")}
+                  />
+                </Grid>
+                <Grid item sm={6} xs={12}>
+                  <TextField
+                    helperText={referenciaError}
+                    error={referenciaError ? true : false}
+                    autoFocus
+                    margin="dense"
+                    id="referencia"
+                    name="referencia"
+                    label="Como nos conoció"
+                    type="text"
+                    fullWidth
+                    required
+                    variant="standard"
+                    onChange={(e) => handleChange(e.target.value, "referencia")}
+                  />
+                </Grid>
+              </Grid>
+            </Box>
+            <hr />
+            <Autocomplete
+              required
+              freeSolo
+              id="TipoConsulta"
+              value={tipoConsulta}
+              onChange={(e, value) => setTipoConsulta(value)}
+              disableClearable
+              options={tipoConsultas.map(
+                (option) => option.id + " -  " + option.nombre
+              )}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Tipo consulta"
+                  InputProps={{
+                    ...params.InputProps,
+                    type: "search",
+                  }}
+                />
+              )}
+            />
+            {tipoConsultaError && (
+              <p
+                style={{
+                  fontSize: "0.875rem",
+                  lineHeight: "1.25rem",
+                  color: "#DC2626",
+                }}
+              >
+                {tipoConsultaError}
+              </p>
+            )}
+            <br />
+            <TextField
+              required
+              onChange={(e) => setDetalleTratamiento(e.target.value)}
+              value={detalleTratamiento}
+              id="detallesTratamiento"
+              name="detalles"
+              label="Procedimiento a realizar"
+              multiline
+              fullWidth
+            />
+            {detallesError && (
+              <p
+                style={{
+                  fontSize: "0.875rem",
+                  lineHeight: "1.25rem",
+                  color: "#DC2626",
+                }}
+              >
+                {detallesError}
+              </p>
+            )}
+            <br />
+            <br />
+            <Autocomplete
+              required
+              freeSolo
+              id="estadoCita"
+              value={estadoCita}
+              onChange={(e, value) => setEstadoCita(value)}
+              disableClearable
+              options={estadoCitas.map(
+                (option) => option.id + " -  " + option.estado
+              )}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Estado de la cita"
+                  InputProps={{
+                    ...params.InputProps,
+                    type: "search",
+                  }}
+                />
+              )}
+            />
+            {estadoCitaError && (
+              <p
+                style={{
+                  fontSize: "0.875rem",
+                  lineHeight: "1.25rem",
+                  color: "#DC2626",
+                }}
+              >
+                {estadoCitaError}
+              </p>
+            )}
+            <br />
+            <Autocomplete
+              required
+              freeSolo
+              id="agendadoPor"
+              value={profesionalId}
+              onChange={(e, value) => setProfesionalId(value)}
+              disableClearable
+              options={profesionales.map(
+                (option) => option.id + " -  " + option.nombre
+              )}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Agendado por:"
+                  InputProps={{
+                    ...params.InputProps,
+                    type: "search",
+                  }}
+                />
+              )}
+            />
+            {agendadoPorError && (
+              <p
+                style={{
+                  fontSize: "0.875rem",
+                  lineHeight: "1.25rem",
+                  color: "#DC2626",
+                }}
+              >
+                {agendadoPorError}
+              </p>
+            )}
+          </CustomTabPanel>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancelar</Button>
@@ -1053,3 +1475,36 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
 };
 
 export default Agenda;
+
+function CustomTabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+CustomTabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
