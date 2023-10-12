@@ -20,6 +20,9 @@ import FacturaServicioEdit from "./Components/cuentas/facturaServicio/FacturaSer
 import AgregarDetalleProducto from "./Components/stock/detalleProducto/AgregarDetalleProducto";
 import UsoGabinete from "./Components/stock/usoGabinete/UsoGabinete";
 import AgendaControlada from "./Components/agenda/AgendaControlada";
+import EditarProductoVentaProductos from "./Components/stock/cuadroVentaProductos/EditarProductoVentaProductos";
+import EditarDetalleUsoGabinete from "./Components/stock/usoGabinete/EditarDetalleUsoGabinete";
+import EditarProveedor from "./Components/stock/proveedores/EditarProveedor";
 
 const router = createBrowserRouter([
   {
@@ -84,6 +87,18 @@ const router = createBrowserRouter([
       {
         path: "/actualizar_producto_uso/:id",
         element: <UsoGabinete />,
+      },
+      {
+        path: "/actualizar_producto_venta/:id",
+        element: <EditarProductoVentaProductos />,
+      },
+      {
+        path: "/actualizar_producto_uso_gabinete/:id",
+        element: <EditarDetalleUsoGabinete />,
+      },
+      {
+        path: "/editar_proveedor/:id",
+        element: <EditarProveedor />,
       },
       {
         path: "/tienda",

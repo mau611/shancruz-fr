@@ -146,7 +146,7 @@ const ProductosVenta = () => {
 
   return (
     <Fragment>
-      <div>Productos Venta</div>
+      <h1>Productos Venta</h1>
       <div style={{ height: 600, width: "100%" }}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -216,12 +216,9 @@ const ProductosVenta = () => {
                   <TableCell>
                     {row.ingresos.map((ingreso) => (
                       <p>
-                        <IconButton
-                          aria-label="editar"
-                          onClick={handleClickOpenVenta}
-                        >
+                        <Link to={`/actualizar_producto_venta/${ingreso.id}`}>
                           <EditIcon fontSize="small" color="secondary" />
-                        </IconButton>
+                        </Link>
                       </p>
                     ))}
                   </TableCell>
@@ -230,9 +227,7 @@ const ProductosVenta = () => {
             </TableBody>
           </Table>
         </TableContainer>
-      </div>
-      <br />
-      <div>
+        <hr />
         <Button variant="outlined" onClick={handleClickOpen}>
           Agregar Producto
         </Button>
@@ -347,26 +342,6 @@ const ProductosVenta = () => {
           <DialogActions>
             <Button onClick={handleClose}>Cancelar</Button>
             <Button onClick={handleAgregarProducto}>Guardar</Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-      <div>
-        <Dialog open={openVenta} onClose={handleClose}>
-          <DialogTitle>Vender Producto</DialogTitle>
-          <DialogContent>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Seleccionar Producto"
-              type="email"
-              fullWidth
-              variant="standard"
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseVenta}>Cancelar</Button>
-            <Button onClick={handleCloseVenta}>Vender</Button>
           </DialogActions>
         </Dialog>
       </div>
