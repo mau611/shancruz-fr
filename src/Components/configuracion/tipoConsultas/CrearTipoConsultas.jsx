@@ -6,16 +6,19 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useNavigate } from "react-router-dom";
-import { DataGrid } from "@mui/x-data-grid";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { enlace } from "../../../scripts/Enlace.js";
-
-const Columnas = [
-  { field: "id", headerName: "ID", width: 70 },
-  { field: "nombre", headerName: "Tipo de consulta", width: 130 },
-  { field: "color", headerName: "Color", width: 130 },
-];
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
 
 const CrearTratamientos = () => {
   const [state, setState] = useState({
@@ -66,13 +69,37 @@ const CrearTratamientos = () => {
 
   return (
     <div style={{ height: 400, width: "100%" }}>
-      <DataGrid
-        rows={tipoConsultas}
-        columns={Columnas}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
-      />
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>Nombre</TableCell>
+              <TableCell>Color</TableCell>
+              <TableCell>Acciones</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {tipoConsultas.map((row) => (
+              <TableRow
+                key={row.name}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {row.id}
+                </TableCell>
+                <TableCell align="">{row.nombre}</TableCell>
+                <TableCell align="">{row.color}</TableCell>
+                <TableCell>
+                  <Link to={`/editar_tipo_consulta/${row.id}`}>
+                    <EditIcon fontSize="small" color="secondary" />
+                  </Link>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
       <div>
         <Button variant="outlined" onClick={handleClickOpen}>
           Agregar Tipo de consulta
