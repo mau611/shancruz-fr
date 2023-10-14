@@ -44,7 +44,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PriceCheckIcon from "@mui/icons-material/PriceCheck";
 import TodayIcon from "@mui/icons-material/Today";
 import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
@@ -141,6 +141,8 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
   const [profesionalId, setProfesionalId] = useState("");
   const [numerosTarjeta, setNumerosTarjeta] = useState(null);
   const [pagoTarjeta, setPagoTarjeta] = useState(true);
+
+  const [ultimosPagos, setUltimosPagos] = useState([]);
   //variables creacion pacientes
   const [state, setState] = React.useState({
     nombres: "",
@@ -285,6 +287,13 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
     setAuxFacturas(facturas);
     setAuxTratamiento(tratamiento);
     setAuxTelefono(telefono);
+    getUltimasFacturas(pacienteEvento.id);
+  };
+
+  const getUltimasFacturas = async (pacId) => {
+    const response = await axios.get(`${enlace}/ultimasFacturas/${pacId}`);
+    setUltimosPagos(response.data);
+    console.log("factuas", response.data);
   };
 
   const cambiarEstadoCita = async (estadoId) => {
@@ -307,6 +316,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
     setNumerosTarjeta(null);
     setAuxTratamiento("");
     setAuxTelefono("");
+    setUltimosPagos([]);
   };
 
   const getPacienteCita = (paciente) => {
@@ -1441,7 +1451,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
                   <Table striped bordered hover size="sm">
                     <thead>
                       <tr>
-                        <th>Factura No</th>
+                        <th>Factura No (Ver)</th>
                         <th>Total</th>
                         <th>Estado pago</th>
                         <th>Detalles</th>
@@ -1450,7 +1460,11 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
                     <tbody>
                       {auxFacturas.map((factura) => (
                         <tr>
-                          <td>{factura.numero}</td>
+                          <td>
+                            <Link to={`/factura_edit/${factura.id}`}>
+                              {factura.numero}
+                            </Link>
+                          </td>
                           <td>{factura.total} Bs</td>
                           <td>{factura.estado_pago}</td>
                           <td>{factura.detalles_pago}</td>
@@ -1462,6 +1476,32 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
               </Accordion.Item>
               <Accordion.Item eventKey="3">
                 <Accordion.Header>Historial de pagos</Accordion.Header>
+                <Accordion.Body>
+                  <Table striped bordered hover size="sm">
+                    <thead>
+                      <tr>
+                        <th>Factura No (Ver)</th>
+                        <th>Total</th>
+                        <th>Fecha</th>
+                        <th>Detalles</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {ultimosPagos.map((factura) => (
+                        <tr>
+                          <td>
+                            <Link to={`/factura_edit/${factura.id}`}>
+                              {factura.numero}
+                            </Link>
+                          </td>
+                          <td>{factura.total} Bs</td>
+                          <td>{factura.fecha}</td>
+                          <td>{factura.detalles_pago}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </Accordion.Body>
               </Accordion.Item>
             </Accordion>
           </DialogContent>

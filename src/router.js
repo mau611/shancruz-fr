@@ -139,7 +139,7 @@ const router = createBrowserRouter([
         element: <EditarServicio />,
       },
       {
-        path: "/facturaEdit/:id",
+        path: "/factura_edit/:id",
         element: <FacturaServicioEdit />,
       },
       {
