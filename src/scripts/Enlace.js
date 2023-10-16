@@ -1,2 +1,2 @@
-export var enlace = "https://stilettofisio.com/api";
-export var enlace2 = "https://stilettofisio.com";
+export var enlace = "https://api.stilettofisio.com/api";
+export var enlace2 = "https://api.stilettofisio.com";
