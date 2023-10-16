@@ -73,7 +73,7 @@ const Index = () => {
             textColor="inherit"
             variant="fullWidth"
             aria-label="full width tabs example"
-            style={{ backgroundColor: "#155E30" }}
+            style={{ backgroundColor: "#162B4E" }}
           >
             <Tab label="Areas" {...a11yProps(0)} />
             <Tab label="Gabinetes" {...a11yProps(1)} />
@@ -86,21 +86,6 @@ const Index = () => {
         </AppBar>
         <div>
           <TabPanel value={value} index={0} dir={theme.direction}>
-            <CrearGabinetes />
-          </TabPanel>
-          <TabPanel value={value} index={1} dir={theme.direction}>
-            <CrearTipoConsulta />
-          </TabPanel>
-          <TabPanel value={value} index={2} dir={theme.direction}>
-            <CrearEstadoCita />
-          </TabPanel>
-          <TabPanel value={value} index={3} dir={theme.direction}>
-            <Licenciados />
-          </TabPanel>
-          <TabPanel value={value} index={4} dir={theme.direction}>
-            <Servicios />
-          </TabPanel>
-          <TabPanel value={value} index={5} dir={theme.direction}>
             <Areas />
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
