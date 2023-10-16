@@ -20,6 +20,15 @@ import FacturaServicioEdit from "./Components/cuentas/facturaServicio/FacturaSer
 import AgregarDetalleProducto from "./Components/stock/detalleProducto/AgregarDetalleProducto";
 import UsoGabinete from "./Components/stock/usoGabinete/UsoGabinete";
 import AgendaControlada from "./Components/agenda/AgendaControlada";
+import EditarProductoVentaProductos from "./Components/stock/cuadroVentaProductos/EditarProductoVentaProductos";
+import EditarDetalleUsoGabinete from "./Components/stock/usoGabinete/EditarDetalleUsoGabinete";
+import EditarProveedor from "./Components/stock/proveedores/EditarProveedor";
+import EditarArea from "./Components/configuracion/gabinetes/EditarArea";
+import EditarConsultorio from "./Components/configuracion/gabinetes/EditarConsultorio";
+import EditarTiposConsulta from "./Components/configuracion/tipoConsultas/EditarTiposConsulta";
+import EditarEstadoCitas from "./Components/configuracion/estadoCitas/EditarEstadoCitas";
+import EditarLicenciado from "./Components/configuracion/licenciados/EditarLicenciado";
+import EditarServicio from "./Components/configuracion/servicios/EditarServicio";
 
 const router = createBrowserRouter([
   {
@@ -86,6 +95,18 @@ const router = createBrowserRouter([
         element: <UsoGabinete />,
       },
       {
+        path: "/actualizar_producto_venta/:id",
+        element: <EditarProductoVentaProductos />,
+      },
+      {
+        path: "/actualizar_producto_uso_gabinete/:id",
+        element: <EditarDetalleUsoGabinete />,
+      },
+      {
+        path: "/editar_proveedor/:id",
+        element: <EditarProveedor />,
+      },
+      {
         path: "/tienda",
         element: <Tienda />,
       },
@@ -94,7 +115,31 @@ const router = createBrowserRouter([
         element: <Cuentas />,
       },
       {
-        path: "/facturaEdit/:id",
+        path: "/editar_area/:id",
+        element: <EditarArea />,
+      },
+      {
+        path: "/editar_consultorio/:id",
+        element: <EditarConsultorio />,
+      },
+      {
+        path: "/editar_tipo_consulta/:id",
+        element: <EditarTiposConsulta />,
+      },
+      {
+        path: "/editar_estado_cita/:id",
+        element: <EditarEstadoCitas />,
+      },
+      {
+        path: "/editar_profesional/:id",
+        element: <EditarLicenciado />,
+      },
+      {
+        path: "/editar_servicio/:id",
+        element: <EditarServicio />,
+      },
+      {
+        path: "/factura_edit/:id",
         element: <FacturaServicioEdit />,
       },
       {

@@ -24,6 +24,8 @@ import axios from "axios";
 import { useEffect } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import { enlace } from "../../../scripts/Enlace.js";
+import { Link } from "react-router-dom";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const Asistencias = () => {
   const [tipoCita, setTipoCita] = useState("Todos");
@@ -160,6 +162,23 @@ const Asistencias = () => {
       </Box>
       <br />
       <div>
+        {"Total Citas: " +
+          detalles[0] +
+          " Bs" +
+          "  - Efectivo: " +
+          detalles[1] +
+          " Bs" +
+          "  - Transferencias: " +
+          detalles[2] +
+          " Bs" +
+          "  - Pagos Qr: " +
+          detalles[3] +
+          " Bs" +
+          "  - Tarjetas: " +
+          detalles[4] +
+          " Bs"}
+      </div>
+      <div>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead style={{ backgroundColor: "#162B4E" }}>
@@ -181,6 +200,9 @@ const Asistencias = () => {
                 </TableCell>
                 <TableCell style={{ fontWeight: "bold", color: "white" }}>
                   Notas
+                </TableCell>
+                <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                  Ver Cobro
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -211,6 +233,11 @@ const Asistencias = () => {
                     {factura.forma_pago == "Tarjeta"
                       ? factura.digitos_tarjeta
                       : factura.detalles_pago}
+                  </TableCell>
+                  <TableCell>
+                    <Link to={`/factura_edit/${factura.id}`}>
+                      <VisibilityIcon />
+                    </Link>
                   </TableCell>
                 </TableRow>
               ))}

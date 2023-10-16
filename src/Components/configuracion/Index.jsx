@@ -13,6 +13,7 @@ import CrearEstadoCita from "./estadoCitas/CrearEstadoCita";
 import Licenciados from "./licenciados/Licenciados";
 import Servicios from "./servicios/Servicios";
 import ImportarDatos from "./importarDatos/ImportarDatos";
+import Areas from "./gabinetes/Areas";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -72,44 +73,15 @@ const Index = () => {
             textColor="inherit"
             variant="fullWidth"
             aria-label="full width tabs example"
-            style={{ backgroundColor: "#162B4E" }}
+            style={{ backgroundColor: "#155E30" }}
           >
-            <Tab
-              label="Gabinetes"
-              id="gabinetes"
-              {...a11yProps(0)}
-              href="#gabinetes"
-            />
-            <Tab
-              label="Tipos de Consulta"
-              id="tipos_de_consulta"
-              {...a11yProps(1)}
-              href="#tipos_de_consulta"
-            />
-            <Tab
-              label="Estado Citas"
-              id="estados_citas"
-              {...a11yProps(2)}
-              href="#estados_citas"
-            />
-            <Tab
-              label="Licenciados de turno"
-              id="lic_de_turno"
-              {...a11yProps(3)}
-              href="#lic_de_turno"
-            />
-            <Tab
-              label="Servicios"
-              {...a11yProps(4)}
-              id="servicios"
-              href="#servicios"
-            />
-            <Tab
-              label="Importacion de datos"
-              {...a11yProps(4)}
-              id="importar"
-              href="#importar"
-            />
+            <Tab label="Areas" {...a11yProps(0)} />
+            <Tab label="Gabinetes" {...a11yProps(1)} />
+            <Tab label="Tipos de Consulta" {...a11yProps(2)} />
+            <Tab label="Estado Citas" {...a11yProps(3)} />
+            <Tab label="Licenciados de turno" {...a11yProps(4)} />
+            <Tab label="Servicios" {...a11yProps(5)} />
+            <Tab label="Importacion de datos" {...a11yProps(6)} />
           </Tabs>
         </AppBar>
         <div>
@@ -129,6 +101,24 @@ const Index = () => {
             <Servicios />
           </TabPanel>
           <TabPanel value={value} index={5} dir={theme.direction}>
+            <Areas />
+          </TabPanel>
+          <TabPanel value={value} index={1} dir={theme.direction}>
+            <CrearGabinetes />
+          </TabPanel>
+          <TabPanel value={value} index={2} dir={theme.direction}>
+            <CrearTipoConsulta />
+          </TabPanel>
+          <TabPanel value={value} index={3} dir={theme.direction}>
+            <CrearEstadoCita />
+          </TabPanel>
+          <TabPanel value={value} index={4} dir={theme.direction}>
+            <Licenciados />
+          </TabPanel>
+          <TabPanel value={value} index={5} dir={theme.direction}>
+            <Servicios />
+          </TabPanel>
+          <TabPanel value={value} index={6} dir={theme.direction}>
             <ImportarDatos />
           </TabPanel>
         </div>

@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import axios from "./axios";
+import { enlace2 } from "./scripts/Enlace";
 
 const AuthContent = createContext({
   user: null,
@@ -24,7 +25,7 @@ export const AuthProvider = ({ children }) => {
 
   // csrf token generation for guest methods
   const csrfToken = async () => {
-    await axios.get("https://api.stilettofisio.com/sanctum/csrf-cookie");
+    await axios.get("" + enlace2 + "/sanctum/csrf-cookie");
     return true;
   };
 

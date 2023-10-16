@@ -1,5 +1,7 @@
 import React from "react";
 import Table from "react-bootstrap/Table";
+import { Link } from "react-router-dom";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const Contabilidad = ({ citas }) => {
   return (
@@ -13,6 +15,7 @@ const Contabilidad = ({ citas }) => {
             <th>Numero de factura</th>
             <th>Detalles del pago</th>
             <th>Total</th>
+            <th>Ver Factura</th>
           </tr>
         </thead>
         <tbody>
@@ -24,6 +27,11 @@ const Contabilidad = ({ citas }) => {
                   <td>{factura.numero}</td>
                   <td>{factura.detalles_pago}</td>
                   <td>{factura.total} Bs</td>
+                  <td>
+                    <Link to={`/factura_edit/${factura.id}`}>
+                      <VisibilityIcon />
+                    </Link>
+                  </td>
                 </tr>
               ) : (
                 <></>

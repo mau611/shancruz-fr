@@ -6,27 +6,17 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Link, useNavigate } from "react-router-dom";
-import { DataGrid } from "@mui/x-data-grid";
+import { useNavigate } from "react-router-dom";
+import { DataGrid, useGridApiRef } from "@mui/x-data-grid";
 import axios from "axios";
 import { enlace } from "../../../scripts/Enlace.js";
-import {
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
 
 const Columnas = [
-  { field: "id", headerName: "ID", width: 70 },
-  { field: "nombre", headerName: "Consultorio", width: 130 },
+  { field: "id", headerName: "ID", width: 100 },
+  { field: "nombre", headerName: "Nombre del area", width: 200 },
 ];
 
-const Licenciados = () => {
+const Areas = () => {
   const [state, setState] = useState({
     nombre: "",
   });
@@ -52,61 +42,40 @@ const Licenciados = () => {
     setOpen(false);
   };
 
-  const [licenciados, setLicenciados] = useState([]);
+  const [areas, setAreas] = useState([]);
   useEffect(() => {
-    getLicenciados();
+    getAreas();
   }, []);
 
-  const getLicenciados = async () => {
-    const response = await axios.get(`${enlace}/profesionales`);
-    setLicenciados(response.data);
+  const getAreas = async () => {
+    const response = await axios.get(`${enlace}/areas`);
+    setAreas(response.data);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post(`${enlace}/profesional`, {
+    await axios.post(`${enlace}/consultorio`, {
       nombre: state.nombre,
+      color: state.color,
     });
     navigate(0);
   };
 
   return (
     <div style={{ height: 400, width: "100%" }}>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell>Nombre Estado</TableCell>
-              <TableCell>Acciones</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {licenciados.map((row) => (
-              <TableRow
-                key={row.name}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {row.id}
-                </TableCell>
-                <TableCell align="">{row.nombre}</TableCell>
-                <TableCell>
-                  <Link to={`/editar_profesional/${row.id}`}>
-                    <EditIcon fontSize="small" color="secondary" />
-                  </Link>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <DataGrid
+        rows={areas}
+        columns={Columnas}
+        pageSize={5}
+        rowsPerPageOptions={[5]}
+        onRowClick={(e) => window.open(`/editar_area/${e.row.id}`, "_self")}
+      />
       <div>
         <Button variant="outlined" onClick={handleClickOpen}>
-          Agregar Licenciado
+          Agregar consultorio
         </Button>
         <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>Agregar licenciado</DialogTitle>
+          <DialogTitle>Creacion de consultorio</DialogTitle>
           <DialogContent>
             <TextField
               autoFocus
@@ -119,6 +88,16 @@ const Licenciados = () => {
               variant="standard"
               onChange={(e) => handleChange(e.target.value, "nombre")}
             />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="color"
+              label="Color"
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(e) => handleChange(e.target.value, "color")}
+            />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancelar</Button>
@@ -130,4 +109,4 @@ const Licenciados = () => {
   );
 };
 
-export default Licenciados;
+export default Areas;
