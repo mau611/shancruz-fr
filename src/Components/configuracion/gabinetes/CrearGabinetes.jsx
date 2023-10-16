@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -6,31 +6,30 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useNavigate } from "react-router-dom";
-import { DataGrid } from "@mui/x-data-grid";
+import { Link, useNavigate } from "react-router-dom";
+import EditIcon from "@mui/icons-material/Edit";
 import axios from "axios";
 import { enlace } from "../../../scripts/Enlace.js";
-
-const Columnas = [
-  { field: "id", headerName: "ID", width: 70 },
-  { field: "nombre", headerName: "Consultorio", width: 130 },
-  { field: "color", headerName: "Color", width: 130 },
-];
+import {
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  FormControl,
+  TableRow,
+} from "@mui/material";
 
 const CrearGabinetes = () => {
-  const [state, setState] = useState({
-    nombre: "",
-    color: "",
-  });
-  const handleChange = (value, name) => {
-    console.log(value);
-    setState((prev) => {
-      return {
-        ...prev,
-        [name]: value,
-      };
-    });
-  };
+  const [gabinetes, setGabinetes] = useState([]);
+  const [areas, setAreas] = useState([]);
+  const [area, setArea] = useState([]);
+  const [nombre, setNombre] = useState("");
+
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -38,41 +37,66 @@ const CrearGabinetes = () => {
   };
   const navigate = useNavigate();
   const handleClose = () => {
-    setState({
-      nombre: "",
-      color: "",
-    });
+    setNombre("");
     setOpen(false);
   };
 
-  const [gabinetes, setGabinetes] = useState([]);
   useEffect(() => {
     getGabinetes();
+    getAreas();
   }, []);
 
   const getGabinetes = async () => {
     const response = await axios.get(`${enlace}/consultorios`);
     setGabinetes(response.data);
   };
+  const getAreas = async () => {
+    const response = await axios.get(`${enlace}/areas`);
+    setAreas(response.data);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios.post(`${enlace}/consultorio`, {
-      nombre: state.nombre,
-      color: state.color,
+      nombre: nombre,
+      area_id: area,
     });
     navigate(0);
   };
 
   return (
     <div style={{ height: 400, width: "100%" }}>
-      <DataGrid
-        rows={gabinetes}
-        columns={Columnas}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
-      />
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>Nombre</TableCell>
+              <TableCell>Area</TableCell>
+              <TableCell>Acciones</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {gabinetes.map((row) => (
+              <TableRow
+                key={row.name}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {row.id}
+                </TableCell>
+                <TableCell align="">{row.nombre}</TableCell>
+                <TableCell align="">{row.area.nombre}</TableCell>
+                <TableCell>
+                  <Link to={`/editar_consultorio/${row.id}`}>
+                    <EditIcon fontSize="small" color="secondary" />
+                  </Link>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
       <div>
         <Button variant="outlined" onClick={handleClickOpen}>
           Agregar consultorio
@@ -82,25 +106,31 @@ const CrearGabinetes = () => {
           <DialogContent>
             <TextField
               autoFocus
-              value={state.nombre}
+              value={nombre}
               margin="dense"
               id="nombre"
               label="Nombre"
               type="text"
               fullWidth
               variant="standard"
-              onChange={(e) => handleChange(e.target.value, "nombre")}
+              onChange={(e) => setNombre(e.target.value)}
             />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="color"
-              label="Color"
-              type="text"
-              fullWidth
-              variant="standard"
-              onChange={(e) => handleChange(e.target.value, "color")}
-            />
+
+            <FormControl fullWidth>
+              <InputLabel id="areas-label">Seleccione un area</InputLabel>
+              <Select
+                labelId="areas-label"
+                label="Seleccione un area"
+                id="selectArea"
+                value={area}
+                fullWidth
+                onChange={(e) => setArea(e.target.value)}
+              >
+                {areas.map((area) => (
+                  <MenuItem value={area.id}>{area.nombre}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancelar</Button>

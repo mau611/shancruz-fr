@@ -177,7 +177,7 @@ export default function NavBar({ children, titulo }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${enlace}/paciente`, {
+      const resp = await axioss.post(`${enlace}/paciente`, {
         nombres: state.nombres,
         apellidos: state.apellidos,
         telefono: state.telefono,

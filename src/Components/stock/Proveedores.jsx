@@ -6,7 +6,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   IconButton,
@@ -97,18 +97,14 @@ const Proveedores = () => {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {" "}
-                    {proveedor.id}{" "}
+                    {proveedor.id}
                   </TableCell>
                   <TableCell align=""> {proveedor.nombre} </TableCell>
                   <TableCell align=""> {proveedor.contacto} </TableCell>
                   <TableCell>
-                    <IconButton aria-label="delete">
+                    <Link to={`/editar_proveedor/${proveedor.id}`}>
                       <EditIcon color="secondary" />
-                    </IconButton>
-                    <IconButton aria-label="delete">
-                      <DeleteIcon color="error" />
-                    </IconButton>
+                    </Link>
                   </TableCell>
                 </TableRow>
               ))}

@@ -6,15 +6,20 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
 import { enlace } from "../../../scripts/Enlace.js";
-
-const Columnas = [
-  { field: "id", headerName: "ID", width: 70 },
-  { field: "estado", headerName: "Estado consulta", width: 130 },
-];
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
 
 const CrearEstadoCita = () => {
   const [state, setState] = useState({
@@ -62,13 +67,35 @@ const CrearEstadoCita = () => {
 
   return (
     <div style={{ height: 400, width: "100%" }}>
-      <DataGrid
-        rows={estados}
-        columns={Columnas}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
-      />
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>Nombre Estado</TableCell>
+              <TableCell>Acciones</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {estados.map((row) => (
+              <TableRow
+                key={row.name}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {row.id}
+                </TableCell>
+                <TableCell align="">{row.estado}</TableCell>
+                <TableCell>
+                  <Link to={`/editar_estado_cita/${row.id}`}>
+                    <EditIcon fontSize="small" color="secondary" />
+                  </Link>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
       <div>
         <Button variant="outlined" onClick={handleClickOpen}>
           Agregar Estado de cita
