@@ -100,23 +100,20 @@ const Servicios = () => {
                   <TableCell align="">{row.servicio}</TableCell>
                   <TableCell align="">{row.costo}</TableCell>
                   <TableCell>
-                    <IconButton aria-label="delete">
+                    <Link to={`/editar_servicio/${row.id}`}>
                       <EditIcon fontSize="small" color="secondary" />
-                    </IconButton>
-                    <IconButton aria-label="delete">
-                      <LocalAtmIcon fontSize="small" color="success" />
-                    </IconButton>
+                    </Link>
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-      </div>
-      <div>
         <Button variant="outlined" onClick={handleClickOpen}>
           Agregar Servicio
         </Button>
+      </div>
+      <div>
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle>Creacion de Servicio</DialogTitle>
           <DialogContent>

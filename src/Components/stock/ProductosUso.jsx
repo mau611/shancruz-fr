@@ -19,6 +19,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import AddToPhotosIcon from "@mui/icons-material/AddToPhotos";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import EditIcon from "@mui/icons-material/Edit";
 import { Link } from "react-router-dom";
 import { enlace } from "../../scripts/Enlace.js";
 
@@ -109,6 +110,11 @@ const ProductosUso = () => {
                     <div>
                       <Link>
                         <RemoveCircleOutlineIcon fontSize="small" />
+                      </Link>
+                      <Link
+                        to={`/actualizar_producto_uso_gabinete/${ingreso.id}`}
+                      >
+                        <EditIcon fontSize="small" />
                       </Link>
                     </div>
                   ))}

@@ -11,6 +11,8 @@ import {
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { enlace } from "../../../scripts/Enlace.js";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import { Link } from "react-router-dom";
 
 const TablaPacientes = () => {
   const [facturas, setFacturas] = useState([]);
@@ -38,6 +40,7 @@ const TablaPacientes = () => {
               <TableCell>Pagado</TableCell>
               <TableCell>Forma de pago</TableCell>
               <TableCell>Notas</TableCell>
+              <TableCell>Ver</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -67,6 +70,11 @@ const TablaPacientes = () => {
                   {factura.forma_pago == "Tarjeta"
                     ? factura.digitos_tarjeta
                     : factura.detalles_pago}
+                </TableCell>
+                <TableCell component="th" scope="row">
+                  <Link to={`/factura_edit/${factura.id}`}>
+                    <VisibilityIcon />
+                  </Link>
                 </TableCell>
               </TableRow>
             ))}
