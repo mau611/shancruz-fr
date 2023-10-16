@@ -702,7 +702,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
           </Button>
         </Grid>
         <Grid item xs="auto" sm="4" md="4" className="text-center">
-          <h1>{dias[new Date(fecha).getDay()]}</h1>
+          <h1>{dias[new Date("" + fecha + "GMT-4").getDay()]}</h1>
         </Grid>
         <Grid item xs="auto" sm="4" md="4"></Grid>
       </Grid>
