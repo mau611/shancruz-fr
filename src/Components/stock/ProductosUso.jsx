@@ -72,7 +72,7 @@ const ProductosUso = () => {
               <TableCell>Fecha Ingreso</TableCell>
               <TableCell>Existencias</TableCell>
               <TableCell>Precio compra</TableCell>
-              <TableCell>Consumir</TableCell>
+              <TableCell>Consumir/Editar</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

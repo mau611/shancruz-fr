@@ -14,6 +14,7 @@ import Licenciados from "./licenciados/Licenciados";
 import Servicios from "./servicios/Servicios";
 import ImportarDatos from "./importarDatos/ImportarDatos";
 import Areas from "./gabinetes/Areas";
+import FichasClinicas from "./fichasClinicas/FichasClinicas";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -81,7 +82,8 @@ const Index = () => {
             <Tab label="Estado Citas" {...a11yProps(3)} />
             <Tab label="Licenciados de turno" {...a11yProps(4)} />
             <Tab label="Servicios" {...a11yProps(5)} />
-            <Tab label="Importacion de datos" {...a11yProps(6)} />
+            <Tab label="Fichas Clinicas" {...a11yProps(6)} />
+            <Tab label="Importacion de datos" {...a11yProps(7)} />
           </Tabs>
         </AppBar>
         <div>
@@ -104,6 +106,9 @@ const Index = () => {
             <Servicios />
           </TabPanel>
           <TabPanel value={value} index={6} dir={theme.direction}>
+            <FichasClinicas />
+          </TabPanel>
+          <TabPanel value={value} index={7} dir={theme.direction}>
             <ImportarDatos />
           </TabPanel>
         </div>

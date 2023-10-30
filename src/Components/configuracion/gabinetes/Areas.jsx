@@ -54,9 +54,8 @@ const Areas = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post(`${enlace}/consultorio`, {
+    await axios.post(`${enlace}/area`, {
       nombre: state.nombre,
-      color: state.color,
     });
     navigate(0);
   };
@@ -72,10 +71,10 @@ const Areas = () => {
       />
       <div>
         <Button variant="outlined" onClick={handleClickOpen}>
-          Agregar consultorio
+          Agregar Area
         </Button>
         <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>Creacion de consultorio</DialogTitle>
+          <DialogTitle>Creacion de area</DialogTitle>
           <DialogContent>
             <TextField
               autoFocus
@@ -87,16 +86,6 @@ const Areas = () => {
               fullWidth
               variant="standard"
               onChange={(e) => handleChange(e.target.value, "nombre")}
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="color"
-              label="Color"
-              type="text"
-              fullWidth
-              variant="standard"
-              onChange={(e) => handleChange(e.target.value, "color")}
             />
           </DialogContent>
           <DialogActions>
