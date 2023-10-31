@@ -8,6 +8,7 @@ import Asistencias from "./menus/Asistencias";
 import Consultas from "./menus/Consultas";
 import { Ventas } from "./menus/Ventas";
 import { PacientesAsignados } from "./menus/PacientesAsignados";
+import { ConsumoStock } from "./menus/ConsumoStock";
 
 const Estadisticas = () => {
   return (
@@ -49,7 +50,9 @@ const Estadisticas = () => {
                 <PacientesAsignados />
               </Tab.Pane>
               <Tab.Pane eventKey="fourth">Referidos</Tab.Pane>
-              <Tab.Pane eventKey="fifth">Consumo</Tab.Pane>
+              <Tab.Pane eventKey="fifth">
+                <ConsumoStock />
+              </Tab.Pane>
               <Tab.Pane eventKey="sixth">
                 <Ventas />
               </Tab.Pane>
