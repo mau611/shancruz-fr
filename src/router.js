@@ -79,11 +79,11 @@ const router = createBrowserRouter([
         element: <Clinica />,
       },
       {
-        path: "/Configuracion",
+        path: "/Configuracion/:ubicacion",
         element: <ConfigIndex />,
       },
       {
-        path: "/stock",
+        path: "/stock/:ubicacion",
         element: <Inventario />,
       },
       {
@@ -143,7 +143,7 @@ const router = createBrowserRouter([
         element: <FacturaServicioEdit />,
       },
       {
-        path: "/paciente/:id",
+        path: "/paciente/:id/:ubicacion",
         element: <Paciente />,
       },
       {

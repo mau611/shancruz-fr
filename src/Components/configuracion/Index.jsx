@@ -15,6 +15,8 @@ import Servicios from "./servicios/Servicios";
 import ImportarDatos from "./importarDatos/ImportarDatos";
 import Areas from "./gabinetes/Areas";
 import FichasClinicas from "./fichasClinicas/FichasClinicas";
+import { useParams } from "react-router-dom";
+import { useState } from "react";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -50,11 +52,46 @@ function a11yProps(index) {
 }
 
 const Index = () => {
+  const { ubicacion } = useParams();
   const theme = useTheme();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(
+    ubicacion == "areas"
+      ? 0
+      : ubicacion == "gabinetes"
+      ? 1
+      : ubicacion == "tipo_consultas"
+      ? 2
+      : ubicacion == "estado_citas"
+      ? 3
+      : ubicacion == "licenciados"
+      ? 4
+      : ubicacion == "servicios"
+      ? 5
+      : ubicacion == "fichas"
+      ? 6
+      : ubicacion == "importar_datos"
+      ? 7
+      : ""
+  );
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    if (newValue == 0) {
+      window.location.href = `/configuracion/areas`;
+    } else if (newValue == 1) {
+      window.location.href = `/configuracion/gabinetes`;
+    } else if (newValue == 2) {
+      window.location.href = `/configuracion/tipo_consultas`;
+    } else if (newValue == 3) {
+      window.location.href = `/configuracion/estado_citas`;
+    } else if (newValue == 4) {
+      window.location.href = `/configuracion/licenciados`;
+    } else if (newValue == 5) {
+      window.location.href = `/configuracion/servicios`;
+    } else if (newValue == 6) {
+      window.location.href = `/configuracion/fichas`;
+    } else if (newValue == 7) {
+      window.location.href = `/configuracion/importar_datos`;
+    }
   };
 
   const handleChangeIndex = (index) => {
