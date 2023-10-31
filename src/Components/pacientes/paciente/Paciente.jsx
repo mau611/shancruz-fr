@@ -17,12 +17,19 @@ const Paciente = () => {
   const { id } = useParams();
   const [paciente, setPaciente] = useState({});
   const [profesionales, setProfesionales] = React.useState({});
+  const [profesionalesAsignados, setProfesionalesAsignados] = useState([]);
   const [key, setKey] = useState("home");
 
   useEffect(() => {
     getPaciente();
     getProfesionalACargo();
+    getProfesionalesAsignados();
   }, []);
+
+  const getProfesionalesAsignados = async () => {
+    const response = await axios.get(`${enlace}/profesionales_pacientes/${id}`);
+    setProfesionalesAsignados(response.data);
+  };
 
   const getProfesionalACargo = async () => {
     const response = await axios.get(
@@ -51,6 +58,7 @@ const Paciente = () => {
           <DetallesPaciente
             diagnosticos={paciente.diagnosticos}
             paciente_id={paciente.id}
+            profesionales={profesionalesAsignados}
           />
         </Tab>
         <Tab eventKey="filiacion" title="Filiacion">

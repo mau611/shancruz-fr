@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { enlace, enlace2 } from "../../../scripts/Enlace.js";
 
 const FormularioHistoria = () => {

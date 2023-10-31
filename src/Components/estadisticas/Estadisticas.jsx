@@ -7,6 +7,7 @@ import Tab from "react-bootstrap/Tab";
 import Asistencias from "./menus/Asistencias";
 import Consultas from "./menus/Consultas";
 import { Ventas } from "./menus/Ventas";
+import { PacientesAsignados } from "./menus/PacientesAsignados";
 
 const Estadisticas = () => {
   return (
@@ -23,7 +24,7 @@ const Estadisticas = () => {
                 <Nav.Link eventKey="second">Consultas</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="third">Tratamientos</Nav.Link>
+                <Nav.Link eventKey="third">Pacientes asignados</Nav.Link>
               </Nav.Item>
               <Nav.Item>
                 <Nav.Link eventKey="fourth">Referidos</Nav.Link>
@@ -44,9 +45,11 @@ const Estadisticas = () => {
               <Tab.Pane eventKey="second">
                 <Consultas />
               </Tab.Pane>
-              <Tab.Pane eventKey="third">Tratamiento</Tab.Pane>
+              <Tab.Pane eventKey="third">
+                <PacientesAsignados />
+              </Tab.Pane>
               <Tab.Pane eventKey="fourth">Referidos</Tab.Pane>
-              <Tab.Pane eventKey="fifth">Consumo de fifth</Tab.Pane>
+              <Tab.Pane eventKey="fifth">Consumo</Tab.Pane>
               <Tab.Pane eventKey="sixth">
                 <Ventas />
               </Tab.Pane>
