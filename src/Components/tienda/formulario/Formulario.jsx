@@ -30,6 +30,7 @@ const Formulario = () => {
   const [repeticiones, setRepeticiones] = useState([]);
   const [numerosTarjeta, setNumerosTarjeta] = useState(null);
   const [pagoTarjeta, setPagoTarjeta] = useState(true);
+  const [descuentos, setDescuentos] = useState([]);
 
   const getLicenciados = async () => {
     const response = await axios.get(`${enlace}/profesionales`);
@@ -49,15 +50,42 @@ const Formulario = () => {
 
   const guardarProducto = () => {
     const pac = pacientes.find((pac) => pac.id == paciente.split(" ")[0]);
+    console.log(pac);
+    setDescuentos(pac.descuentos);
     if (ingresoP.length > 1) {
       let valor = ingresoP.split(" ")[0];
       productos.push(ingresoProductos.find((element) => element.id == valor));
       repeticiones.push(parseInt(valor));
       setIngresoP("");
       var aux = 0;
-      productos.map((producto) => (aux = aux + producto.PrecioVenta));
+      productos.map((producto) => {
+        if (pac.descuentos.length > 0) {
+          pac.descuentos.map((descuento) => {
+            if (
+              descuento.producto == 1 &&
+              descuento.activo == 1 &&
+              producto.producto.id == descuento.serv_o_prod_id
+            ) {
+              if (descuento.porcentaje == 1) {
+                aux =
+                  aux +
+                  (producto.PrecioVenta -
+                    producto.PrecioVenta *
+                      (descuento.cantidad_descuento / 100));
+              } else {
+                aux = aux + descuento.cantidad_descuento;
+              }
+            } else {
+              aux = aux + producto.PrecioVenta;
+            }
+          });
+        } else {
+          aux = aux + producto.PrecioVenta;
+        }
+      });
       setTotal(aux);
     }
+    console.log(productos);
   };
 
   const eliminar = () => {
@@ -185,7 +213,11 @@ const Formulario = () => {
         Cancelar
       </Button>
       <hr />
-      <TablaProductos productos={productos} total={total} />
+      <TablaProductos
+        productos={productos}
+        total={total}
+        descuentos={descuentos}
+      />
       <br />
       <div>
         <FormControl sx={{ m: 4, minWidth: 200 }}>
