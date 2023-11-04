@@ -57,6 +57,7 @@ const FichasClinicas = () => {
       setField({ type: "", label: "", options: [], image: null, table: [] });
     }
     if (field.image != null) {
+      console.log(field.image);
       const rest = await axios.post(
         `${enlace}/ficha_medica_imagen`,
         {
@@ -69,13 +70,15 @@ const FichasClinicas = () => {
         }
       );
       setImages([...images, rest.data]);
+    } else {
+      setImages(images);
     }
     console.log(images);
   };
   const handleGuardarFicha = async () => {
     var i = 0;
     formFields.map((field) => {
-      if (field.image != null) {
+      if (field.image != null && field.image != "") {
         field.image = images[i];
         i++;
       } else {
@@ -99,6 +102,8 @@ const FichasClinicas = () => {
       setField({ type: "", label: "", options: [], image: null, table: [] });
       setFormFields([]);
       getFichasBD();
+      setImages([]);
+      setNombreFicha("");
     } catch (error) {
       console.log(error);
     }
@@ -149,7 +154,7 @@ const FichasClinicas = () => {
                   </TableCell>
                   <TableCell align="right">{ficha.nombre}</TableCell>
                   <TableCell align="right">
-                    {JSON.parse(ficha.ficha).map((fi) => (
+                    {JSON.parse(ficha.ficha)?.map((fi) => (
                       <div>
                         {fi.label != null ? "Nombre campo: " + fi.label : ""}
                         {fi.options != null ? ", Opciones: " + fi.options : ""}
