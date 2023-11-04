@@ -48,6 +48,7 @@ const Formulario = () => {
   };
 
   const guardarProducto = () => {
+    const pac = pacientes.find((pac) => pac.id == paciente.split(" ")[0]);
     if (ingresoP.length > 1) {
       let valor = ingresoP.split(" ")[0];
       productos.push(ingresoProductos.find((element) => element.id == valor));
@@ -183,6 +184,7 @@ const Formulario = () => {
       <Button variant="outlined" onClick={() => setIngresoP("")}>
         Cancelar
       </Button>
+      <hr />
       <TablaProductos productos={productos} total={total} />
       <br />
       <div>

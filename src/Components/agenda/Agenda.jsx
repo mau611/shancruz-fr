@@ -141,7 +141,6 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
   const [profesionalId, setProfesionalId] = useState("");
   const [numerosTarjeta, setNumerosTarjeta] = useState(null);
   const [pagoTarjeta, setPagoTarjeta] = useState(true);
-
   const [ultimosPagos, setUltimosPagos] = useState([]);
   //variables creacion pacientes
   const [state, setState] = React.useState({
@@ -173,6 +172,9 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
   const [detallesError, setDetallesError] = useState("");
   const [estadoCitaError, setEstadoCitaError] = useState("");
   const [agendadoPorError, setAgendadoPorError] = useState("");
+  //variables cobros con descuentos
+  const [descuentos, setDescuentos] = useState([]);
+  const [descuentoAplicado, setDescuentoAplicado] = useState(false);
 
   const setValoresBono = (value, variable) => {
     if (variable == "nombreBono") {
@@ -288,6 +290,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
     setAuxTratamiento(tratamiento);
     setAuxTelefono(telefono);
     getUltimasFacturas(pacienteEvento.id);
+    setDescuentos(pacienteEvento.descuentos);
   };
 
   const getUltimasFacturas = async (pacId) => {
@@ -317,6 +320,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
     setAuxTratamiento("");
     setAuxTelefono("");
     setUltimosPagos([]);
+    setDescuentos([]);
   };
 
   const getPacienteCita = (paciente) => {
@@ -361,15 +365,40 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
   };
 
   const handleChangeMultiple = (event) => {
+    console.log(descuentos);
     const { options } = event.target;
     const value = [];
+    const auxDescuentos = [];
+    descuentos.map(function (desc) {
+      if (desc.servicio == 1 && desc.activo == 1) {
+        auxDescuentos.push(desc);
+      }
+    });
+    console.log("array descuentos", auxDescuentos);
+    console.log("servicios", value);
     var valor = 0;
     for (let i = 0, l = options.length; i < l; i += 1) {
       if (options[i].selected) {
         value.push(options[i].value);
+        // eslint-disable-next-line no-loop-func, array-callback-return
         servicios.map((serv) => {
+          // eslint-disable-next-line eqeqeq
           if (serv.id == options[i].value) {
-            valor = valor + serv.costo;
+            const aux = auxDescuentos.find(
+              (auxDesc) => auxDesc.serv_o_prod_id === serv.id
+            );
+            if (aux === undefined) {
+              valor = valor + serv.costo;
+            } else {
+              if (aux.porcentaje == 0) {
+                valor = valor + aux.cantidad_descuento;
+              } else if (aux.porcentaje == 1) {
+                valor =
+                  valor +
+                  (serv.costo - serv.costo * (aux.cantidad_descuento / 100));
+              }
+              setDescuentoAplicado(true);
+            }
           }
         });
       }
@@ -467,7 +496,6 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
   );
 
   const onSelectEvent = useCallback((calEvent) => {
-    console.log(calEvent.start);
     /**
      * Here we are waiting 250 milliseconds (use what you want) prior to firing
      * our method. Why? Because both 'click' and 'doubleClick'
@@ -490,7 +518,9 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
       total: cobro,
       estado_pago: estadoPago,
       forma_pago: tipoDePago,
-      detalles_pago: detallesPago,
+      detalles_pago: descuentoAplicado
+        ? "Se aplico un descuento asociado. " + detallesPago
+        : detallesPago,
       consulta_id: selectEventId,
       tratamientos: cobroTratamientos,
       digitos_tarjeta: numerosTarjeta,
@@ -1206,7 +1236,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
               <Row>
                 <Col xs={9}>
                   <a
-                    href={`/paciente/${auxPaciente.id}`}
+                    href={`/paciente/${auxPaciente.id}/paciente`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -1264,7 +1294,6 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
                       multiple
                       native
                       value={cobroTratamientos}
-                      // @ts-ignore Typings are not considering `native`
                       onChange={handleChangeMultiple}
                       label="Servicios"
                       inputProps={{
