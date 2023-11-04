@@ -64,6 +64,7 @@ const Paciente = () => {
             diagnosticos={paciente.diagnosticos}
             paciente_id={paciente.id}
             profesionales={profesionalesAsignados}
+            descuentos={paciente.descuentos}
           />
         </Tab>
         <Tab

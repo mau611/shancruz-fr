@@ -34,7 +34,12 @@ const actions = [
   { icon: <FormatListNumberedIcon />, name: "Agregar Tratamiento", option: 2 },
 ];
 
-const DetallesPaciente = ({ diagnosticos, paciente_id, profesionales }) => {
+const DetallesPaciente = ({
+  diagnosticos,
+  paciente_id,
+  profesionales,
+  descuentos,
+}) => {
   const [openDx, setOpenDx] = useState(false);
   const [openTx, setOpenTx] = useState(false);
   const [diagnostico, setDiagnostico] = useState("");
@@ -163,6 +168,22 @@ const DetallesPaciente = ({ diagnosticos, paciente_id, profesionales }) => {
                 </MenuItem>
               ))}
             </Select>
+          </Grid>
+          <Grid item xs={1}></Grid>
+          <Grid item xs={2}>
+            <Typography variant="h5">Descuentos Asociados:</Typography>
+          </Grid>
+          <Grid item xs={5}>
+            {descuentos?.map((descuento) =>
+              descuento.activo == 1
+                ? descuento.descripcion +
+                  " " +
+                  (descuento.porcentaje == 1
+                    ? "porcentaje del: " + descuento.cantidad_descuento + "%"
+                    : "nuevo precio del descuento: " +
+                      descuento.cantidad_descuento)
+                : ""
+            )}
           </Grid>
         </Grid>
         <br />
