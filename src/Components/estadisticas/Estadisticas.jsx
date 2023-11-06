@@ -9,6 +9,7 @@ import Consultas from "./menus/Consultas";
 import { Ventas } from "./menus/Ventas";
 import { PacientesAsignados } from "./menus/PacientesAsignados";
 import { ConsumoStock } from "./menus/ConsumoStock";
+import Areas from "./menus/Areas";
 
 const Estadisticas = () => {
   return (
@@ -19,41 +20,47 @@ const Estadisticas = () => {
           <Col sm={2}>
             <Nav variant="pills" className="flex-column">
               <Nav.Item>
-                <Nav.Link eventKey="first">Asistencias</Nav.Link>
+                <Nav.Link eventKey="first">Areas</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="second">Consultas</Nav.Link>
+                <Nav.Link eventKey="second">Asistencias</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="third">Pacientes asignados</Nav.Link>
+                <Nav.Link eventKey="third">Consultas</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="fourth">Referidos</Nav.Link>
+                <Nav.Link eventKey="fourth">Pacientes asignados</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="fifth">Consumo stock</Nav.Link>
+                <Nav.Link eventKey="fifth">Referidos</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="sixth">Ventas</Nav.Link>
+                <Nav.Link eventKey="sixth">Consumo stock</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link eventKey="seventh">Ventas</Nav.Link>
               </Nav.Item>
             </Nav>
           </Col>
           <Col sm={9}>
             <Tab.Content>
               <Tab.Pane eventKey="first">
-                <Asistencias />
+                <Areas />
               </Tab.Pane>
               <Tab.Pane eventKey="second">
-                <Consultas />
+                <Asistencias />
               </Tab.Pane>
               <Tab.Pane eventKey="third">
+                <Consultas />
+              </Tab.Pane>
+              <Tab.Pane eventKey="fourth">
                 <PacientesAsignados />
               </Tab.Pane>
-              <Tab.Pane eventKey="fourth">Referidos</Tab.Pane>
-              <Tab.Pane eventKey="fifth">
+              <Tab.Pane eventKey="fifth">Referidos</Tab.Pane>
+              <Tab.Pane eventKey="sixth">
                 <ConsumoStock />
               </Tab.Pane>
-              <Tab.Pane eventKey="sixth">
+              <Tab.Pane eventKey="seventh">
                 <Ventas />
               </Tab.Pane>
             </Tab.Content>
