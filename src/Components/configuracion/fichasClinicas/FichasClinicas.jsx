@@ -52,10 +52,6 @@ const FichasClinicas = () => {
     if (field.table.length == 0) {
       field.table = "";
     }
-    if (field.label && field.type) {
-      setFormFields([...formFields, field]);
-      setField({ type: "", label: "", options: [], image: null, table: [] });
-    }
     if (field.image != null) {
       console.log(field.image);
       const rest = await axios.post(
@@ -69,29 +65,31 @@ const FichasClinicas = () => {
           },
         }
       );
-      setImages([...images, rest.data]);
+      field.image = rest.data;
     } else {
-      setImages(images);
+      field.image = null;
     }
-    console.log(images);
+    if (field.label && field.type) {
+      setFormFields([...formFields, field]);
+      setField({ type: "", label: "", options: [], image: null, table: [] });
+    }
   };
   const handleGuardarFicha = async () => {
-    var i = 0;
-    formFields.map((field) => {
-      if (field.image != null && field.image != "") {
-        field.image = images[i];
-        i++;
-      } else {
-        i++;
-      }
-    });
+    //var i = 0;
+    //formFields.map((field) => {
+    //  if (field.image != null && field.image != "") {
+    //    field.image = images[i];
+    //    i++;
+    //  } else {
+    //    i++;
+    //  }
+    //});
     try {
       const rest = await axios.post(
         `${enlace}/ficha_medica`,
         {
           nombre: nombreFicha,
           ficha: formFields,
-          images: images.filter((nombre) => nombre != ""),
         },
         {
           headers: {
@@ -287,7 +285,7 @@ const FichasClinicas = () => {
           )}
           {field.image && (
             <img
-              src={URL.createObjectURL(field.image)}
+              src={`${enlace2}/storage/${field.image}`}
               alt={field.label}
               width={"50%"}
             />
