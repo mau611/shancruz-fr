@@ -6,7 +6,6 @@ import Register from "./pages/Register";
 import ProtectedLayout from "./Components/ProtectedLayout";
 import GuestLayout from "./Components/GuestLayout";
 import Inicio from "./Components/estructura/Inicio";
-import Agenda from "./Components/agenda/Agenda";
 import Pacientes from "./Components/pacientes/Pacientes";
 import Clinica from "./Components/clinica/Clinica";
 import ConfigIndex from "./Components/configuracion/Index";
@@ -29,6 +28,7 @@ import EditarTiposConsulta from "./Components/configuracion/tipoConsultas/Editar
 import EditarEstadoCitas from "./Components/configuracion/estadoCitas/EditarEstadoCitas";
 import EditarLicenciado from "./Components/configuracion/licenciados/EditarLicenciado";
 import EditarServicio from "./Components/configuracion/servicios/EditarServicio";
+import NotFound from "./pages/NotFound";
 
 const router = createBrowserRouter([
   {
@@ -63,7 +63,6 @@ const router = createBrowserRouter([
       },
       {
         path: "/agenda/:fecha/:area/:id",
-        //element: <Agenda />,
         element: <AgendaControlada />,
       },
       {
@@ -79,11 +78,11 @@ const router = createBrowserRouter([
         element: <Clinica />,
       },
       {
-        path: "/Configuracion",
+        path: "/Configuracion/:ubicacion",
         element: <ConfigIndex />,
       },
       {
-        path: "/stock",
+        path: "/stock/:ubicacion",
         element: <Inventario />,
       },
       {
@@ -143,12 +142,16 @@ const router = createBrowserRouter([
         element: <FacturaServicioEdit />,
       },
       {
-        path: "/paciente/:id",
+        path: "/paciente/:id/:ubicacion",
         element: <Paciente />,
       },
       {
         path: "/estadisticas",
         element: <Estadisticas />,
+      },
+      {
+        path: "*",
+        element: <NotFound />,
       },
     ],
   },

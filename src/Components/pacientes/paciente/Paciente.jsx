@@ -14,15 +14,22 @@ import Historial from "./detalles/Historial";
 import { enlace } from "../../../scripts/Enlace.js";
 
 const Paciente = () => {
-  const { id } = useParams();
+  const { id, ubicacion } = useParams();
   const [paciente, setPaciente] = useState({});
   const [profesionales, setProfesionales] = React.useState({});
-  const [key, setKey] = useState("home");
+  const [profesionalesAsignados, setProfesionalesAsignados] = useState([]);
+  const [key, setKey] = useState(ubicacion);
 
   useEffect(() => {
     getPaciente();
     getProfesionalACargo();
+    getProfesionalesAsignados();
   }, []);
+
+  const getProfesionalesAsignados = async () => {
+    const response = await axios.get(`${enlace}/profesionales_pacientes/${id}`);
+    setProfesionalesAsignados(response.data);
+  };
 
   const getProfesionalACargo = async () => {
     const response = await axios.get(
@@ -44,16 +51,27 @@ const Paciente = () => {
       <Tabs
         id="controlled-tab-example"
         activeKey={key}
-        onSelect={(k) => setKey(k)}
+        //onSelect={(k) => setKey(k)}
+        onSelect={(k) => (window.location.href = `/paciente/${id}/${k}`)}
         className="mb-3"
       >
-        <Tab eventKey="paciente" title="Detalle del paciente">
+        <Tab
+          eventKey="paciente"
+          title="Detalle del paciente"
+          active={ubicacion == "paciente" ? true : false}
+        >
           <DetallesPaciente
             diagnosticos={paciente.diagnosticos}
             paciente_id={paciente.id}
+            profesionales={profesionalesAsignados}
+            descuentos={paciente.descuentos}
           />
         </Tab>
-        <Tab eventKey="filiacion" title="Filiacion">
+        <Tab
+          eventKey="filiacion"
+          title="Filiacion"
+          active={ubicacion == "filiacion" ? true : false}
+        >
           <Filiacion
             id={paciente.id}
             nombres={paciente.nombres}
@@ -65,16 +83,32 @@ const Paciente = () => {
             fecha_nacimiento={paciente.fecha_nacimiento}
           />
         </Tab>
-        <Tab eventKey="contabilidad" title="Contabilidad">
+        <Tab
+          eventKey="contabilidad"
+          title="Contabilidad"
+          active={ubicacion == "contabilidad" ? true : false}
+        >
           <Contabilidad citas={paciente.citas} />
         </Tab>
-        <Tab eventKey="bonos" title="Bonos">
+        <Tab
+          eventKey="bonos"
+          title="Bonos"
+          active={ubicacion == "bonos" ? true : false}
+        >
           <Bonos bonos={paciente.bonos} />
         </Tab>
-        <Tab eventKey="documentos" title="Documentos">
+        <Tab
+          eventKey="documentos"
+          title="Documentos"
+          active={ubicacion == "documentos" ? true : false}
+        >
           <Documentos />
         </Tab>
-        <Tab eventKey="historial" title="Historial Clinico">
+        <Tab
+          eventKey="historial"
+          title="Historial Clinico"
+          active={ubicacion == "historial" ? true : false}
+        >
           <Historial
             citas={paciente.citas}
             diagnosticos={paciente.diagnosticos}

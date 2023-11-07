@@ -23,7 +23,7 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Navigate, useNavigate } from "react-router-dom";
 import { FormControl } from "react-bootstrap";
@@ -34,13 +34,38 @@ const actions = [
   { icon: <FormatListNumberedIcon />, name: "Agregar Tratamiento", option: 2 },
 ];
 
-const DetallesPaciente = ({ diagnosticos, paciente_id, profesionales }) => {
-  const [openDx, setOpenDx] = React.useState(false);
-  const [openTx, setOpenTx] = React.useState(false);
-  const [diagnostico, setDiagnostico] = React.useState("");
-  const [tratamiento, setTratamiento] = React.useState("");
+const DetallesPaciente = ({
+  diagnosticos,
+  paciente_id,
+  profesionales,
+  descuentos,
+}) => {
+  const [openDx, setOpenDx] = useState(false);
+  const [openTx, setOpenTx] = useState(false);
+  const [diagnostico, setDiagnostico] = useState("");
+  const [tratamiento, setTratamiento] = useState("");
   const [dxId, setDxId] = React.useState("");
   const navigate = useNavigate();
+  const [profesionalesBD, setProfesionalesBD] = useState([]);
+  const [profesionalesAsignados, setProfesionalesAsignados] = useState([]);
+  const [profesionalId, setProfesionalId] = useState("");
+
+  useEffect(() => {
+    getProfesionalesBD();
+    getProfesionalesAsignados();
+  }, []);
+
+  const getProfesionalesAsignados = async () => {
+    const response = await axios.get(
+      `${enlace}/profesionales_pacientes/${paciente_id}`
+    );
+    setProfesionalesAsignados(response.data);
+  };
+
+  const getProfesionalesBD = async () => {
+    const response = await axios.get(`${enlace}/profesionales`);
+    setProfesionalesBD(response.data);
+  };
 
   const handleClose = () => {
     setOpenDx(false);
@@ -94,6 +119,20 @@ const DetallesPaciente = ({ diagnosticos, paciente_id, profesionales }) => {
         setOpenDx(!openTx);
       });
   };
+
+  const asignarProfesional = async () => {
+    try {
+      axios.post(`${enlace}/profesionales_pacientes`, {
+        profesional_id: profesionalId,
+        paciente_id: paciente_id,
+      });
+      window.alert("exito");
+      navigate(0);
+    } catch (error) {
+      window.alert("error");
+    }
+  };
+
   const listaTratamiento = (tratamiento, delimitador) => {
     var txs = tratamiento.split(delimitador);
     return (
@@ -108,15 +147,69 @@ const DetallesPaciente = ({ diagnosticos, paciente_id, profesionales }) => {
   };
   return (
     <div style={{ textAlign: "justify" }}>
-      <h4>Profesionales a cargo</h4>
       <div>
-        <ul>{console.log(profesionales)}</ul>
+        <Typography variant="h4">Asignar profesional</Typography>
+        <br />
+        <Grid container spacing={2}>
+          <Grid item xs={2}>
+            <Typography variant="h5">Profesional:</Typography>
+          </Grid>
+          <Grid container item xs={2}>
+            <Select
+              fullWidth
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={profesionalId}
+              onChange={(e) => setProfesionalId(e.target.value)}
+            >
+              {profesionalesBD.map((profesionalBD) => (
+                <MenuItem value={profesionalBD.id}>
+                  {profesionalBD.nombre}
+                </MenuItem>
+              ))}
+            </Select>
+          </Grid>
+          <Grid item xs={1}></Grid>
+          <Grid item xs={2}>
+            <Typography variant="h5">Descuentos Asociados:</Typography>
+          </Grid>
+          <Grid item xs={5}>
+            {descuentos?.map((descuento) =>
+              descuento.activo == 1
+                ? descuento.descripcion +
+                  " " +
+                  (descuento.porcentaje == 1
+                    ? "porcentaje del: " + descuento.cantidad_descuento + "%"
+                    : "nuevo precio del descuento: " +
+                      descuento.cantidad_descuento)
+                : ""
+            )}
+          </Grid>
+        </Grid>
+        <br />
+        <Button
+          variant="outlined"
+          color="success"
+          onClick={() => asignarProfesional()}
+        >
+          Asignar
+        </Button>
+        <hr />
       </div>
-      <h4>Diagnostico y tratamientos del paciente</h4>
+      <div>
+        Profesionales a cargo:
+        <ul>
+          {profesionales.map((profesionalAsignado) => (
+            <li>{profesionalAsignado.nombre}</li>
+          ))}
+        </ul>
+      </div>
+      <hr />
+      <h4>Diagnosticos y tratamientos del paciente</h4>
       <div>
         <Grid container spacing={2}>
           {diagnosticos?.map((diagnostico) => (
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <Accordion>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon style={{ color: "white" }} />}

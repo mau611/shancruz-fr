@@ -38,7 +38,10 @@ const Inicio = () => {
             </Link>
           </div>
           <div className="col-lg-3">
-            <Link to="/stock" className="btn btn-outline-light btn-lg">
+            <Link
+              to="/stock/productos_venta"
+              className="btn btn-outline-light btn-lg"
+            >
               Stock
             </Link>
           </div>
@@ -60,7 +63,10 @@ const Inicio = () => {
             </Link>
           </div>
           <div className="col-lg-3">
-            <Link to="/configuracion" className="btn btn-outline-light btn-lg">
+            <Link
+              to="/configuracion/areas"
+              className="btn btn-outline-light btn-lg"
+            >
               Configuracion
             </Link>
           </div>

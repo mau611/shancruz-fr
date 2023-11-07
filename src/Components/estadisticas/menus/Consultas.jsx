@@ -57,6 +57,7 @@ const Consultas = () => {
     var pacienteId = paciente.split(" ")[0];
     var auxDesde = formatFecha(new Date(desde.$y, desde.$M, desde.$D));
     var auxHasta = formatFecha(new Date(hasta.$y, hasta.$M, hasta.$D));
+    console.log(pacienteId, auxDesde, auxHasta);
     const response = await axios.get(
       `${enlace}/consultas/${pacienteId}/${tipoCita}/${auxDesde}/${auxHasta}`
     );
@@ -197,7 +198,7 @@ const Consultas = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {facturas.map((factura) => (
+              {facturas?.map((factura) => (
                 <TableRow
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   align="right"
