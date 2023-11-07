@@ -75,15 +75,6 @@ const FichasClinicas = () => {
     }
   };
   const handleGuardarFicha = async () => {
-    //var i = 0;
-    //formFields.map((field) => {
-    //  if (field.image != null && field.image != "") {
-    //    field.image = images[i];
-    //    i++;
-    //  } else {
-    //    i++;
-    //  }
-    //});
     try {
       const rest = await axios.post(
         `${enlace}/ficha_medica`,
