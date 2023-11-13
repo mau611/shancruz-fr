@@ -6,7 +6,10 @@ import {
   Button,
   FormControl,
   Grid,
+  InputLabel,
+  MenuItem,
   Paper,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -17,30 +20,32 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 import { enlace } from "../../../scripts/Enlace";
 import SearchIcon from "@mui/icons-material/Search";
 
-export const PacientesAsignados = () => {
-  const [profesionales, setProfesionales] = useState([]);
-  const [profesional, setProfesional] = useState("");
+export const Referidos = () => {
+  const [medicos, setMedicos] = useState([]);
+  const [medico, setMedico] = useState("");
   const [pacientes, setPacientes] = useState([]);
 
   useEffect(() => {
-    getProfesionales();
+    getMedicos();
   }, []);
-  const getProfesionales = async () => {
-    const response = await axios.get(`${enlace}/profesionales`);
-    setProfesionales(response.data);
+  const getMedicos = async () => {
+    const response = await axios.get(`${enlace}/medicos`);
+    setMedicos(response.data);
   };
 
   const buscar = async () => {
-    const p = "" + profesional;
+    const p = "" + medico;
     var profesionalAux = p.split(" ")[0];
     const response = await axios.get(
-      `${enlace}/pacientes_profesionales/${profesionalAux}`
+      `${enlace}/pacientes_medicos/${profesionalAux}`
     );
     setPacientes(response.data);
     console.log(response.data);
@@ -48,7 +53,7 @@ export const PacientesAsignados = () => {
 
   return (
     <>
-      <Typography variant="h4">Pacientes a cargo de:</Typography>
+      <Typography variant="h4">Pacientes referidos por:</Typography>
       <br />
       <Box sx={{ flexGrow: 1 }}>
         <Grid
@@ -61,11 +66,11 @@ export const PacientesAsignados = () => {
               <Autocomplete
                 required
                 freeSolo
-                id="profesional"
-                value={profesional}
-                onChange={(e, value) => setProfesional(value)}
-                onInputChange={(e, value) => setProfesional(value)}
-                options={profesionales.map(
+                id="medico"
+                value={medico}
+                onChange={(e, value) => setMedico(value)}
+                onInputChange={(e, value) => setMedico(value)}
+                options={medicos.map(
                   (option) => option.id + " -  " + option.nombre
                 )}
                 renderInput={(params) => (
