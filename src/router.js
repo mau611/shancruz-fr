@@ -29,6 +29,7 @@ import EditarEstadoCitas from "./Components/configuracion/estadoCitas/EditarEsta
 import EditarLicenciado from "./Components/configuracion/licenciados/EditarLicenciado";
 import EditarServicio from "./Components/configuracion/servicios/EditarServicio";
 import NotFound from "./pages/NotFound";
+import EditarMedico from "./Components/configuracion/profesionales/EditarMedico";
 
 const router = createBrowserRouter([
   {
@@ -148,6 +149,10 @@ const router = createBrowserRouter([
       {
         path: "/estadisticas",
         element: <Estadisticas />,
+      },
+      {
+        path: "/editar_medico/:id",
+        element: <EditarMedico />,
       },
       {
         path: "*",

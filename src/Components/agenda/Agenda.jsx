@@ -450,13 +450,14 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
     setEvents([]);
     const response = await axios.get(`${enlace}/consultas_por_dia/${fecha}`);
     response.data.map((ev) => {
+      console.log(ev);
       let nombre = setearNombreEvento(ev);
       setEvents((prev) => [
         ...prev,
         {
           start: new Date(ev.start),
           end: new Date(ev.end),
-          title: nombre,
+          title: ev.tipo_consulta.nombre + ": " + nombre,
           resourceId: ev.consultorio_id,
           paciente: ev.paciente,
           evId: ev.id,
@@ -688,7 +689,11 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
     getEventosBD();
   };
   const moveEvent = useCallback(({ event, start, end, resourceId }) => {
-    modificarEvento({ event, start, end, resourceId });
+    if (event.estado_cita == "Por llegar") {
+      modificarEvento({ event, start, end, resourceId });
+    } else {
+      window.alert("No es posible modificar la cita");
+    }
   }, []);
 
   const [tabAgendar, setTabAgendar] = React.useState(0);
@@ -747,7 +752,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
         }}
         toolbar={false}
         dayLayoutAlgorithm={"no-overlap"}
-        min={new Date(2010, 0, 1, 6, 0, 0, 0)}
+        min={new Date(2010, 0, 1, 8, 0, 0, 0)}
         max={new Date(0, 0, 1, 21, 0, 0, 0)}
         step={60}
         messages={messages}

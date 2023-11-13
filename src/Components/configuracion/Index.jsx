@@ -18,6 +18,7 @@ import FichasClinicas from "./fichasClinicas/FichasClinicas";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import Descuento from "./descuento/Descuento";
+import Profesionales from "./profesionales/Profesionales";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -70,10 +71,12 @@ const Index = () => {
       ? 5
       : ubicacion == "fichas"
       ? 6
-      : ubicacion == "descuentos"
+      : ubicacion == "medicos"
       ? 7
-      : ubicacion == "importar_datos"
+      : ubicacion == "descuentos"
       ? 8
+      : ubicacion == "importar_datos"
+      ? 9
       : ""
   );
 
@@ -93,8 +96,10 @@ const Index = () => {
     } else if (newValue == 6) {
       window.location.href = `/configuracion/fichas`;
     } else if (newValue == 7) {
-      window.location.href = `/configuracion/descuentos`;
+      window.location.href = `/configuracion/medicos`;
     } else if (newValue == 8) {
+      window.location.href = `/configuracion/descuentos`;
+    } else if (newValue == 9) {
       window.location.href = `/configuracion/importar_datos`;
     }
   };
@@ -125,8 +130,9 @@ const Index = () => {
             <Tab label="Licenciados de turno" {...a11yProps(4)} />
             <Tab label="Servicios" {...a11yProps(5)} />
             <Tab label="Fichas Clinicas" {...a11yProps(6)} />
-            <Tab label="Descuentos" {...a11yProps(7)} />
-            <Tab label="Importacion de datos" {...a11yProps(8)} />
+            <Tab label="Medicos" {...a11yProps(7)} />
+            <Tab label="Descuentos" {...a11yProps(8)} />
+            <Tab label="Importacion de datos" {...a11yProps(9)} />
           </Tabs>
         </AppBar>
         <div>
@@ -152,9 +158,12 @@ const Index = () => {
             <FichasClinicas />
           </TabPanel>
           <TabPanel value={value} index={7} dir={theme.direction}>
-            <Descuento />
+            <Profesionales />
           </TabPanel>
           <TabPanel value={value} index={8} dir={theme.direction}>
+            <Descuento />
+          </TabPanel>
+          <TabPanel value={value} index={9} dir={theme.direction}>
             <ImportarDatos />
           </TabPanel>
         </div>
