@@ -27,7 +27,6 @@ const Profesionales = () => {
     Direccion: "",
   });
   const handleChange = (value, name) => {
-    console.log(value);
     setState((prev) => {
       return {
         ...prev,

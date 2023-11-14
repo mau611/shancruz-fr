@@ -28,7 +28,7 @@ const AgregarDetalleProducto = () => {
       });
       navigate(-1);
     } catch (error) {
-      console.log(error.data);
+      window.alert("Hubo un error");
     }
   };
 

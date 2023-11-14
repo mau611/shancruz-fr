@@ -59,7 +59,6 @@ const Asistencias = () => {
     );
     setFacturas(response.data[0]);
     setDetalles(response.data[1]);
-    console.log(response.data[0]);
   };
   const fechaDosDigitos = (num) => {
     return num.toString().padStart(2, "0");

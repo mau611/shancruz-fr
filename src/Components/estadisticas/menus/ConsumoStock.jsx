@@ -43,10 +43,7 @@ export const ConsumoStock = () => {
     const response = await axios.get(
       `${enlace}/estadisticas_consumo_stock/${productoAux}`
     );
-    //setVentas(response.data[2]);
-    //setDetalles(response.data[1]);
     setProductoSeleccionado(response.data);
-    console.log(response.data);
   };
 
   return (

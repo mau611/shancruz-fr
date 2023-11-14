@@ -35,7 +35,6 @@ const Paciente = () => {
 
   const getMedicosAsignados = async () => {
     const response = await axios.get(`${enlace}/medicos_pacientes/${id}`);
-    console.log("medicos", response.data);
     setMedicosAsignados(response.data);
   };
 

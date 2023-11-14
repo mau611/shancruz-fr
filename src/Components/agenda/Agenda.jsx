@@ -296,7 +296,6 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
   const getUltimasFacturas = async (pacId) => {
     const response = await axios.get(`${enlace}/ultimasFacturas/${pacId}`);
     setUltimosPagos(response.data);
-    console.log("factuas", response.data);
   };
 
   const cambiarEstadoCita = async (estadoId) => {
@@ -365,7 +364,6 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
   };
 
   const handleChangeMultiple = (event) => {
-    console.log(descuentos);
     const { options } = event.target;
     const value = [];
     const auxDescuentos = [];
@@ -374,8 +372,6 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
         auxDescuentos.push(desc);
       }
     });
-    console.log("array descuentos", auxDescuentos);
-    console.log("servicios", value);
     var valor = 0;
     for (let i = 0, l = options.length; i < l; i += 1) {
       if (options[i].selected) {
@@ -450,7 +446,6 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
     setEvents([]);
     const response = await axios.get(`${enlace}/consultas_por_dia/${fecha}`);
     response.data.map((ev) => {
-      console.log(ev);
       let nombre = setearNombreEvento(ev);
       setEvents((prev) => [
         ...prev,
@@ -484,7 +479,6 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
   const handleSelectSlot = useCallback(
     ({ start, end, title, resourceId, facturas }) => {
       handleClickOpen({ start, end, resourceId, facturas });
-      console.log(start);
     }
   );
 

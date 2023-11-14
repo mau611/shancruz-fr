@@ -28,7 +28,7 @@ const EditarTiposConsulta = () => {
       });
       navigate(-1);
     } catch (error) {
-      console.log(error);
+      window.alert("Hubo un error...");
     }
   };
   const navigate = useNavigate();

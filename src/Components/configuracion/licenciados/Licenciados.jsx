@@ -31,7 +31,6 @@ const Licenciados = () => {
     nombre: "",
   });
   const handleChange = (value, name) => {
-    console.log(value);
     setState((prev) => {
       return {
         ...prev,

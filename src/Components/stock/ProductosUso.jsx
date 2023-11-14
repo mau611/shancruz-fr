@@ -57,7 +57,7 @@ const ProductosUso = () => {
       handleClose();
       getProductos();
     } catch (error) {
-      console.log(error);
+      window.alert("Hubo un error");
     }
   };
   const consumir = async (id) => {
@@ -66,7 +66,7 @@ const ProductosUso = () => {
       getProductos();
       window.alert("Se decconto un producto");
     } catch (error) {
-      console.log(error);
+      window.alert("Hubo un error");
     }
   };
   return (

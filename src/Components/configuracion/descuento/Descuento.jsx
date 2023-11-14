@@ -50,12 +50,10 @@ const Descuento = () => {
   const getServicios = async () => {
     const response = await axios.get(`${enlace}/servicios`);
     setServicios(response.data);
-    console.log(response.data);
   };
   const getProductos = async () => {
     const response = await axios.get(`${enlace}/productos`);
     setProductos(response.data);
-    console.log(response.data);
   };
 
   const guardarDescuento = async () => {
@@ -81,7 +79,6 @@ const Descuento = () => {
       navigate(0);
     } catch (error) {
       window.alert("algo salio mal");
-      console.log(error);
     }
   };
 

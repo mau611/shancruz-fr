@@ -43,7 +43,6 @@ export const PacientesAsignados = () => {
       `${enlace}/pacientes_profesionales/${profesionalAux}`
     );
     setPacientes(response.data);
-    console.log(response.data);
   };
 
   return (

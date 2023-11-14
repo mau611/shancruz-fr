@@ -48,7 +48,6 @@ const ProductosVenta = () => {
   const getProductos = async () => {
     const response = await axios.get(`${enlace}/productos`);
     setProductos(response.data);
-    console.log(response.data);
     response.data.map((p) => {
       setDatos((dat) => [
         ...dat,
@@ -72,7 +71,6 @@ const ProductosVenta = () => {
   };
 
   const handleChange = (value, name) => {
-    console.log(value);
     setState((prev) => {
       return {
         ...prev,
@@ -89,7 +87,6 @@ const ProductosVenta = () => {
   const obtenerDatos = (ingresos, campo) => {
     let dato = [];
     ingresos.map((ingreso) => {
-      console.log(ingreso);
       dato.push(ingreso.fecha);
       dato.push(ingreso.PrecioCompra);
       dato.push(ingreso.PrecioVenta);

@@ -53,7 +53,6 @@ const FichasClinicas = () => {
       field.table = "";
     }
     if (field.image != null) {
-      console.log(field.image);
       const rest = await axios.post(
         `${enlace}/ficha_medica_imagen`,
         {
@@ -94,7 +93,7 @@ const FichasClinicas = () => {
       setImages([]);
       setNombreFicha("");
     } catch (error) {
-      console.log(error);
+      window.alert("Algo Salio mal..");
     }
   };
 

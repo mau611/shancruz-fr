@@ -1,5 +1,4 @@
 import React from "react";
-import NavBar from "../../estructura/NavBar";
 import {
   Autocomplete,
   Box,
@@ -20,8 +19,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
@@ -48,7 +45,6 @@ export const Referidos = () => {
       `${enlace}/pacientes_medicos/${profesionalAux}`
     );
     setPacientes(response.data);
-    console.log(response.data);
   };
 
   return (

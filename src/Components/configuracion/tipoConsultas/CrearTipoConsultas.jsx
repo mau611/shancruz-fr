@@ -26,7 +26,6 @@ const CrearTratamientos = () => {
     color: "",
   });
   const handleChange = (value, name) => {
-    console.log(value);
     setState((prev) => {
       return {
         ...prev,

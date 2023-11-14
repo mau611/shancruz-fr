@@ -115,7 +115,6 @@ const DetallesPaciente = ({
       })
       .catch(function (error) {
         window.alert("error");
-        console.log(error);
         setOpenDx(!openTx);
       });
   };

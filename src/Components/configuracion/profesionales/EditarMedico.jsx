@@ -31,7 +31,7 @@ const EditarMedico = () => {
       });
       navigate(-1);
     } catch (error) {
-      console.log(error);
+      window.alert("algo salio mal");
     }
   };
   const navigate = useNavigate();

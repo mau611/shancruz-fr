@@ -35,7 +35,6 @@ const Proveedores = () => {
     contacto: "",
   });
   const handleChange = (value, name) => {
-    console.log(value);
     setState((prev) => {
       return {
         ...prev,
@@ -64,7 +63,6 @@ const Proveedores = () => {
   const getProveedores = async () => {
     const response = await axios.get(`${enlace}/proveedores`);
     setProveedores(response.data);
-    console.log(response.data);
   };
 
   const handleSubmit = async (e) => {

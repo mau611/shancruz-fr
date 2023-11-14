@@ -24,7 +24,6 @@ const TablaPacientes = () => {
 
   const getFacturas = async () => {
     const response = await axios.get(`${enlace}/facturas`);
-    console.log(response.data);
     setFacturas(response.data[0]);
     setDetalles(response.data[1]);
   };
