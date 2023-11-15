@@ -14,7 +14,6 @@ import shantiLogo from "./../../../../shanti card.png";
 
 const Bonos = ({ bonos }) => {
   const theme = useTheme();
-  console.log(bonos);
   return (
     <div>
       <h3>Bonos</h3>

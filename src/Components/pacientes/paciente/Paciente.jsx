@@ -18,17 +18,24 @@ const Paciente = () => {
   const [paciente, setPaciente] = useState({});
   const [profesionales, setProfesionales] = React.useState({});
   const [profesionalesAsignados, setProfesionalesAsignados] = useState([]);
+  const [medicosAsignados, setMedicosAsignados] = useState([]);
   const [key, setKey] = useState(ubicacion);
 
   useEffect(() => {
     getPaciente();
     getProfesionalACargo();
     getProfesionalesAsignados();
+    getMedicosAsignados();
   }, []);
 
   const getProfesionalesAsignados = async () => {
     const response = await axios.get(`${enlace}/profesionales_pacientes/${id}`);
     setProfesionalesAsignados(response.data);
+  };
+
+  const getMedicosAsignados = async () => {
+    const response = await axios.get(`${enlace}/medicos_pacientes/${id}`);
+    setMedicosAsignados(response.data);
   };
 
   const getProfesionalACargo = async () => {
@@ -65,6 +72,7 @@ const Paciente = () => {
             paciente_id={paciente.id}
             profesionales={profesionalesAsignados}
             descuentos={paciente.descuentos}
+            medicos={medicosAsignados}
           />
         </Tab>
         <Tab

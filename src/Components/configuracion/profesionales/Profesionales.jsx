@@ -7,7 +7,6 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Link, useNavigate } from "react-router-dom";
-import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
 import { enlace } from "../../../scripts/Enlace.js";
 import {
@@ -21,9 +20,11 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
-const CrearEstadoCita = () => {
+const Profesionales = () => {
   const [state, setState] = useState({
-    estado: "",
+    nombre: "",
+    telefono: "",
+    Direccion: "",
   });
   const handleChange = (value, name) => {
     setState((prev) => {
@@ -41,25 +42,29 @@ const CrearEstadoCita = () => {
   const navigate = useNavigate();
   const handleClose = () => {
     setState({
-      estado: "",
+      nombre: "",
+      telefono: "",
+      Direccion: "",
     });
     setOpen(false);
   };
 
-  const [estados, setEstados] = useState([]);
+  const [medicos, SetMedicos] = useState([]);
   useEffect(() => {
-    getEstados();
+    getTipoConsultas();
   }, []);
 
-  const getEstados = async () => {
-    const response = await axios.get(`${enlace}/estadoCitas`);
-    setEstados(response.data);
+  const getTipoConsultas = async () => {
+    const response = await axios.get(`${enlace}/medicos`);
+    SetMedicos(response.data);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post(`${enlace}/estadoCita`, {
-      estado: state.estado,
+    await axios.post(`${enlace}/medico`, {
+      nombre: state.nombre,
+      telefono: state.telefono,
+      Direccion: state.Direccion,
     });
     navigate(0);
   };
@@ -71,22 +76,26 @@ const CrearEstadoCita = () => {
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
-              <TableCell>Nombre Estado</TableCell>
+              <TableCell>Nombre</TableCell>
+              <TableCell>Telefono</TableCell>
+              <TableCell>Direccion</TableCell>
               <TableCell>Acciones</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {estados.map((row) => (
+            {medicos.map((row) => (
               <TableRow
-                key={row.name}
+                key={row.nombre}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
                   {row.id}
                 </TableCell>
-                <TableCell align="">{row.estado}</TableCell>
+                <TableCell align="">{row.nombre}</TableCell>
+                <TableCell align="">{row.telefono}</TableCell>
+                <TableCell align="">{row.Direccion}</TableCell>
                 <TableCell>
-                  <Link to={`/editar_estado_cita/${row.id}`}>
+                  <Link to={`/editar_medico/${row.id}`}>
                     <EditIcon fontSize="small" color="secondary" />
                   </Link>
                 </TableCell>
@@ -97,21 +106,41 @@ const CrearEstadoCita = () => {
       </TableContainer>
       <div>
         <Button variant="outlined" onClick={handleClickOpen}>
-          Agregar Estado de cita
+          Agregar Medico
         </Button>
         <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>Creacion del Estado de una cita</DialogTitle>
+          <DialogTitle>Agregar medico</DialogTitle>
           <DialogContent>
             <TextField
               autoFocus
-              value={state.estado}
+              value={state.nombre}
               margin="dense"
-              id="estado"
-              label="Estado de cita"
+              id="nombre"
+              label="Nombre Medico"
               type="text"
               fullWidth
               variant="standard"
-              onChange={(e) => handleChange(e.target.value, "estado")}
+              onChange={(e) => handleChange(e.target.value, "nombre")}
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="telefono"
+              label="Telefono"
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(e) => handleChange(e.target.value, "telefono")}
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="Direccion"
+              label="Direccion"
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(e) => handleChange(e.target.value, "Direccion")}
             />
           </DialogContent>
           <DialogActions>
@@ -124,4 +153,4 @@ const CrearEstadoCita = () => {
   );
 };
 
-export default CrearEstadoCita;
+export default Profesionales;

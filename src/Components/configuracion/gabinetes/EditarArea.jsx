@@ -29,9 +29,7 @@ const EditarArea = () => {
         nombre: nombre,
       });
       navigate(-1);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
   return (
     <NavBar>

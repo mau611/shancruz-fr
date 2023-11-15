@@ -196,7 +196,6 @@ export default function NavBar({ children, titulo }) {
       navigate(0);
     } catch (error) {
       if (error.response.status === 422) {
-        console.log(error.response.data.errors);
         if (error.response.data.errors.nombres) {
           setNombresError(error.response.data.errors.nombres[0]);
         } else {
@@ -279,7 +278,7 @@ export default function NavBar({ children, titulo }) {
         window.location.href = "/";
       }
     } catch (error) {
-      console.log(error);
+      window.alert("Hubo un error");
     }
   };
 

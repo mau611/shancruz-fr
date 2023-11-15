@@ -1,12 +1,14 @@
 import React from "react";
-import NavBar from "../../estructura/NavBar";
 import {
   Autocomplete,
   Box,
   Button,
   FormControl,
   Grid,
+  InputLabel,
+  MenuItem,
   Paper,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -15,6 +17,7 @@ import {
   TableHead,
   TableRow,
   TextField,
+  Typography,
 } from "@mui/material";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -22,32 +25,32 @@ import axios from "axios";
 import { enlace } from "../../../scripts/Enlace";
 import SearchIcon from "@mui/icons-material/Search";
 
-export const ConsumoStock = () => {
-  const [productosUso, setProductosUso] = useState([]);
-  const [producto, setProducto] = useState("");
-  const [productoSeleccionado, setProductoSeleccionado] = useState([]);
+export const Referidos = () => {
+  const [medicos, setMedicos] = useState([]);
+  const [medico, setMedico] = useState("");
+  const [pacientes, setPacientes] = useState([]);
 
   useEffect(() => {
-    getProductosUso();
+    getMedicos();
   }, []);
-  const getProductosUso = async () => {
-    const response = await axios.get(`${enlace}/materiales`);
-    setProductosUso(response.data);
+  const getMedicos = async () => {
+    const response = await axios.get(`${enlace}/medicos`);
+    setMedicos(response.data);
   };
 
   const buscar = async () => {
-    //var auxDesde = formatFecha(new Date(desde.$y, desde.$M, desde.$D));
-    //var auxHasta = formatFecha(new Date(hasta.$y, hasta.$M, hasta.$D));
-    const p = "" + producto;
-    var productoAux = p.split(" ")[0];
+    const p = "" + medico;
+    var profesionalAux = p.split(" ")[0];
     const response = await axios.get(
-      `${enlace}/estadisticas_consumo_stock/${productoAux}`
+      `${enlace}/pacientes_medicos/${profesionalAux}`
     );
-    setProductoSeleccionado(response.data);
+    setPacientes(response.data);
   };
 
   return (
     <>
+      <Typography variant="h4">Pacientes referidos por:</Typography>
+      <br />
       <Box sx={{ flexGrow: 1 }}>
         <Grid
           container
@@ -59,17 +62,17 @@ export const ConsumoStock = () => {
               <Autocomplete
                 required
                 freeSolo
-                id="producto"
-                value={producto}
-                onChange={(e, value) => setProducto(value)}
-                onInputChange={(e, value) => setProducto(value)}
-                options={productosUso.map(
-                  (option) => option.id + " -  " + option.productos_uso
+                id="medico"
+                value={medico}
+                onChange={(e, value) => setMedico(value)}
+                onInputChange={(e, value) => setMedico(value)}
+                options={medicos.map(
+                  (option) => option.id + " -  " + option.nombre
                 )}
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    label="Seleccione un producto"
+                    label="Seleccione un profesional"
                     InputProps={{
                       ...params.InputProps,
                       type: "search",
@@ -98,11 +101,6 @@ export const ConsumoStock = () => {
         <div></div>
       </Box>
       <div>
-        <h4>
-          {productoSeleccionado.productos_uso
-            ? productoSeleccionado.productos_uso
-            : ""}
-        </h4>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead style={{ backgroundColor: "#155E30" }}>
@@ -111,28 +109,28 @@ export const ConsumoStock = () => {
                   ID
                 </TableCell>
                 <TableCell style={{ fontWeight: "bold", color: "white" }}>
-                  Fecha Ingreso
+                  Paciente
                 </TableCell>
                 <TableCell style={{ fontWeight: "bold", color: "white" }}>
-                  Fecha de consumo
+                  Diagnostico
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {productoSeleccionado.ingresos_uso?.map((ingreso) => (
+              {pacientes.map((paciente) => (
                 <TableRow
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   align="right"
                 >
                   <TableCell component="th" scope="row">
-                    {ingreso.id}
+                    {paciente.id}
                   </TableCell>
                   <TableCell component="th" scope="row">
-                    {ingreso.fecha_ingreso}
+                    {paciente.nombres + " " + paciente.apellidos}
                   </TableCell>
                   <TableCell component="th" scope="row">
-                    {ingreso.consumos?.map((consumo) => (
-                      <p>{consumo.fecha}</p>
+                    {paciente.diagnosticos?.map((diagnostico) => (
+                      <p>{diagnostico.diagnostico}</p>
                     ))}
                   </TableCell>
                 </TableRow>

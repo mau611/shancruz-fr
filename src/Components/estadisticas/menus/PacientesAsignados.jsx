@@ -6,10 +6,7 @@ import {
   Button,
   FormControl,
   Grid,
-  InputLabel,
-  MenuItem,
   Paper,
-  Select,
   Table,
   TableBody,
   TableCell,
@@ -18,9 +15,8 @@ import {
   TableHead,
   TableRow,
   TextField,
+  Typography,
 } from "@mui/material";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
@@ -41,21 +37,18 @@ export const PacientesAsignados = () => {
   };
 
   const buscar = async () => {
-    //var auxDesde = formatFecha(new Date(desde.$y, desde.$M, desde.$D));
-    //var auxHasta = formatFecha(new Date(hasta.$y, hasta.$M, hasta.$D));
     const p = "" + profesional;
     var profesionalAux = p.split(" ")[0];
     const response = await axios.get(
       `${enlace}/pacientes_profesionales/${profesionalAux}`
     );
-    //setVentas(response.data[2]);
-    //setDetalles(response.data[1]);
     setPacientes(response.data);
-    console.log(response.data);
   };
 
   return (
     <>
+      <Typography variant="h4">Pacientes a cargo de:</Typography>
+      <br />
       <Box sx={{ flexGrow: 1 }}>
         <Grid
           container

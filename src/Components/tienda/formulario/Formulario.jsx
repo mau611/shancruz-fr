@@ -45,12 +45,10 @@ const Formulario = () => {
   const getIngresoProductos = async () => {
     const response = await axios.get(`${enlace}/ingreso_productos`);
     setIngresoProductos(response.data);
-    console.log(response.data.find((element) => element.id == 1));
   };
 
   const guardarProducto = () => {
     const pac = pacientes.find((pac) => pac.id == paciente.split(" ")[0]);
-    console.log(pac);
     setDescuentos(pac.descuentos);
     if (ingresoP.length > 1) {
       let valor = ingresoP.split(" ")[0];
@@ -85,7 +83,6 @@ const Formulario = () => {
       });
       setTotal(aux);
     }
-    console.log(productos);
   };
 
   const eliminar = () => {
@@ -102,16 +99,6 @@ const Formulario = () => {
   };
 
   const realizarVenta = async () => {
-    console.log(
-      paciente,
-      licenciado,
-      productos,
-      total,
-      formaPago,
-      estadoPago,
-      observaciones,
-      repeticiones
-    );
     await axios.post(`${enlace}/venta`, {
       total: total,
       estado: estadoPago,

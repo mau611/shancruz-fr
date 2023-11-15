@@ -22,7 +22,6 @@ const TablaProductos = () => {
   }, []);
   const getVentas = async () => {
     const response = await axios.get(`${enlace}/ventas`);
-    console.log(response.data);
     setVentas(response.data[0]);
     setDetalles(response.data[1]);
   };
