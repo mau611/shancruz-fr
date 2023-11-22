@@ -30,6 +30,7 @@ import EditarLicenciado from "./Components/configuracion/licenciados/EditarLicen
 import EditarServicio from "./Components/configuracion/servicios/EditarServicio";
 import NotFound from "./pages/NotFound";
 import EditarMedico from "./Components/configuracion/profesionales/EditarMedico";
+import VerArchivo from "./Components/pacientes/paciente/detalles/VerArchivo";
 
 const router = createBrowserRouter([
   {
@@ -153,6 +154,10 @@ const router = createBrowserRouter([
       {
         path: "/editar_medico/:id",
         element: <EditarMedico />,
+      },
+      {
+        path: "/archivo/:nombre_archivo/:tipo_documento/:pac_id",
+        element: <VerArchivo />,
       },
       {
         path: "*",

@@ -12,6 +12,7 @@ import Bonos from "./detalles/Bonos";
 import Documentos from "./detalles/Documentos";
 import Historial from "./detalles/Historial";
 import { enlace } from "../../../scripts/Enlace.js";
+import Descuentos from "./detalles/Descuentos.jsx";
 
 const Paciente = () => {
   const { id, ubicacion } = useParams();
@@ -110,7 +111,7 @@ const Paciente = () => {
           title="Documentos"
           active={ubicacion == "documentos" ? true : false}
         >
-          <Documentos />
+          <Documentos citas={paciente.citas} id={paciente.id} />
         </Tab>
         <Tab
           eventKey="historial"
@@ -122,6 +123,13 @@ const Paciente = () => {
             diagnosticos={paciente.diagnosticos}
             profesionales={profesionales}
           />
+        </Tab>
+        <Tab
+          eventKey="descuentos"
+          title="Descuentos"
+          active={ubicacion == "descuentos" ? true : false}
+        >
+          <Descuentos descuentos={paciente.descuentos} />
         </Tab>
       </Tabs>
     </NavBar>

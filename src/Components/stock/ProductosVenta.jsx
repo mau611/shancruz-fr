@@ -181,34 +181,58 @@ const ProductosVenta = () => {
                   </TableCell>
                   <TableCell align="">{row.proveedor.nombre}</TableCell>
                   <TableCell>
-                    {row.ingresos.map((ingreso) => (
-                      <p>{ingreso.fecha}</p>
-                    ))}
+                    {row.ingresos.map((ingreso) =>
+                      ingreso.cantidad < 5 ? (
+                        <p style={{ color: "red" }}>{ingreso.fecha}</p>
+                      ) : (
+                        <p>{ingreso.fecha}</p>
+                      )
+                    )}
                   </TableCell>
                   <TableCell>
-                    {row.ingresos.map((ingreso) => (
-                      <p>{ingreso.PrecioCompra}</p>
-                    ))}
+                    {row.ingresos.map((ingreso) =>
+                      ingreso.cantidad < 5 ? (
+                        <p style={{ color: "red" }}>{ingreso.PrecioCompra}</p>
+                      ) : (
+                        <p>{ingreso.PrecioCompra}</p>
+                      )
+                    )}
                   </TableCell>
                   <TableCell>
-                    {row.ingresos.map((ingreso) => (
-                      <p>{ingreso.PrecioVenta}</p>
-                    ))}
+                    {row.ingresos.map((ingreso) =>
+                      ingreso.cantidad < 5 ? (
+                        <p style={{ color: "red" }}>{ingreso.PrecioVenta}</p>
+                      ) : (
+                        <p>{ingreso.PrecioVenta}</p>
+                      )
+                    )}
                   </TableCell>
                   <TableCell>
-                    {row.ingresos.map((ingreso) => (
-                      <p>{ingreso.cantidad}</p>
-                    ))}
+                    {row.ingresos.map((ingreso) =>
+                      ingreso.cantidad < 5 ? (
+                        <p style={{ color: "red" }}>{ingreso.cantidad}</p>
+                      ) : (
+                        <p>{ingreso.cantidad}</p>
+                      )
+                    )}
                   </TableCell>
                   <TableCell>
-                    {row.ingresos.map((ingreso) => (
-                      <p>{ingreso.factura}</p>
-                    ))}
+                    {row.ingresos.map((ingreso) =>
+                      ingreso.cantidad < 5 ? (
+                        <p style={{ color: "red" }}>{ingreso.factura}</p>
+                      ) : (
+                        <p>{ingreso.factura}</p>
+                      )
+                    )}
                   </TableCell>
                   <TableCell>
-                    {row.ingresos.map((ingreso) => (
-                      <p>{ingreso.vencimiento}</p>
-                    ))}
+                    {row.ingresos.map((ingreso) =>
+                      ingreso.cantidad < 5 ? (
+                        <p style={{ color: "red" }}>{ingreso.vencimiento}</p>
+                      ) : (
+                        <p>{ingreso.vencimiento}</p>
+                      )
+                    )}
                   </TableCell>
                   <TableCell>
                     {row.ingresos.map((ingreso) => (

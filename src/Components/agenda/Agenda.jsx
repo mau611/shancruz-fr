@@ -811,7 +811,13 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
               disableClearable
               options={pacientes.map(
                 (option) =>
-                  option.id + " -  " + option.nombres + " " + option.apellidos
+                  option.id +
+                  " -  " +
+                  option.nombres +
+                  " " +
+                  option.apellidos +
+                  " - " +
+                  option.telefono
               )}
               renderInput={(params) => (
                 <TextField
