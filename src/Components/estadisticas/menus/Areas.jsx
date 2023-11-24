@@ -26,6 +26,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { enlace } from "../../../scripts/Enlace.js";
 import { Link } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import { formatDate } from "../../../scripts/functions.js";
 
 const Areas = () => {
   const [tipoCita, setTipoCita] = useState("Todos");
@@ -166,6 +167,9 @@ const Areas = () => {
                   Nombre
                 </TableCell>
                 <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                  Fecha
+                </TableCell>
+                <TableCell style={{ fontWeight: "bold", color: "white" }}>
                   Tipo de cita
                 </TableCell>
                 <TableCell style={{ fontWeight: "bold", color: "white" }}>
@@ -195,6 +199,9 @@ const Areas = () => {
                     {factura.consulta.paciente.nombres +
                       " " +
                       factura.consulta.paciente.apellidos}
+                  </TableCell>
+                  <TableCell component="th" scope="row">
+                    {formatDate(factura.fecha)}
                   </TableCell>
                   <TableCell component="th" scope="row">
                     {factura.consulta.tipo_consulta.nombre}

@@ -23,6 +23,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import { enlace } from "../../../scripts/Enlace.js";
+import { formatDate } from "../../../scripts/functions.js";
 
 const Consultas = () => {
   const [tipoCita, setTipoCita] = useState("Todos");
@@ -180,6 +181,9 @@ const Consultas = () => {
                   Nombre
                 </TableCell>
                 <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                  Fecha
+                </TableCell>
+                <TableCell style={{ fontWeight: "bold", color: "white" }}>
                   Tipo de cita
                 </TableCell>
                 <TableCell style={{ fontWeight: "bold", color: "white" }}>
@@ -206,6 +210,9 @@ const Consultas = () => {
                     {factura.consulta.paciente.nombres +
                       " " +
                       factura.consulta.paciente.apellidos}
+                  </TableCell>
+                  <TableCell component="th" scope="row">
+                    {formatDate(factura.fecha)}
                   </TableCell>
                   <TableCell component="th" scope="row">
                     {factura.consulta.tipo_consulta.nombre}

@@ -168,13 +168,13 @@ export const Ventas = () => {
             <TableHead style={{ backgroundColor: "#155E30" }}>
               <TableRow>
                 <TableCell style={{ fontWeight: "bold", color: "white" }}>
+                  Fecha Venta
+                </TableCell>
+                <TableCell style={{ fontWeight: "bold", color: "white" }}>
                   Paciente
                 </TableCell>
                 <TableCell style={{ fontWeight: "bold", color: "white" }}>
                   Productos Vendidos
-                </TableCell>
-                <TableCell style={{ fontWeight: "bold", color: "white" }}>
-                  Fecha Venta
                 </TableCell>
                 <TableCell style={{ fontWeight: "bold", color: "white" }}>
                   Estado de pago
@@ -194,6 +194,9 @@ export const Ventas = () => {
                   align="right"
                 >
                   <TableCell component="th" scope="row">
+                    <TableCell component="th" scope="row">
+                      {venta[0].fecha}
+                    </TableCell>
                     {venta[0].paciente.nombres +
                       " " +
                       venta[0].paciente.apellidos}
@@ -202,9 +205,6 @@ export const Ventas = () => {
                     {venta[1].map((producto) => (
                       <p>{producto.Nombre}</p>
                     ))}
-                  </TableCell>
-                  <TableCell component="th" scope="row">
-                    {venta[0].fecha}
                   </TableCell>
                   <TableCell component="th" scope="row">
                     {venta[0].estado}

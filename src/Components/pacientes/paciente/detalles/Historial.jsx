@@ -9,6 +9,7 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const Historial = ({ citas, diagnosticos }) => {
+  console.log(citas);
   return (
     <div style={{ textAlign: "justify" }}>
       <h5>Historial</h5>
@@ -27,7 +28,11 @@ const Historial = ({ citas, diagnosticos }) => {
               <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={2}>
                   <Grid item xs={8}>
-                    Paciente atendido en: {cita.consultorio.nombre}
+                    Paciente atendido en: {cita.consultorio.nombre} -{" "}
+                    {cita.historias.length > 0
+                      ? "Con Ficha"
+                      : "La cita no cuenta con una historia"}{" "}
+                    - {cita.tipo_consulta.nombre}
                   </Grid>
                   <Grid item xs={4} style={{ textAlign: "right" }}>
                     Fecha:{" "}

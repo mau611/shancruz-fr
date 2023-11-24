@@ -56,6 +56,7 @@ const Formulario = () => {
       repeticiones.push(parseInt(valor));
       setIngresoP("");
       var aux = 0;
+      var sinDescuento = 0;
       productos.map((producto) => {
         if (pac.descuentos.length > 0) {
           pac.descuentos.map((descuento) => {
@@ -73,15 +74,13 @@ const Formulario = () => {
               } else {
                 aux = aux + descuento.cantidad_descuento;
               }
-            } else {
-              aux = aux + producto.PrecioVenta;
             }
           });
         } else {
           aux = aux + producto.PrecioVenta;
         }
       });
-      setTotal(aux);
+      setTotal(aux + sinDescuento);
     }
   };
 
@@ -248,6 +247,7 @@ const Formulario = () => {
             </MenuItem>
             <MenuItem value="Efectivo">Efectivo</MenuItem>
             <MenuItem value="Transferencia">Transferencia</MenuItem>
+            <MenuItem value="Qr">Qr</MenuItem>
             <MenuItem value="Tarjeta">Tarjeta</MenuItem>
           </Select>
         </FormControl>

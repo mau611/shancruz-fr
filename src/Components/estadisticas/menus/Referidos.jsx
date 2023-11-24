@@ -49,7 +49,7 @@ export const Referidos = () => {
 
   return (
     <>
-      <Typography variant="h4">Pacientes referidos por:</Typography>
+      <Typography variant="h4">Pacientes atendido por el medico:</Typography>
       <br />
       <Box sx={{ flexGrow: 1 }}>
         <Grid

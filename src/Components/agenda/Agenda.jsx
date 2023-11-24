@@ -683,7 +683,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
     getEventosBD();
   };
   const moveEvent = useCallback(({ event, start, end, resourceId }) => {
-    if (event.estado_cita == "Por llegar") {
+    if (event.estado.estado == "Por llegar") {
       modificarEvento({ event, start, end, resourceId });
     } else {
       window.alert("No es posible modificar la cita");
@@ -1398,34 +1398,42 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
                         Sesiones paciente:
                         {auxPaciente.bonos.map((bono) => (
                           <Row>
-                            <Col>
-                              {bono.nombre} x{bono.sesiones}
-                            </Col>
-                            <Col>Restantes: {bono.restantes}</Col>
-                            {bono.restantes > 0 ? (
-                              <Col>
-                                <ButtonB
-                                  style={{ width: "70%" }}
-                                  size="sm"
-                                  variant="link"
-                                  onClick={() => consumirBono(bono.id)}
-                                >
-                                  Consumir
-                                </ButtonB>
-                              </Col>
-                            ) : (
-                              <Col>
-                                <ButtonB
-                                  style={{ width: "100%" }}
-                                  size="sm"
-                                  variant="outline-secondary"
-                                  disabled
-                                >
-                                  Bono consumido
-                                </ButtonB>
-                              </Col>
-                            )}
-                            <hr />
+                            <>
+                              {bono.restantes > 0 ? (
+                                <>
+                                  <Col>
+                                    {bono.nombre} x{bono.sesiones}
+                                  </Col>
+                                  <Col>Restantes: {bono.restantes}</Col>
+                                  {bono.restantes > 0 ? (
+                                    <Col>
+                                      <ButtonB
+                                        style={{ width: "70%" }}
+                                        size="sm"
+                                        variant="link"
+                                        onClick={() => consumirBono(bono.id)}
+                                      >
+                                        Consumir
+                                      </ButtonB>
+                                    </Col>
+                                  ) : (
+                                    <Col>
+                                      <ButtonB
+                                        style={{ width: "100%" }}
+                                        size="sm"
+                                        variant="outline-secondary"
+                                        disabled
+                                      >
+                                        Bono consumido
+                                      </ButtonB>
+                                    </Col>
+                                  )}
+                                  <hr />
+                                </>
+                              ) : (
+                                <></>
+                              )}
+                            </>
                           </Row>
                         ))}
                       </Container>

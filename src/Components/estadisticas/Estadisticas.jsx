@@ -35,7 +35,7 @@ const Estadisticas = () => {
                 <Nav.Link eventKey="fourth">Pacientes asignados</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="fifth">Referidos</Nav.Link>
+                <Nav.Link eventKey="fifth">Medico tratante</Nav.Link>
               </Nav.Item>
               <Nav.Item>
                 <Nav.Link eventKey="sixth">Consumo stock</Nav.Link>

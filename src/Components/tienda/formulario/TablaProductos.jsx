@@ -7,13 +7,14 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 
 const TablaProductos = ({ productos, total, descuentos }) => {
+  const [aux, setAux] = useState(0);
   const buscar = (producto) => {
     var a = 0;
     if (descuentos.length > 0) {
-      descuentos.map((descuento) => {
+      descuentos?.map((descuento) => {
         if (
           descuento.producto == 1 &&
           descuento.activo == 1 &&
@@ -53,7 +54,7 @@ const TablaProductos = ({ productos, total, descuentos }) => {
               <TableCell component="th" scope="row">
                 {producto.producto.Nombre}
               </TableCell>
-              <TableCell align="right">{buscar(producto)}</TableCell>
+              <TableCell align="right"> {buscar(producto)}</TableCell>
             </TableRow>
           ))}
           <TableRow>
