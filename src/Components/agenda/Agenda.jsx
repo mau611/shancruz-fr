@@ -141,7 +141,6 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
   const [profesionalId, setProfesionalId] = useState("");
   const [numerosTarjeta, setNumerosTarjeta] = useState(null);
   const [pagoTarjeta, setPagoTarjeta] = useState(true);
-
   const [ultimosPagos, setUltimosPagos] = useState([]);
   //variables creacion pacientes
   const [state, setState] = React.useState({
@@ -173,6 +172,9 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
   const [detallesError, setDetallesError] = useState("");
   const [estadoCitaError, setEstadoCitaError] = useState("");
   const [agendadoPorError, setAgendadoPorError] = useState("");
+  //variables cobros con descuentos
+  const [descuentos, setDescuentos] = useState([]);
+  const [descuentoAplicado, setDescuentoAplicado] = useState(false);
 
   const setValoresBono = (value, variable) => {
     if (variable == "nombreBono") {
@@ -288,12 +290,12 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
     setAuxTratamiento(tratamiento);
     setAuxTelefono(telefono);
     getUltimasFacturas(pacienteEvento.id);
+    setDescuentos(pacienteEvento.descuentos);
   };
 
   const getUltimasFacturas = async (pacId) => {
     const response = await axios.get(`${enlace}/ultimasFacturas/${pacId}`);
     setUltimosPagos(response.data);
-    console.log("factuas", response.data);
   };
 
   const cambiarEstadoCita = async (estadoId) => {
@@ -317,6 +319,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
     setAuxTratamiento("");
     setAuxTelefono("");
     setUltimosPagos([]);
+    setDescuentos([]);
   };
 
   const getPacienteCita = (paciente) => {
@@ -348,28 +351,40 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
     setSexoError("");
     setDireccionError("");
     setReferenciaError("");
-    setState({
-      nombres: "",
-      apellidos: "",
-      telefono: "",
-      fecha_nacimiento: "",
-      ci: "",
-      sexo: "",
-      direccion: "",
-      referencia: "",
-    });
   };
 
   const handleChangeMultiple = (event) => {
     const { options } = event.target;
     const value = [];
+    const auxDescuentos = [];
+    descuentos.map(function (desc) {
+      if (desc.servicio == 1 && desc.activo == 1) {
+        auxDescuentos.push(desc);
+      }
+    });
     var valor = 0;
     for (let i = 0, l = options.length; i < l; i += 1) {
       if (options[i].selected) {
         value.push(options[i].value);
+        // eslint-disable-next-line no-loop-func, array-callback-return
         servicios.map((serv) => {
+          // eslint-disable-next-line eqeqeq
           if (serv.id == options[i].value) {
-            valor = valor + serv.costo;
+            const aux = auxDescuentos.find(
+              (auxDesc) => auxDesc.serv_o_prod_id === serv.id
+            );
+            if (aux === undefined) {
+              valor = valor + serv.costo;
+            } else {
+              if (aux.porcentaje == 0) {
+                valor = valor + aux.cantidad_descuento;
+              } else if (aux.porcentaje == 1) {
+                valor =
+                  valor +
+                  (serv.costo - serv.costo * (aux.cantidad_descuento / 100));
+              }
+              setDescuentoAplicado(true);
+            }
           }
         });
       }
@@ -427,7 +442,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
         {
           start: new Date(ev.start),
           end: new Date(ev.end),
-          title: nombre,
+          title: ev.tipo_consulta.nombre + ": " + nombre,
           resourceId: ev.consultorio_id,
           paciente: ev.paciente,
           evId: ev.id,
@@ -454,7 +469,6 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
   const handleSelectSlot = useCallback(
     ({ start, end, title, resourceId, facturas }) => {
       handleClickOpen({ start, end, resourceId, facturas });
-      console.log(start);
     }
   );
 
@@ -467,7 +481,6 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
   );
 
   const onSelectEvent = useCallback((calEvent) => {
-    console.log(calEvent.start);
     /**
      * Here we are waiting 250 milliseconds (use what you want) prior to firing
      * our method. Why? Because both 'click' and 'doubleClick'
@@ -490,7 +503,9 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
       total: cobro,
       estado_pago: estadoPago,
       forma_pago: tipoDePago,
-      detalles_pago: detallesPago,
+      detalles_pago: descuentoAplicado
+        ? "Se aplico un descuento asociado. " + detallesPago
+        : detallesPago,
       consulta_id: selectEventId,
       tratamientos: cobroTratamientos,
       digitos_tarjeta: numerosTarjeta,
@@ -529,6 +544,16 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
           tipoConsulta_id: tc.split(" ")[0],
           estadoConsulta_id: ec.split(" ")[0],
           profesional_id: pi.split(" ")[0],
+        });
+        setState({
+          nombres: "",
+          apellidos: "",
+          telefono: "",
+          fecha_nacimiento: "",
+          ci: "",
+          sexo: "",
+          direccion: "",
+          referencia: "",
         });
         handleClose();
         getPacientes();
@@ -658,7 +683,11 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
     getEventosBD();
   };
   const moveEvent = useCallback(({ event, start, end, resourceId }) => {
-    modificarEvento({ event, start, end, resourceId });
+    if (event.estado.estado == "Por llegar") {
+      modificarEvento({ event, start, end, resourceId });
+    } else {
+      window.alert("No es posible modificar la cita");
+    }
   }, []);
 
   const [tabAgendar, setTabAgendar] = React.useState(0);
@@ -717,7 +746,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
         }}
         toolbar={false}
         dayLayoutAlgorithm={"no-overlap"}
-        min={new Date(2010, 0, 1, 6, 0, 0, 0)}
+        min={new Date(2010, 0, 1, 8, 0, 0, 0)}
         max={new Date(0, 0, 1, 21, 0, 0, 0)}
         step={60}
         messages={messages}
@@ -782,7 +811,13 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
               disableClearable
               options={pacientes.map(
                 (option) =>
-                  option.id + " -  " + option.nombres + " " + option.apellidos
+                  option.id +
+                  " -  " +
+                  option.nombres +
+                  " " +
+                  option.apellidos +
+                  " - " +
+                  option.telefono
               )}
               renderInput={(params) => (
                 <TextField
@@ -934,6 +969,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
               <Grid container spacing={2}>
                 <Grid item sm={6} xs={12}>
                   <TextField
+                    value={state.nombres}
                     helperText={nombresError}
                     error={nombresError ? true : false}
                     autoFocus
@@ -950,6 +986,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
                 </Grid>
                 <Grid item sm={6} xs={12}>
                   <TextField
+                    value={state.apellidos}
                     helperText={apellidosError}
                     error={apellidosError ? true : false}
                     autoFocus
@@ -966,6 +1003,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
                 </Grid>
                 <Grid item sm={6} xs={12}>
                   <TextField
+                    value={state.telefono}
                     helperText={telefonoError}
                     error={telefonoError ? true : false}
                     autoFocus
@@ -982,6 +1020,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
                 </Grid>
                 <Grid item sm={6} xs={12}>
                   <TextField
+                    value={state.fecha_nacimiento}
                     helperText={nacimientoError}
                     error={nacimientoError ? true : false}
                     label="fecha de nacimiento"
@@ -1002,6 +1041,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
                 </Grid>
                 <Grid item sm={6} xs={12}>
                   <TextField
+                    value={state.ci}
                     helperText={ciError}
                     error={ciError ? true : false}
                     autoFocus
@@ -1034,6 +1074,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
                 </Grid>
                 <Grid item sm={6} xs={12}>
                   <TextField
+                    value={state.direccion}
                     helperText={direccionError}
                     error={direccionError ? true : false}
                     autoFocus
@@ -1050,6 +1091,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
                 </Grid>
                 <Grid item sm={6} xs={12}>
                   <TextField
+                    value={state.referencia}
                     helperText={referenciaError}
                     error={referenciaError ? true : false}
                     autoFocus
@@ -1206,7 +1248,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
               <Row>
                 <Col xs={9}>
                   <a
-                    href={`/paciente/${auxPaciente.id}`}
+                    href={`/paciente/${auxPaciente.id}/paciente`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -1264,7 +1306,6 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
                       multiple
                       native
                       value={cobroTratamientos}
-                      // @ts-ignore Typings are not considering `native`
                       onChange={handleChangeMultiple}
                       label="Servicios"
                       inputProps={{
@@ -1364,34 +1405,42 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
                         Sesiones paciente:
                         {auxPaciente.bonos.map((bono) => (
                           <Row>
-                            <Col>
-                              {bono.nombre} x{bono.sesiones}
-                            </Col>
-                            <Col>Restantes: {bono.restantes}</Col>
-                            {bono.restantes > 0 ? (
-                              <Col>
-                                <ButtonB
-                                  style={{ width: "70%" }}
-                                  size="sm"
-                                  variant="link"
-                                  onClick={() => consumirBono(bono.id)}
-                                >
-                                  Consumir
-                                </ButtonB>
-                              </Col>
-                            ) : (
-                              <Col>
-                                <ButtonB
-                                  style={{ width: "100%" }}
-                                  size="sm"
-                                  variant="outline-secondary"
-                                  disabled
-                                >
-                                  Bono consumido
-                                </ButtonB>
-                              </Col>
-                            )}
-                            <hr />
+                            <>
+                              {bono.restantes > 0 ? (
+                                <>
+                                  <Col>
+                                    {bono.nombre} x{bono.sesiones}
+                                  </Col>
+                                  <Col>Restantes: {bono.restantes}</Col>
+                                  {bono.restantes > 0 ? (
+                                    <Col>
+                                      <ButtonB
+                                        style={{ width: "70%" }}
+                                        size="sm"
+                                        variant="link"
+                                        onClick={() => consumirBono(bono.id)}
+                                      >
+                                        Consumir
+                                      </ButtonB>
+                                    </Col>
+                                  ) : (
+                                    <Col>
+                                      <ButtonB
+                                        style={{ width: "100%" }}
+                                        size="sm"
+                                        variant="outline-secondary"
+                                        disabled
+                                      >
+                                        Bono consumido
+                                      </ButtonB>
+                                    </Col>
+                                  )}
+                                  <hr />
+                                </>
+                              ) : (
+                                <></>
+                              )}
+                            </>
                           </Row>
                         ))}
                       </Container>

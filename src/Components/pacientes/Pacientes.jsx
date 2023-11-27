@@ -51,7 +51,6 @@ export const Pacientes = () => {
       "pacientes.xlsx"
     );
   };
-
   return (
     <NavBar>
       <h1>Lista de Pacientes</h1>
@@ -65,7 +64,9 @@ export const Pacientes = () => {
       </Button>
       <div style={{ height: 1000, width: "100%" }}>
         <DataGrid
-          onRowClick={(e) => window.open(`/paciente/${e.row.id}`, "_blank")}
+          onRowClick={(e) =>
+            window.open(`/paciente/${e.row.id}/paciente`, "_blank")
+          }
           rows={pacientes}
           columns={columnas}
           localeText={esES.components.MuiDataGrid.defaultProps.localeText}

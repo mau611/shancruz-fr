@@ -4,6 +4,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  IconButton,
   Paper,
   Table,
   TableBody,
@@ -56,7 +57,16 @@ const ProductosUso = () => {
       handleClose();
       getProductos();
     } catch (error) {
-      console.log(error);
+      window.alert("Hubo un error");
+    }
+  };
+  const consumir = async (id) => {
+    try {
+      await axios.put(`${enlace}/consumir_ingreso_producto_uso/${id}`, {});
+      getProductos();
+      window.alert("Se decconto un producto");
+    } catch (error) {
+      window.alert("Hubo un error");
     }
   };
   return (
@@ -72,7 +82,7 @@ const ProductosUso = () => {
               <TableCell>Fecha Ingreso</TableCell>
               <TableCell>Existencias</TableCell>
               <TableCell>Precio compra</TableCell>
-              <TableCell>Consumir</TableCell>
+              <TableCell>Consumir/Editar</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -108,9 +118,13 @@ const ProductosUso = () => {
                 <TableCell>
                   {producto.ingresos_uso.map((ingreso) => (
                     <div>
-                      <Link>
+                      <IconButton
+                        aria-label="success"
+                        color="secondary"
+                        onClick={() => consumir(ingreso.id)}
+                      >
                         <RemoveCircleOutlineIcon fontSize="small" />
-                      </Link>
+                      </IconButton>
                       <Link
                         to={`/actualizar_producto_uso_gabinete/${ingreso.id}`}
                       >

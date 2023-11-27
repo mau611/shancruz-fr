@@ -22,7 +22,6 @@ const AgendaControlada = () => {
     var mm = newValue.$M + 1;
     var dd = newValue.$D;
     var fe = "" + yyyy + "-" + mm + "-" + dd;
-    console.log(fecha, dayjs(fe));
     setValueCalendar(dayjs("" + fe));
     window.location = `/agenda/${fe}/${area}/${id}`;
   };

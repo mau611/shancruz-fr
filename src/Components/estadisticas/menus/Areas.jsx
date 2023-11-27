@@ -28,7 +28,7 @@ import { Link } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { formatDate } from "../../../scripts/functions.js";
 
-const Asistencias = () => {
+const Areas = () => {
   const [tipoCita, setTipoCita] = useState("Todos");
   const [consultorios, setConsultorios] = useState("Todos");
   const [desde, setDesde] = useState("");
@@ -38,25 +38,23 @@ const Asistencias = () => {
   const [facturas, setFacturas] = useState([]);
   const [detalles, setDetalles] = useState([]);
 
+  const [areas, setAreas] = useState([]);
+  const [area, setArea] = useState([]);
+
   useEffect(() => {
-    getTipoConsultas();
-    getConsultorios();
+    getAreas();
   }, []);
 
-  const getTipoConsultas = async () => {
-    const response = await axios.get(`${enlace}/tipoConsultas`);
-    setTipoConsultas(response.data);
-  };
-  const getConsultorios = async () => {
-    const response = await axios.get(`${enlace}/consultorios`);
-    setConsultoriosBD(response.data);
+  const getAreas = async () => {
+    const response = await axios.get(`${enlace}/areas`);
+    setAreas(response.data);
   };
 
   const buscar = async () => {
     var auxDesde = formatFecha(new Date(desde.$y, desde.$M, desde.$D));
     var auxHasta = formatFecha(new Date(hasta.$y, hasta.$M, hasta.$D));
     const response = await axios.get(
-      `${enlace}/asistencias/${tipoCita}/${consultorios}/${auxDesde}/${auxHasta}`
+      `${enlace}/asistencias_por_area/${area}/${auxDesde}/${auxHasta}`
     );
     setFacturas(response.data[0]);
     setDetalles(response.data[1]);
@@ -81,38 +79,19 @@ const Asistencias = () => {
           spacing={{ xs: 2, md: 3 }}
           columns={{ xs: 4, sm: 8, md: 12 }}
         >
-          <Grid item xs={3}>
+          <Grid item xs={4}>
             <FormControl fullWidth>
-              <InputLabel id="tipoCita-label">Tipos de cita</InputLabel>
+              <InputLabel id="tipoCita-label">Seleccione un area</InputLabel>
               <Select
                 labelId="tipoCita-label"
                 id="tipoCita"
-                label="Tipos de cita"
-                value={tipoCita}
-                onChange={(e) => setTipoCita(e.target.value)}
+                label="Seleccione un area"
+                value={area}
+                onChange={(e) => setArea(e.target.value)}
               >
                 <MenuItem value={"Todos"}>Todos</MenuItem>
-                {tipoConsultas.map((tConsulta) => (
-                  <MenuItem value={tConsulta.id}>{tConsulta.nombre}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={3}>
-            <FormControl fullWidth>
-              <InputLabel id="consultorios-label">Consultorios</InputLabel>
-              <Select
-                labelId="consultorios-label"
-                id="tipoCita"
-                label="Consultorios"
-                value={consultorios}
-                onChange={(e) => setConsultorios(e.target.value)}
-              >
-                <MenuItem value={"Todos"}>Todos</MenuItem>
-                {consultoriosBD.map((consultorioBD) => (
-                  <MenuItem value={consultorioBD.id}>
-                    {consultorioBD.nombre}
-                  </MenuItem>
+                {areas.map((area) => (
+                  <MenuItem value={area.id}>{area.nombre}</MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -276,4 +255,4 @@ const Asistencias = () => {
   );
 };
 
-export default Asistencias;
+export default Areas;

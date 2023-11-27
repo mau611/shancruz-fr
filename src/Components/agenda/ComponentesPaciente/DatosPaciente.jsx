@@ -10,11 +10,8 @@ import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 
-const DatosPaciente = ({paciente}) => {
+const DatosPaciente = ({ paciente }) => {
   const theme = useTheme();
-
-  console.log(paciente)
-
   return (
     <Card sx={{ display: "flex" }}>
       <Box sx={{ display: "flex", flexDirection: "column" }}>

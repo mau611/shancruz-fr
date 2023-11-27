@@ -196,7 +196,6 @@ export default function NavBar({ children, titulo }) {
       navigate(0);
     } catch (error) {
       if (error.response.status === 422) {
-        console.log(error.response.data.errors);
         if (error.response.data.errors.nombres) {
           setNombresError(error.response.data.errors.nombres[0]);
         } else {
@@ -279,7 +278,7 @@ export default function NavBar({ children, titulo }) {
         window.location.href = "/";
       }
     } catch (error) {
-      console.log(error);
+      window.alert("Hubo un error");
     }
   };
 
@@ -366,7 +365,7 @@ export default function NavBar({ children, titulo }) {
             <Link to="/pacientes">Pacientes</Link>,
             <Link to="/clinica">Clinica</Link>,
             <Link to="/tienda">Tienda</Link>,
-            <Link to="/stock">Stock</Link>,
+            <Link to="/stock/productos_venta">Stock</Link>,
           ].map((text, index) => (
             <ListItem
               key={text}
@@ -428,7 +427,7 @@ export default function NavBar({ children, titulo }) {
                     </Tooltip>
                   ) : index === 5 ? (
                     <Tooltip title="Almacen" placement="right">
-                      <Link to="/stock">
+                      <Link to="/stock/productos_venta">
                         <InventoryIcon />
                       </Link>
                     </Tooltip>
@@ -449,7 +448,7 @@ export default function NavBar({ children, titulo }) {
             <Link to="/cuentas">Cuentas</Link>,
             <Link to="/estadisticas">Estadisticas</Link>,
             <Link to="/sistemas">Sistemas</Link>,
-            <Link to="/configuracion">Configuracion</Link>,
+            <Link to="/configuracion/areas">Configuracion</Link>,
           ].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: "block" }}>
               <ListItemButton
@@ -486,7 +485,7 @@ export default function NavBar({ children, titulo }) {
                     </Tooltip>
                   ) : index === 3 ? (
                     <Tooltip title="Configuracion" placement="right">
-                      <Link to="/configuracion">
+                      <Link to="/configuracion/areas">
                         <SettingsIcon />
                       </Link>
                     </Tooltip>

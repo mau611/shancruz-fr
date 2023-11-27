@@ -21,7 +21,7 @@ const UsoGabinete = () => {
       });
       navigate(-1);
     } catch (error) {
-      console.log(error);
+      window.alert("Hubo un error");
     }
   };
 

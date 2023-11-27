@@ -10,6 +10,7 @@ import Box from "@mui/material/Box";
 import ProductosVenta from "./ProductosVenta";
 import ProductosUso from "./ProductosUso";
 import Proveedores from "./Proveedores";
+import { useParams } from "react-router-dom";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -44,15 +45,26 @@ function a11yProps(index) {
   };
 }
 const Inventario = () => {
+  const { ubicacion } = useParams();
   const theme = useTheme();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(
+    ubicacion == "productos_venta"
+      ? 0
+      : ubicacion == "uso_gabinete"
+      ? 1
+      : ubicacion == "proveedores"
+      ? 2
+      : ""
+  );
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  const handleChangeIndex = (index) => {
-    setValue(index);
+    if (newValue == 0) {
+      window.location.href = `/stock/productos_venta`;
+    } else if (newValue == 1) {
+      window.location.href = `/stock/uso_gabinete`;
+    } else if (newValue == 2) {
+      window.location.href = `/stock/proveedores`;
+    }
   };
 
   return (

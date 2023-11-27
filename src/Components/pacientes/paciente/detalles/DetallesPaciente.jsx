@@ -23,24 +23,51 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Navigate, useNavigate } from "react-router-dom";
 import { FormControl } from "react-bootstrap";
 import { enlace } from "../../../../scripts/Enlace.js";
+import { useAuth } from "../../../../AuthContext.jsx";
 
 const actions = [
   { icon: <AssignmentIcon />, name: "Agregar Diagnostico", option: 1 },
   { icon: <FormatListNumberedIcon />, name: "Agregar Tratamiento", option: 2 },
 ];
 
-const DetallesPaciente = ({ diagnosticos, paciente_id, profesionales }) => {
-  const [openDx, setOpenDx] = React.useState(false);
-  const [openTx, setOpenTx] = React.useState(false);
-  const [diagnostico, setDiagnostico] = React.useState("");
-  const [tratamiento, setTratamiento] = React.useState("");
-  const [dxId, setDxId] = React.useState("");
+const DetallesPaciente = ({
+  diagnosticos,
+  paciente_id,
+  profesionales,
+  descuentos,
+  medicos,
+}) => {
+  const [openDx, setOpenDx] = useState(false);
+  const [openTx, setOpenTx] = useState(false);
+  const [diagnostico, setDiagnostico] = useState("");
+  const [tratamiento, setTratamiento] = useState("");
+  const [dxId, setDxId] = useState("");
   const navigate = useNavigate();
+  const [profesionalesBD, setProfesionalesBD] = useState([]);
+  const [medicosBD, setMedicosBD] = useState([]);
+  const [profesionalId, setProfesionalId] = useState("");
+  const [medicoId, setMedicoId] = useState([]);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    getProfesionalesBD();
+    getMedicosBD();
+  }, []);
+
+  const getMedicosBD = async () => {
+    const response = await axios.get(`${enlace}/medicos`);
+    setMedicosBD(response.data);
+  };
+
+  const getProfesionalesBD = async () => {
+    const response = await axios.get(`${enlace}/profesionales`);
+    setProfesionalesBD(response.data);
+  };
 
   const handleClose = () => {
     setOpenDx(false);
@@ -80,6 +107,7 @@ const DetallesPaciente = ({ diagnosticos, paciente_id, profesionales }) => {
       .post(`${enlace}/tratamiento`, {
         tratamiento: tratamiento,
         diagnostico_id: dxId,
+        user_id: user.id,
       })
       .then(function () {
         window.alert("Exito");
@@ -90,10 +118,35 @@ const DetallesPaciente = ({ diagnosticos, paciente_id, profesionales }) => {
       })
       .catch(function (error) {
         window.alert("error");
-        console.log(error);
         setOpenDx(!openTx);
       });
   };
+
+  const asignarProfesional = async () => {
+    try {
+      axios.post(`${enlace}/profesionales_pacientes`, {
+        profesional_id: profesionalId,
+        paciente_id: paciente_id,
+      });
+      window.alert("exito");
+      navigate(0);
+    } catch (error) {
+      window.alert("error");
+    }
+  };
+  const asignarMedico = async () => {
+    try {
+      axios.post(`${enlace}/medico_paciente`, {
+        medico_id: medicoId,
+        paciente_id: paciente_id,
+      });
+      window.alert("exito");
+      navigate(0);
+    } catch (error) {
+      window.alert("error");
+    }
+  };
+
   const listaTratamiento = (tratamiento, delimitador) => {
     var txs = tratamiento.split(delimitador);
     return (
@@ -108,15 +161,94 @@ const DetallesPaciente = ({ diagnosticos, paciente_id, profesionales }) => {
   };
   return (
     <div style={{ textAlign: "justify" }}>
-      <h4>Profesionales a cargo</h4>
       <div>
-        <ul>{console.log(profesionales)}</ul>
+        <br />
+        <Grid container spacing={2}>
+          <Grid item xs={2}>
+            <Typography variant="h5">Asignar profesional:</Typography>
+          </Grid>
+          <Grid container item xs={2}>
+            <div>
+              <Select
+                fullWidth
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={profesionalId}
+                onChange={(e) => setProfesionalId(e.target.value)}
+              >
+                {profesionalesBD.map((profesionalBD) => (
+                  <MenuItem value={profesionalBD.id}>
+                    {profesionalBD.nombre}
+                  </MenuItem>
+                ))}
+              </Select>
+              <Button
+                variant="outlined"
+                color="success"
+                onClick={() => asignarProfesional()}
+                style={{ top: 5 }}
+              >
+                Asignar profesional
+              </Button>
+            </div>
+          </Grid>
+          <Grid item xs={1}></Grid>
+          <Grid item xs={2}>
+            <Typography variant="h5">Asignar Medico:</Typography>
+          </Grid>
+          <Grid item xs={2}>
+            <div>
+              <Select
+                fullWidth
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={medicoId}
+                onChange={(e) => setMedicoId(e.target.value)}
+              >
+                {medicosBD.map((medicoBD) => (
+                  <MenuItem value={medicoBD.id}>{medicoBD.nombre}</MenuItem>
+                ))}
+              </Select>
+              <Button
+                variant="outlined"
+                color="success"
+                onClick={() => asignarMedico()}
+                style={{ top: 5 }}
+              >
+                Asignar medico
+              </Button>
+            </div>
+          </Grid>
+        </Grid>
+
+        <hr />
       </div>
-      <h4>Diagnostico y tratamientos del paciente</h4>
+      <div>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            Profesionales a cargo:
+            <ul>
+              {profesionales.map((profesionalAsignado) => (
+                <li>{profesionalAsignado.nombre}</li>
+              ))}
+            </ul>
+          </Grid>
+          <Grid item xs={6}>
+            Medico a cargo:
+            <ul>
+              {medicos.map((medicoAsignado) => (
+                <li>{medicoAsignado.nombre}</li>
+              ))}
+            </ul>
+          </Grid>
+        </Grid>
+      </div>
+      <hr />
+      <h4>Diagnosticos y tratamientos del paciente</h4>
       <div>
         <Grid container spacing={2}>
           {diagnosticos?.map((diagnostico) => (
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <Accordion>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon style={{ color: "white" }} />}
@@ -132,7 +264,9 @@ const DetallesPaciente = ({ diagnosticos, paciente_id, profesionales }) => {
                       <strong>{tratamiento.fecha}</strong>
                       <Paper elevation={3} style={{ padding: "10px" }}>
                         {listaTratamiento(tratamiento.tratamiento, "\n")}
+                        <strong>Registrado por:</strong> {tratamiento.user.name}
                       </Paper>
+                      <hr />
                     </div>
                   ))}
                 </AccordionDetails>

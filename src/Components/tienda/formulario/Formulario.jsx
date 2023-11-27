@@ -30,6 +30,13 @@ const Formulario = () => {
   const [repeticiones, setRepeticiones] = useState([]);
   const [numerosTarjeta, setNumerosTarjeta] = useState(null);
   const [pagoTarjeta, setPagoTarjeta] = useState(true);
+  const [descuentos, setDescuentos] = useState([]);
+
+  useEffect(() => {
+    getPacientes();
+    getLicenciados();
+    getIngresoProductos();
+  }, []);
 
   const getLicenciados = async () => {
     const response = await axios.get(`${enlace}/profesionales`);
@@ -44,17 +51,37 @@ const Formulario = () => {
   const getIngresoProductos = async () => {
     const response = await axios.get(`${enlace}/ingreso_productos`);
     setIngresoProductos(response.data);
-    console.log(response.data.find((element) => element.id == 1));
   };
 
   const guardarProducto = () => {
+    const pac = pacientes.find((pac) => pac.id == paciente.split(" ")[0]);
+    setDescuentos(pac.descuentos);
     if (ingresoP.length > 1) {
       let valor = ingresoP.split(" ")[0];
       productos.push(ingresoProductos.find((element) => element.id == valor));
       repeticiones.push(parseInt(valor));
       setIngresoP("");
       var aux = 0;
-      productos.map((producto) => (aux = aux + producto.PrecioVenta));
+      productos.map((producto) => {
+        let desc = pac.descuentos.find(
+          (descuento) =>
+            descuento.producto == 1 &&
+            descuento.activo == 1 &&
+            producto.producto.id == descuento.serv_o_prod_id
+        );
+        if (desc === undefined) {
+          aux = aux + producto.PrecioVenta;
+        } else {
+          if (desc.porcentaje == 1) {
+            aux =
+              aux +
+              (producto.PrecioVenta -
+                producto.PrecioVenta * (desc.cantidad_descuento / 100));
+          } else {
+            aux = aux + desc.cantidad_descuento;
+          }
+        }
+      });
       setTotal(aux);
     }
   };
@@ -73,16 +100,6 @@ const Formulario = () => {
   };
 
   const realizarVenta = async () => {
-    console.log(
-      paciente,
-      licenciado,
-      productos,
-      total,
-      formaPago,
-      estadoPago,
-      observaciones,
-      repeticiones
-    );
     await axios.post(`${enlace}/venta`, {
       total: total,
       estado: estadoPago,
@@ -96,12 +113,6 @@ const Formulario = () => {
     });
     navigate(0);
   };
-
-  useEffect(() => {
-    getPacientes();
-    getLicenciados();
-    getIngresoProductos();
-  }, []);
 
   return (
     <div>
@@ -183,7 +194,12 @@ const Formulario = () => {
       <Button variant="outlined" onClick={() => setIngresoP("")}>
         Cancelar
       </Button>
-      <TablaProductos productos={productos} total={total} />
+      <hr />
+      <TablaProductos
+        productos={productos}
+        total={total}
+        descuentos={descuentos}
+      />
       <br />
       <div>
         <FormControl sx={{ m: 4, minWidth: 200 }}>
@@ -227,6 +243,7 @@ const Formulario = () => {
             </MenuItem>
             <MenuItem value="Efectivo">Efectivo</MenuItem>
             <MenuItem value="Transferencia">Transferencia</MenuItem>
+            <MenuItem value="Qr">Qr</MenuItem>
             <MenuItem value="Tarjeta">Tarjeta</MenuItem>
           </Select>
         </FormControl>

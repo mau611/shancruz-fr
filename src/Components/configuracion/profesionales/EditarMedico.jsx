@@ -1,43 +1,43 @@
-import React from "react";
+import React, { useEffect } from "react";
 import NavBar from "../../estructura/NavBar";
 import { useNavigate, useParams } from "react-router-dom";
-import { useState } from "react";
-import { useEffect } from "react";
-import { enlace } from "../../../scripts/Enlace";
-import axios from "axios";
 import { Button, Card, CardContent, TextField } from "@mui/material";
+import { useState } from "react";
+import axios from "axios";
+import { enlace } from "../../../scripts/Enlace";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-const EditarProveedor = () => {
+const EditarMedico = () => {
   const { id } = useParams();
   const [nombre, setNombre] = useState("");
-  const [contacto, setContacto] = useState("");
-  const navigate = useNavigate();
-
+  const [telefono, setTelefono] = useState("");
+  const [direccion, setDireccion] = useState("");
   useEffect(() => {
-    getProveedor();
+    getMedico();
   }, []);
 
-  const getProveedor = async () => {
-    const response = await axios.get(`${enlace}/proveedor/${id}`);
+  const getMedico = async () => {
+    const response = await axios.get(`${enlace}/medico/${id}`);
     setNombre(response.data["nombre"]);
-    setContacto(response.data["contacto"]);
+    setTelefono(response.data["telefono"]);
+    setDireccion(response.data["Direccion"]);
   };
-  const editarProveedor = async () => {
+  const editarTipoConsulta = async () => {
     try {
-      await axios.put(`${enlace}/proveedor/${id}`, {
+      await axios.put(`${enlace}/medico/${id}`, {
         nombre: nombre,
-        contacto: contacto,
+        telefono: telefono,
+        Direccion: direccion,
       });
       navigate(-1);
     } catch (error) {
-      window.alert("Hubo un error");
+      window.alert("algo salio mal");
     }
   };
-
+  const navigate = useNavigate();
   return (
     <NavBar>
-      <h3>Editar datos proveedor</h3>
+      <h3>Editar informacion medico</h3>
       <Card variant="outlined" sx={{ maxWidth: 500 }}>
         <CardContent>
           <TextField
@@ -45,31 +45,42 @@ const EditarProveedor = () => {
             autoFocus
             margin="dense"
             id="nombre"
-            label="Proveedor"
+            label="Nombre consulta"
             type="text"
             fullWidth
             variant="standard"
             onChange={(e) => setNombre(e.target.value)}
           />
           <TextField
-            value={contacto}
+            value={telefono}
             autoFocus
             margin="dense"
             id="contacto"
-            label="Contacto proveedor"
+            label="Color"
             type="text"
             fullWidth
             variant="standard"
-            onChange={(e) => setContacto(e.target.value)}
+            onChange={(e) => setTelefono(e.target.value)}
+          />
+          <TextField
+            value={direccion}
+            autoFocus
+            margin="dense"
+            id="contacto"
+            label="Color"
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={(e) => setDireccion(e.target.value)}
           />
           <br />
           <br />
           <Button
             variant="contained"
             color="success"
-            onClick={() => editarProveedor()}
+            onClick={() => editarTipoConsulta()}
           >
-            Actualizar datos proveedor
+            Actualizar datos medico
           </Button>
           <br />
           <br />
@@ -82,4 +93,4 @@ const EditarProveedor = () => {
   );
 };
 
-export default EditarProveedor;
+export default EditarMedico;

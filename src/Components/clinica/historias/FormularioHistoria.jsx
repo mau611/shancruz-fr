@@ -4,15 +4,24 @@ import {
   Autocomplete,
   Box,
   Button,
+  FormControl,
   InputLabel,
   MenuItem,
+  Paper,
   Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   TextField,
 } from "@mui/material";
 import axios from "axios";
 import { useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
-import { enlace } from "../../../scripts/Enlace.js";
+import { useNavigate } from "react-router-dom";
+import { enlace, enlace2 } from "../../../scripts/Enlace.js";
+import { useAuth } from "../../../AuthContext.jsx";
 
 const FormularioHistoria = () => {
   const navigate = useNavigate();
@@ -22,17 +31,17 @@ const FormularioHistoria = () => {
   const [pacientes, setPacientes] = useState([]);
   const [citas, setCitas] = useState([]);
   const [cita, setCita] = useState("");
-  const [opcionHistoria, setOpcionHistoria] = useState("nueva");
-
-  const [diagnostico, setDiagnostico] = useState("");
-  const [evaluacionObjetiva, setEvaluacionObjetiva] = useState("");
-  const [evaluacionSubjetiva, setEvaluacionSubjetiva] = useState("");
-  const [evolucion, setEvolucion] = useState("");
+  const [opcionHistoria, setOpcionHistoria] = useState();
+  const [fichas, setFichas] = useState([]);
+  const [ficha, setFicha] = useState([]);
+  const [dato, setDato] = useState({});
+  const { user } = useAuth();
 
   useEffect(() => {
     if (dataFetchedRef.current) return;
     dataFetchedRef.current = true;
     getPacientes();
+    getFichas();
     window.clearTimeout(clickRef?.current);
   }, []);
 
@@ -40,13 +49,18 @@ const FormularioHistoria = () => {
     const response = await axios.get(`${enlace}/pacientes`);
     setPacientes(response.data);
   };
+  const getFichas = async () => {
+    const response = await axios.get(`${enlace}/ficha_medica`);
+    setFichas(response.data);
+  };
 
   const seleccionarFicha = (event) => {
-    setDiagnostico("");
-    setEvaluacionObjetiva("");
-    setEvaluacionSubjetiva("");
-    setEvolucion("");
     setOpcionHistoria(event.target.value);
+    const fichaEncontrada = fichas.find(
+      (element) => element.id == event.target.value
+    );
+    setFicha(JSON.parse(fichaEncontrada.ficha));
+    setDato({});
   };
 
   const getCitas = async (value) => {
@@ -58,16 +72,18 @@ const FormularioHistoria = () => {
     setCitas(response.data.citas);
   };
 
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setDato({ ...dato, [name]: value });
+  };
+
   const llenarFicha = async () => {
     await axios
       .post(`${enlace}/historia`, {
         paciente_id: paciente.split(" ")[0],
         consulta_id: cita.split(" ")[0],
-        diagnostico: diagnostico,
-        evaluacion_objetiva: evaluacionObjetiva,
-        evaluacion_subjetiva: evaluacionSubjetiva,
-        evolucion: evolucion,
-        opcion: opcionHistoria,
+        historia: dato,
+        user_id: user.id,
       })
       .then(function () {
         window.alert("historia guardada de manera exitosa");
@@ -75,7 +91,6 @@ const FormularioHistoria = () => {
       })
       .catch(function (error) {
         window.alert("Hubo un error guardando los datos");
-        console.log(error);
       });
   };
   return (
@@ -138,62 +153,113 @@ const FormularioHistoria = () => {
         Elige una opcion
         <br />
         <Select
-          labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={opcionHistoria}
           onChange={seleccionarFicha}
+          fullWidth
         >
-          <MenuItem value={"nueva"}>Nueva ficha</MenuItem>
-          <MenuItem value={"evolucion"}>Evolucion</MenuItem>
+          {fichas.map((ficha) => (
+            <MenuItem value={ficha.id}> {ficha.nombre} </MenuItem>
+          ))}
         </Select>
       </div>
       <br />
       <div>
-        {opcionHistoria == "nueva" ? (
-          <Box component="form" noValidate>
-            <TextField
-              id="diagnostico"
-              label="Diagnostico"
-              fullWidth
-              onChange={(e) => setDiagnostico(e.target.value)}
-            />
-            <br />
-            <br />
-            <TextField
-              id="evaluacionObjetiva-textarea"
-              label="Evaluacion objetiva"
-              maxRows={6}
-              multiline
-              fullWidth
-              onChange={(e) => setEvaluacionObjetiva(e.target.value)}
-            />
-            <br />
-            <br />
-            <TextField
-              id="evaluacionSubjetiva-textarea"
-              label="Evaluacion subjetiva"
-              maxRows={6}
-              multiline
-              fullWidth
-              onChange={(e) => setEvaluacionSubjetiva(e.target.value)}
-            />
-          </Box>
+        {ficha.length > 0 ? (
+          <>
+            <div>
+              {ficha.map((f, index) => (
+                <>
+                  {f.type === "text" && (
+                    <FormControl fullWidth>
+                      <TextField
+                        required
+                        fullWidth
+                        multiline
+                        rows={4}
+                        name={f.label}
+                        label={f.label}
+                        onChange={(event) => handleChange(event)}
+                      />
+                    </FormControl>
+                  )}
+                  {f.type === "select" && (
+                    <FormControl fullWidth>
+                      <InputLabel id={index}> {f.label} </InputLabel>
+                      <Select
+                        required
+                        labelId={index}
+                        id={f.label}
+                        label={f.label}
+                        name={f.label}
+                        onChange={(event) => handleChange(event)}
+                      >
+                        {f.options.map((option) => (
+                          <MenuItem value={option}> {option} </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  )}
+                  {f.image && (
+                    <div className="text-center">
+                      <img
+                        src={`${enlace2}/storage/${f.image}`}
+                        alt={f.label}
+                        width={"20%"}
+                        className="text-center"
+                      />
+                    </div>
+                  )}
+                  {f.type === "table" && f.table.length != 0 && (
+                    <>
+                      <h6>{f.label}</h6>
+                      <TableContainer component={Paper}>
+                        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                          <TableHead>
+                            <TableRow>
+                              {f.table.map((tabHeader) => (
+                                <TableCell align="center">
+                                  {" "}
+                                  {tabHeader}{" "}
+                                </TableCell>
+                              ))}
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            <TableRow>
+                              {f.table.map((tabHeader) => (
+                                <TableCell component="th" scope="row">
+                                  <TextField
+                                    fullWidth
+                                    label={tabHeader}
+                                    name={f.label + "-" + tabHeader}
+                                    onChange={(event) => handleChange(event)}
+                                    required
+                                  />
+                                </TableCell>
+                              ))}
+                            </TableRow>
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    </>
+                  )}
+                  <hr />
+                </>
+              ))}
+              <br />
+              <Button
+                variant="contained"
+                color="success"
+                onClick={() => llenarFicha()}
+              >
+                Guardar
+              </Button>
+            </div>
+          </>
         ) : (
-          <Box component="form" noValidate>
-            <TextField
-              id="evolucion"
-              label="Evolucion del paciente"
-              rows={7}
-              multiline
-              fullWidth
-              onChange={(e) => setEvolucion(e.target.value)}
-            />
-          </Box>
+          <div>Seleccione una ficha</div>
         )}
-        <br />
-        <Button variant="contained" color="success" onClick={llenarFicha}>
-          Guardar
-        </Button>
       </div>
     </div>
   );
