@@ -13,29 +13,25 @@ const TablaProductos = ({ productos, total, descuentos }) => {
   const [aux, setAux] = useState(0);
   const buscar = (producto) => {
     var a = 0;
-    if (descuentos.length > 0) {
-      descuentos?.map((descuento) => {
-        if (
-          descuento.producto == 1 &&
-          descuento.activo == 1 &&
-          producto.producto.id == descuento.serv_o_prod_id
-        ) {
-          if (descuento.porcentaje == 1) {
-            a = (
-              <div>
-                {producto.PrecioVenta -
-                  producto.PrecioVenta * (descuento.cantidad_descuento / 100)}
-              </div>
-            );
-          } else {
-            a = <div>{descuento.cantidad_descuento}</div>;
-          }
-        } else {
-          a = <div>{producto.PrecioVenta}</div>;
-        }
-      });
-    } else {
+    let b = descuentos.find(
+      (descuento) =>
+        descuento.producto == 1 &&
+        descuento.activo == 1 &&
+        producto.producto.id == descuento.serv_o_prod_id
+    );
+    if (b === undefined) {
       a = <div>{producto.PrecioVenta}</div>;
+    } else {
+      if (b.porcentaje == 1) {
+        a = (
+          <div>
+            {producto.PrecioVenta -
+              producto.PrecioVenta * (b.cantidad_descuento / 100)}
+          </div>
+        );
+      } else {
+        a = <div>{b.cantidad_descuento}</div>;
+      }
     }
     return a;
   };

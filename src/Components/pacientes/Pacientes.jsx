@@ -51,7 +51,6 @@ export const Pacientes = () => {
       "pacientes.xlsx"
     );
   };
-
   return (
     <NavBar>
       <h1>Lista de Pacientes</h1>

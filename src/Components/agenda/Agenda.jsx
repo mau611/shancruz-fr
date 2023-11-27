@@ -351,16 +351,6 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
     setSexoError("");
     setDireccionError("");
     setReferenciaError("");
-    setState({
-      nombres: "",
-      apellidos: "",
-      telefono: "",
-      fecha_nacimiento: "",
-      ci: "",
-      sexo: "",
-      direccion: "",
-      referencia: "",
-    });
   };
 
   const handleChangeMultiple = (event) => {
@@ -554,6 +544,16 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
           tipoConsulta_id: tc.split(" ")[0],
           estadoConsulta_id: ec.split(" ")[0],
           profesional_id: pi.split(" ")[0],
+        });
+        setState({
+          nombres: "",
+          apellidos: "",
+          telefono: "",
+          fecha_nacimiento: "",
+          ci: "",
+          sexo: "",
+          direccion: "",
+          referencia: "",
         });
         handleClose();
         getPacientes();
@@ -969,6 +969,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
               <Grid container spacing={2}>
                 <Grid item sm={6} xs={12}>
                   <TextField
+                    value={state.nombres}
                     helperText={nombresError}
                     error={nombresError ? true : false}
                     autoFocus
@@ -985,6 +986,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
                 </Grid>
                 <Grid item sm={6} xs={12}>
                   <TextField
+                    value={state.apellidos}
                     helperText={apellidosError}
                     error={apellidosError ? true : false}
                     autoFocus
@@ -1001,6 +1003,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
                 </Grid>
                 <Grid item sm={6} xs={12}>
                   <TextField
+                    value={state.telefono}
                     helperText={telefonoError}
                     error={telefonoError ? true : false}
                     autoFocus
@@ -1017,6 +1020,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
                 </Grid>
                 <Grid item sm={6} xs={12}>
                   <TextField
+                    value={state.fecha_nacimiento}
                     helperText={nacimientoError}
                     error={nacimientoError ? true : false}
                     label="fecha de nacimiento"
@@ -1037,6 +1041,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
                 </Grid>
                 <Grid item sm={6} xs={12}>
                   <TextField
+                    value={state.ci}
                     helperText={ciError}
                     error={ciError ? true : false}
                     autoFocus
@@ -1069,6 +1074,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
                 </Grid>
                 <Grid item sm={6} xs={12}>
                   <TextField
+                    value={state.direccion}
                     helperText={direccionError}
                     error={direccionError ? true : false}
                     autoFocus
@@ -1085,6 +1091,7 @@ const Agenda = ({ fecha, valueCalendar, area, areaId }) => {
                 </Grid>
                 <Grid item sm={6} xs={12}>
                   <TextField
+                    value={state.referencia}
                     helperText={referenciaError}
                     error={referenciaError ? true : false}
                     autoFocus

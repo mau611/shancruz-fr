@@ -32,6 +32,7 @@ const DescuentosServicios = () => {
   const [servicio, setServicio] = useState("Todos");
   const [activo, setActivo] = useState("Todos");
   const [descuentos, setDescuentos] = useState([]);
+  const [autorizado, setAutorizado] = useState(null);
 
   useEffect(() => {
     getPacientes();
@@ -50,8 +51,9 @@ const DescuentosServicios = () => {
   const buscar = async () => {
     const p = "" + paciente;
     var pacienteAux = p.split(" ")[0];
+    const aut = autorizado || 0;
     const response = await axios.get(
-      `${enlace}/estadisticas_descuentos_servicios/${pacienteAux}/${servicio}/${activo}`
+      `${enlace}/estadisticas_descuentos_servicios/${pacienteAux}/${servicio}/${activo}/${aut}`
     );
     setDescuentos(response.data);
   };
@@ -89,6 +91,18 @@ const DescuentosServicios = () => {
                     }}
                   />
                 )}
+              />
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={3}>
+            <FormControl fullWidth>
+              <TextField
+                id="autorisado-text"
+                label="Autorizado por:"
+                variant="outlined"
+                value={autorizado}
+                onChange={(e) => setAutorizado(e.target.value)}
               />
             </FormControl>
           </Grid>

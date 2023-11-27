@@ -21,11 +21,15 @@ import { Link, useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import AddToPhotosIcon from "@mui/icons-material/AddToPhotos";
 import { enlace } from "../../scripts/Enlace.js";
+import { useAuth } from "../../AuthContext.jsx";
 
 const ProductosVenta = () => {
+  const { user } = useAuth();
+  console.log(user);
   const [state, setState] = useState({
     nombre: "",
     descripcion: "",
+    cantidad_minima: "",
     proveedor: "",
     fechaIngreso: new Date().toISOString().slice(0, 10),
     precioCompra: "",
@@ -114,6 +118,7 @@ const ProductosVenta = () => {
     setState({
       nombre: "",
       descripcion: "",
+      cantidad_minima: "",
       proveedor: "",
       fechaIngreso: new Date().toISOString().slice(0, 10),
       precioCompra: "",
@@ -130,6 +135,7 @@ const ProductosVenta = () => {
     await axios.post(`${enlace}/producto`, {
       nombre: state.nombre,
       descripcion: state.descripcion,
+      cantidad_minima: state.cantidad_minima,
       proveedor: state.proveedor.split(" ")[0],
       fechaIngreso: state.fechaIngreso,
       precioCompra: state.precioCompra,
@@ -149,9 +155,9 @@ const ProductosVenta = () => {
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>ID</TableCell>
                 <TableCell>Producto</TableCell>
                 <TableCell>Descripcion</TableCell>
+                <TableCell>Cantidad minima</TableCell>
                 <TableCell>Registrar Compra</TableCell>
                 <TableCell>Proveedor</TableCell>
                 <TableCell>Fecha ingreso</TableCell>
@@ -169,11 +175,9 @@ const ProductosVenta = () => {
                   key={row.name}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell component="th" scope="row">
-                    {row.id}
-                  </TableCell>
                   <TableCell align="">{row.Nombre}</TableCell>
                   <TableCell align="">{row.descripcion}</TableCell>
+                  <TableCell align="">{row.cantidad_minima}</TableCell>
                   <TableCell align="">
                     <Link to={`/actualizar_producto/${row.id}`}>
                       <AddToPhotosIcon />
@@ -278,6 +282,17 @@ const ProductosVenta = () => {
               fullWidth
               variant="standard"
               onChange={(e) => handleChange(e.target.value, "descripcion")}
+            />
+            <TextField
+              value={state.cantidad_minima}
+              autoFocus
+              margin="dense"
+              id="desc"
+              label="Cantidad minima"
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(e) => handleChange(e.target.value, "cantidad_minima")}
             />
             <br />
             <Autocomplete

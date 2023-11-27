@@ -13,6 +13,7 @@ import Areas from "./menus/Areas";
 import { Referidos } from "./menus/Referidos";
 import DescuentosServicios from "./menus/DescuentosServicios";
 import DescuentosProductos from "./menus/DescuentosProductos";
+import AgendadoPor from "./menus/AgendadoPor";
 
 const Estadisticas = () => {
   return (
@@ -49,6 +50,9 @@ const Estadisticas = () => {
               <Nav.Item>
                 <Nav.Link eventKey="ninth">Descuentos Productos</Nav.Link>
               </Nav.Item>
+              <Nav.Item>
+                <Nav.Link eventKey="tenth">Citas agendadas por:</Nav.Link>
+              </Nav.Item>
             </Nav>
           </Col>
           <Col sm={9}>
@@ -79,6 +83,9 @@ const Estadisticas = () => {
               </Tab.Pane>
               <Tab.Pane eventKey="ninth">
                 <DescuentosProductos />
+              </Tab.Pane>
+              <Tab.Pane eventKey="tenth">
+                <AgendadoPor />
               </Tab.Pane>
             </Tab.Content>
           </Col>

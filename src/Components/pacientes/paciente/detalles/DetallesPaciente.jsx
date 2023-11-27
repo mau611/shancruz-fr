@@ -28,6 +28,7 @@ import axios from "axios";
 import { Navigate, useNavigate } from "react-router-dom";
 import { FormControl } from "react-bootstrap";
 import { enlace } from "../../../../scripts/Enlace.js";
+import { useAuth } from "../../../../AuthContext.jsx";
 
 const actions = [
   { icon: <AssignmentIcon />, name: "Agregar Diagnostico", option: 1 },
@@ -51,6 +52,7 @@ const DetallesPaciente = ({
   const [medicosBD, setMedicosBD] = useState([]);
   const [profesionalId, setProfesionalId] = useState("");
   const [medicoId, setMedicoId] = useState([]);
+  const { user } = useAuth();
 
   useEffect(() => {
     getProfesionalesBD();
@@ -105,6 +107,7 @@ const DetallesPaciente = ({
       .post(`${enlace}/tratamiento`, {
         tratamiento: tratamiento,
         diagnostico_id: dxId,
+        user_id: user.id,
       })
       .then(function () {
         window.alert("Exito");
@@ -261,7 +264,9 @@ const DetallesPaciente = ({
                       <strong>{tratamiento.fecha}</strong>
                       <Paper elevation={3} style={{ padding: "10px" }}>
                         {listaTratamiento(tratamiento.tratamiento, "\n")}
+                        <strong>Registrado por:</strong> {tratamiento.user.name}
                       </Paper>
+                      <hr />
                     </div>
                   ))}
                 </AccordionDetails>

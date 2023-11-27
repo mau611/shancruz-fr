@@ -21,6 +21,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { enlace, enlace2 } from "../../../scripts/Enlace.js";
+import { useAuth } from "../../../AuthContext.jsx";
 
 const FormularioHistoria = () => {
   const navigate = useNavigate();
@@ -34,6 +35,7 @@ const FormularioHistoria = () => {
   const [fichas, setFichas] = useState([]);
   const [ficha, setFicha] = useState([]);
   const [dato, setDato] = useState({});
+  const { user } = useAuth();
 
   useEffect(() => {
     if (dataFetchedRef.current) return;
@@ -81,6 +83,7 @@ const FormularioHistoria = () => {
         paciente_id: paciente.split(" ")[0],
         consulta_id: cita.split(" ")[0],
         historia: dato,
+        user_id: user.id,
       })
       .then(function () {
         window.alert("historia guardada de manera exitosa");

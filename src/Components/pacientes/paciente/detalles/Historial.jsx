@@ -55,6 +55,8 @@ const Historial = ({ citas, diagnosticos }) => {
                         )
                       )}
                     </ul>
+                    <strong>Registrado por:</strong> {h.user.name}
+                    <hr />
                   </div>
                 ))}
               </Typography>

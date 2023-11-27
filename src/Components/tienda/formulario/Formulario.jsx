@@ -32,6 +32,12 @@ const Formulario = () => {
   const [pagoTarjeta, setPagoTarjeta] = useState(true);
   const [descuentos, setDescuentos] = useState([]);
 
+  useEffect(() => {
+    getPacientes();
+    getLicenciados();
+    getIngresoProductos();
+  }, []);
+
   const getLicenciados = async () => {
     const response = await axios.get(`${enlace}/profesionales`);
     setLicenciados(response.data);
@@ -56,31 +62,27 @@ const Formulario = () => {
       repeticiones.push(parseInt(valor));
       setIngresoP("");
       var aux = 0;
-      var sinDescuento = 0;
       productos.map((producto) => {
-        if (pac.descuentos.length > 0) {
-          pac.descuentos.map((descuento) => {
-            if (
-              descuento.producto == 1 &&
-              descuento.activo == 1 &&
-              producto.producto.id == descuento.serv_o_prod_id
-            ) {
-              if (descuento.porcentaje == 1) {
-                aux =
-                  aux +
-                  (producto.PrecioVenta -
-                    producto.PrecioVenta *
-                      (descuento.cantidad_descuento / 100));
-              } else {
-                aux = aux + descuento.cantidad_descuento;
-              }
-            }
-          });
-        } else {
+        let desc = pac.descuentos.find(
+          (descuento) =>
+            descuento.producto == 1 &&
+            descuento.activo == 1 &&
+            producto.producto.id == descuento.serv_o_prod_id
+        );
+        if (desc === undefined) {
           aux = aux + producto.PrecioVenta;
+        } else {
+          if (desc.porcentaje == 1) {
+            aux =
+              aux +
+              (producto.PrecioVenta -
+                producto.PrecioVenta * (desc.cantidad_descuento / 100));
+          } else {
+            aux = aux + desc.cantidad_descuento;
+          }
         }
       });
-      setTotal(aux + sinDescuento);
+      setTotal(aux);
     }
   };
 
@@ -111,12 +113,6 @@ const Formulario = () => {
     });
     navigate(0);
   };
-
-  useEffect(() => {
-    getPacientes();
-    getLicenciados();
-    getIngresoProductos();
-  }, []);
 
   return (
     <div>
